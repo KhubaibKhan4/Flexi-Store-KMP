@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.flexi.app.presentation.ui.components.CustomTextField
@@ -90,6 +95,27 @@ class SignupScreen : Screen {
                         passwordVisible = !passwordVisible
                     }
                 )
+                Spacer(modifier = Modifier.height(12.dp))
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    TextButton(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Blue,
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp))
+                            .padding(start = 8.dp, end = 8.dp, top = 8.dp)
+                    ) {
+                        Text("Create Account")
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                }
             }
 
         }
