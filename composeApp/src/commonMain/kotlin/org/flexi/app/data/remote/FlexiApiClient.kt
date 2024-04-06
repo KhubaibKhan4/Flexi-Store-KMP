@@ -42,7 +42,7 @@ object FlexiApiClient {
     }
 
     @OptIn(InternalAPI::class)
-    suspend fun loginUser(email: String, password: String) {
+    suspend fun loginUser(email: String, password: String): String {
         val url = BASE_URL + "v1/login"
         val loginRequest = LoginRequest(email, password)
         return client.post(url){
