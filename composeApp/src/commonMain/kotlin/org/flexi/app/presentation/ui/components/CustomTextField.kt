@@ -30,6 +30,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     isPasswordVisible: Boolean = false,
+    showPasswordToggle: Boolean = false,
     onPasswordToggleClick: () -> Unit = {}
 ) {
     Column {
@@ -63,14 +64,16 @@ fun CustomTextField(
             shape = RoundedCornerShape(12.dp),
             visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
-                IconButton(
-                    onClick = onPasswordToggleClick,
-                ) {
-                    Icon(
-                        imageVector = if (isPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                        contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password",
-                        tint = Color.Gray
-                    )
+                if (showPasswordToggle) {
+                    IconButton(
+                        onClick = onPasswordToggleClick,
+                    ) {
+                        Icon(
+                            imageVector = if (isPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                            contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password",
+                            tint = Color.Gray
+                        )
+                    }
                 }
             },
         )

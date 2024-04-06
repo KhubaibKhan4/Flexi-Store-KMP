@@ -60,7 +60,8 @@ class SignupScreen : Screen {
                         username = it
                     },
                     isError = false,
-                    leadingIcon = Icons.Outlined.Person
+                    leadingIcon = Icons.Outlined.Person,
+                    isPasswordVisible = true
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 CustomTextField(
@@ -70,7 +71,8 @@ class SignupScreen : Screen {
                         email = it
                     },
                     isError = false,
-                    leadingIcon = Icons.Outlined.Email
+                    leadingIcon = Icons.Outlined.Email,
+                    isPasswordVisible = true
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 CustomTextField(
@@ -80,7 +82,8 @@ class SignupScreen : Screen {
                         password = it
                     },
                     isError = false,
-                    leadingIcon = Icons.Outlined.Lock
+                    leadingIcon = Icons.Outlined.Lock,
+                    showPasswordToggle = true
                 )
             }
 
