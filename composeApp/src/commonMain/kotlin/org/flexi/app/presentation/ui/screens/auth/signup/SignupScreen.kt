@@ -33,6 +33,7 @@ class SignupScreen : Screen {
         var username by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var passwordVisible by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -83,7 +84,11 @@ class SignupScreen : Screen {
                     },
                     isError = false,
                     leadingIcon = Icons.Outlined.Lock,
-                    showPasswordToggle = true
+                    showPasswordToggle = true,
+                    isPasswordVisible = passwordVisible,
+                    onPasswordToggleClick = {
+                        passwordVisible = !passwordVisible
+                    }
                 )
             }
 
