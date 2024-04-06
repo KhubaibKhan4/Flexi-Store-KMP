@@ -19,7 +19,7 @@ fun HeadlineText(
         modifier = modifier.wrapContentWidth(),
         color = Color.Black,
         fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
         textAlign = TextAlign.Start,
     )
 }
