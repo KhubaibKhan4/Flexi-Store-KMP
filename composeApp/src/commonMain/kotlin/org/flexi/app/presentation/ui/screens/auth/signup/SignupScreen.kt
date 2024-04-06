@@ -2,20 +2,24 @@ package org.flexi.app.presentation.ui.screens.auth.signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Facebook
+import androidx.compose.material.icons.filled.Synagogue
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.HeadlineText
@@ -38,87 +43,110 @@ class SignupScreen : Screen {
         var username by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var cpassword by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
+        var cpasswordVisible by remember { mutableStateOf(false) }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.safeDrawing)
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-
+            HeadlineText(text = "Sign up")
+            Text(
+                text = "Create an account to get started",
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(14.dp))
+            CustomTextField(
+                input = username,
+                label = "Username",
+                onValueChange = { username = it },
+                isError = false,
+                leadingIcon = Icons.Outlined.Person,
+                isPasswordVisible = true
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            CustomTextField(
+                input = email,
+                label = "Email",
+                onValueChange = { email = it },
+                isError = false,
+                leadingIcon = Icons.Outlined.Email,
+                isPasswordVisible = true
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            CustomTextField(
+                input = password,
+                label = "Password",
+                onValueChange = { password = it },
+                isError = false,
+                leadingIcon = Icons.Outlined.Lock,
+                showPasswordToggle = true,
+                isPasswordVisible = passwordVisible,
+                onPasswordToggleClick = { passwordVisible = !passwordVisible }
+            )
+            CustomTextField(
+                input = cpassword,
+                label = "Confirm Password",
+                onValueChange = { cpassword = it },
+                isError = false,
+                leadingIcon = Icons.Outlined.Lock,
+                showPasswordToggle = true,
+                isPasswordVisible = cpasswordVisible,
+                onPasswordToggleClick = { cpasswordVisible = !cpasswordVisible }
+            )
+            Spacer(modifier = Modifier.height(12.dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                HeadlineText(text = "Sign up")
-                Text(
-                    text = "Create an account to get started",
+                TextButton(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Blue,
+                        contentColor = Color.White
+                    ),
                     modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(14.dp))
-                CustomTextField(
-                    input = username,
-                    label = "Username",
-                    onValueChange = {
-                        username = it
-                    },
-                    isError = false,
-                    leadingIcon = Icons.Outlined.Person,
-                    isPasswordVisible = true
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                CustomTextField(
-                    input = email,
-                    label = "Email",
-                    onValueChange = {
-                        email = it
-                    },
-                    isError = false,
-                    leadingIcon = Icons.Outlined.Email,
-                    isPasswordVisible = true
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                CustomTextField(
-                    input = password,
-                    label = "Password",
-                    onValueChange = {
-                        password = it
-                    },
-                    isError = false,
-                    leadingIcon = Icons.Outlined.Lock,
-                    showPasswordToggle = true,
-                    isPasswordVisible = passwordVisible,
-                    onPasswordToggleClick = {
-                        passwordVisible = !passwordVisible
-                    }
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                        .clip(RoundedCornerShape(16.dp))
+                        .padding(start = 8.dp, end = 8.dp, top = 8.dp)
                 ) {
-                    TextButton(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Blue,
-                            contentColor = Color.White
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                            .clip(RoundedCornerShape(16.dp))
-                            .padding(start = 8.dp, end = 8.dp, top = 8.dp)
+                    Text("Create Account")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "or create with Social Media",
+                    fontSize = 10.sp,
+                    color = Color.Gray
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(
+                        onClick = { /* Handle Google signup */ },
+                        modifier = Modifier.size(48.dp)
                     ) {
-                        Text("Create Account")
+                        Icon(
+                            Icons.Default.Synagogue,
+                            contentDescription = null
+                        )
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
-
+                    Spacer(modifier = Modifier.width(16.dp))
+                    IconButton(
+                        onClick = { /* Handle Facebook signup */ },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Facebook,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
-
         }
     }
-
 }
