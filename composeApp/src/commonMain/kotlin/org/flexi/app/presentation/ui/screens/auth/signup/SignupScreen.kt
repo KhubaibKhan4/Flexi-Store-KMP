@@ -1,6 +1,5 @@
 package org.flexi.app.presentation.ui.screens.auth.signup
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,14 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,11 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.HeadlineText
 
 class SignupScreen : Screen {
@@ -58,85 +52,35 @@ class SignupScreen : Screen {
                     text = "Create an account to get started",
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = "Username",
-                    fontWeight = FontWeight.SemiBold
-                )
-                TextField(
-                    value = username,
+                Spacer(modifier = Modifier.height(14.dp))
+                CustomTextField(
+                    input = username,
+                    label = "Username",
                     onValueChange = {
                         username = it
                     },
-                    placeholder = {
-                        Text("Username")
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Person,
-                            contentDescription = null,
-                            tint = Color.Blue
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .border(
-                            width = 2.dp,
-                            color = Color.LightGray,
-                        ),
-                    singleLine = true,
                     isError = false,
-                    shape = RoundedCornerShape(12.dp)
+                    leadingIcon = Icons.Outlined.Person
                 )
-                TextField(
-                    value = email,
+                Spacer(modifier = Modifier.height(6.dp))
+                CustomTextField(
+                    input = email,
+                    label = "Email",
                     onValueChange = {
                         email = it
                     },
-                    placeholder = {
-                        Text("Email")
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Email,
-                            contentDescription = null,
-                            tint = Color.Blue
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .border(
-                            width = 2.dp,
-                            color = Color.LightGray,
-                        ),
-                    singleLine = true,
                     isError = false,
-                    shape = RoundedCornerShape(12.dp)
+                    leadingIcon = Icons.Outlined.Email
                 )
-                TextField(
-                    value = password,
+                Spacer(modifier = Modifier.height(6.dp))
+                CustomTextField(
+                    input = password,
+                    label = "Password",
                     onValueChange = {
                         password = it
                     },
-                    placeholder = {
-                        Text("Password")
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Lock,
-                            contentDescription = null,
-                            tint = Color.Blue
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .border(
-                            width = 2.dp,
-                            color = Color.LightGray,
-                        ),
-                    singleLine = true,
                     isError = false,
-                    shape = RoundedCornerShape(12.dp)
+                    leadingIcon = Icons.Outlined.Lock
                 )
             }
 
