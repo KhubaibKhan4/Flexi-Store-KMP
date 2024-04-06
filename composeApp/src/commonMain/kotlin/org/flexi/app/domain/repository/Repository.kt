@@ -5,6 +5,6 @@ import org.flexi.app.data.repository.FlexiApi
 
 class Repository: FlexiApi {
     override suspend fun loginUser(email: String, password: String): String {
-        FlexiApiClient.loginUser(email, password)
+      return FlexiApiClient.loginUser(email, password)
     }
 }
