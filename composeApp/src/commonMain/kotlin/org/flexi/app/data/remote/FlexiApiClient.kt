@@ -10,7 +10,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
+import org.flexi.app.domain.model.LoginRequest
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 
@@ -39,10 +41,12 @@ object FlexiApiClient {
         }
     }
 
+    @OptIn(InternalAPI::class)
     suspend fun loginUser(email: String, password: String) {
         val url = BASE_URL + "v1/login"
+        val loginRequest = LoginRequest(email, password)
         return client.post(url){
-
+            body = loginRequest
         }.body()
     }
 }
