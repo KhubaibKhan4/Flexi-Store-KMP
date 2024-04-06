@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -35,6 +37,8 @@ class SignupScreen : Screen {
     @Composable
     override fun Content() {
         var username by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,6 +74,56 @@ class SignupScreen : Screen {
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.Person,
+                            contentDescription = null,
+                            tint = Color.Blue
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .border(
+                            width = 2.dp,
+                            color = Color.LightGray,
+                        ),
+                    singleLine = true,
+                    isError = false,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                TextField(
+                    value = email,
+                    onValueChange = {
+                        email = it
+                    },
+                    placeholder = {
+                        Text("Email")
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Email,
+                            contentDescription = null,
+                            tint = Color.Blue
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .border(
+                            width = 2.dp,
+                            color = Color.LightGray,
+                        ),
+                    singleLine = true,
+                    isError = false,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                TextField(
+                    value = password,
+                    onValueChange = {
+                        password = it
+                    },
+                    placeholder = {
+                        Text("Password")
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Lock,
                             contentDescription = null,
                             tint = Color.Blue
                         )
