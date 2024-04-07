@@ -7,9 +7,11 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
+import io.ktor.http.Parameters
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
@@ -55,7 +57,7 @@ object FlexiApiClient {
 
     @OptIn(InternalAPI::class)
     suspend fun signupUser(username: String, email: String, password: String): String {
-        val formData = formData {
+        val formData = Parameters.build {
             append("username", username)
             append("email", email)
             append("password", password)
@@ -69,7 +71,7 @@ object FlexiApiClient {
 
         val url = BASE_URL + "v1/users"
         return client.post(url) {
-            body = formData
+            body = FormDataContent(formData)
         }.body()
     }
 }
