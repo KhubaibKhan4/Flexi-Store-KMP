@@ -17,6 +17,9 @@ class MainViewModel(
     private val _login = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val login: StateFlow<ResultState<String>> = _login.asStateFlow()
 
+    private val _signup = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val signup = _signup.asStateFlow()
+
     fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             try {
@@ -24,6 +27,16 @@ class MainViewModel(
                 _login.value = ResultState.Success(response)
             } catch (e: Exception) {
                 _login.value = ResultState.Error(e)
+            }
+        }
+    }
+    fun signupUser(username: String,email: String, password: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.signupUser(username, email, password)
+                _signup.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _signup.value = ResultState.Error(e)
             }
         }
     }
