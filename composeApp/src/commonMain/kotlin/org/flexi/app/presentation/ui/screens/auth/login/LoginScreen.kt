@@ -39,10 +39,13 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
+import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.koin.compose.koinInject
 
 class LoginScreen : Screen {
     @Composable
     override fun Content() {
+        val viewModel : MainViewModel = koinInject<MainViewModel>()
         val navigator = LocalNavigator.current
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
