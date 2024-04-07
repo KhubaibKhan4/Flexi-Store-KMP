@@ -7,12 +7,11 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
-import org.flexi.app.domain.model.LoginRequest
+import org.flexi.app.domain.model.login.LoginRequest
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single

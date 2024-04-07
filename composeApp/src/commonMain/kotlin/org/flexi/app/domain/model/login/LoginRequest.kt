@@ -1,4 +1,4 @@
-package org.flexi.app.domain.model
+package org.flexi.app.domain.model.login
 
 import kotlinx.serialization.Serializable
 
