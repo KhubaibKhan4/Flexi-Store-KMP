@@ -9,4 +9,8 @@ class Repository : FlexiApi {
     override suspend fun loginUser(email: String, password: String): String {
         return FlexiApiClient.loginUser(email, password)
     }
+
+    override suspend fun signupUser(username: String, email: String, password: String): String {
+        return FlexiApiClient.signupUser(username, email, password)
+    }
 }
