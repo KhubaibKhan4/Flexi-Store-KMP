@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
@@ -46,12 +49,14 @@ import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
+import kotlin.time.Duration.Companion.seconds
 
 class SignupScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val navigator = LocalNavigator.current
+        val scope = rememberCoroutineScope()
         var username by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
@@ -220,16 +225,21 @@ class SignupScreen : Screen {
                         navigator?.push(LoginScreen())
                     }
                 )
-               if (serverBack.isNotBlank()){
-                   Text(
-                       text = serverBack.substringAfterLast(" "),
-                       fontSize = 10.sp,
-                       color = Color.Gray,
-                       modifier = Modifier.clickable {
-                           navigator?.push(LoginScreen())
-                       }
-                   )
-               }
+                if (serverBack.isNotBlank()) {
+
+                    scope.launch {
+                        delay(3.seconds)
+                        serverBack = "Thank you for creating account..."
+                    }
+                    Text(
+                        text = serverBack,
+                        fontSize = 10.sp,
+                        color = Color.Red,
+                        modifier = Modifier.clickable {
+                            navigator?.push(LoginScreen())
+                        }
+                    )
+                }
             }
         }
     }
