@@ -55,6 +55,7 @@ class SignupScreen : Screen {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var cpassword by remember { mutableStateOf("") }
+        var serverBack by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         var cpasswordVisible by remember { mutableStateOf(false) }
         val state by viewModel.signup.collectAsState()
@@ -66,7 +67,10 @@ class SignupScreen : Screen {
             is ResultState.Loading -> {
                 LoadingBox()
             }
-            is ResultState.Success -> TODO()
+            is ResultState.Success -> {
+                val response = (state as ResultState.Success).response
+                serverBack = response
+            }
         }
 
         Column(
