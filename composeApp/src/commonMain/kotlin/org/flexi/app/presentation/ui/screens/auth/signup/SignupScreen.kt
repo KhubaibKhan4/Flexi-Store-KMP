@@ -24,6 +24,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,13 +38,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
+import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.koin.compose.koinInject
 
 class SignupScreen : Screen {
     @Composable
     override fun Content() {
+        val viewModel: MainViewModel = koinInject<MainViewModel>()
         val navigator = LocalNavigator.current
         var username by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
