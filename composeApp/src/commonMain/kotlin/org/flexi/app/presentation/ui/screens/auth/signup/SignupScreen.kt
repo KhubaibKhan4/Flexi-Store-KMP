@@ -44,6 +44,7 @@ import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
 
 class SignupScreen : Screen {
@@ -131,7 +132,34 @@ class SignupScreen : Screen {
                 verticalArrangement = Arrangement.Center
             ) {
                 TextButton(
-                    onClick = {},
+                    onClick = {
+                        var usernameError = SignupValidation.validateUsername(username)
+                        var emailError = SignupValidation.validateEmail(email)
+                        var passwordError = SignupValidation.validatePassword(password)
+                        var cpasswordError = SignupValidation.validateConfirmPassword(password, cpassword)
+
+                        // Combine errors
+                        val errors = listOfNotNull(
+                            usernameError?.let { "username" to it },
+                            emailError?.let { "email" to it },
+                            passwordError?.let { "password" to it },
+                            cpasswordError?.let { "cpassword" to it }
+                        )
+
+                        if (errors.isEmpty()) {
+                            // Call signup API
+                        } else {
+                            // Handle validation errors
+                            errors.forEach { (field, errorMessage) ->
+                                when (field) {
+                                    "username" -> usernameError = errorMessage
+                                    "email" -> emailError = errorMessage
+                                    "password" -> passwordError = errorMessage
+                                    "cpassword" -> cpasswordError = errorMessage
+                                }
+                            }
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Blue,
                         contentColor = Color.White
