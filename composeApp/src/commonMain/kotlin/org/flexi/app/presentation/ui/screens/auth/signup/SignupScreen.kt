@@ -159,9 +159,8 @@ class SignupScreen : Screen {
                         )
 
                         if (errors.isEmpty()) {
-                            // Call signup API
+                            viewModel.signupUser(username, email, password)
                         } else {
-                            // Handle validation errors
                             errors.forEach { (field, errorMessage) ->
                                 when (field) {
                                     "username" -> usernameError = errorMessage
@@ -221,16 +220,16 @@ class SignupScreen : Screen {
                         navigator?.push(LoginScreen())
                     }
                 )
-                serverBack.let {
-                    Text(
-                        it,
-                        fontSize = 10.sp,
-                        color = Color.Gray,
-                        modifier = Modifier.clickable {
-                            navigator?.push(LoginScreen())
-                        }
-                    )
-                }
+               if (serverBack.isNotBlank()){
+                   Text(
+                       text = serverBack.substringAfterLast(" "),
+                       fontSize = 10.sp,
+                       color = Color.Gray,
+                       modifier = Modifier.clickable {
+                           navigator?.push(LoginScreen())
+                       }
+                   )
+               }
             }
         }
     }

@@ -7,12 +7,13 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
+import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 import org.flexi.app.domain.model.login.LoginRequest
-import org.flexi.app.domain.model.singup.SignupRequest
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
@@ -21,8 +22,8 @@ import org.koin.core.annotation.Single
 object FlexiApiClient {
     private val client = HttpClient {
         install(ContentNegotiation) {
-            json(
-                Json {
+            json(contentType = ContentType.Application.Json,
+                json = Json {
                     isLenient = true
                     ignoreUnknownKeys = true
                 }
@@ -54,20 +55,21 @@ object FlexiApiClient {
 
     @OptIn(InternalAPI::class)
     suspend fun signupUser(username: String, email: String, password: String): String {
-        val signupRequest = SignupRequest(
-            username = username,
-            email = email,
-            password = password,
-            fullName = null,
-            address = null,
-            city = null,
-            country = null,
-            phoneNumber = null,
-            userRole = "Customer"
-        )
+        val formData = formData {
+            append("username", username)
+            append("email", email)
+            append("password", password)
+            append("fullName", "null")
+            append("address", "null")
+            append("city", "null")
+            append("country", "null")
+            append("phoneNumber", "null")
+            append("userRole", "Customer")
+        }
+
         val url = BASE_URL + "v1/users"
         return client.post(url) {
-            body = signupRequest
+            body = formData
         }.body()
     }
 }
