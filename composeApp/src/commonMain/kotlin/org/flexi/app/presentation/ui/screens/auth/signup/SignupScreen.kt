@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.auth.signup
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,12 +35,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.HeadlineText
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 
 class SignupScreen : Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.current
         var username by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
@@ -146,6 +150,15 @@ class SignupScreen : Screen {
                         )
                     }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "already have account! Login",
+                    fontSize = 10.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.clickable {
+                        navigator?.push(LoginScreen())
+                    }
+                )
             }
         }
     }
