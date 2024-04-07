@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -65,6 +67,13 @@ class HomeScreen : Screen {
                     navigator?.push(SignupScreen())
                 }
             )
+            LazyColumn {
+                productsList?.let {products ->
+                    items(products){
+                        Text(it.toString())
+                    }
+                }
+            }
         }
     }
 }
