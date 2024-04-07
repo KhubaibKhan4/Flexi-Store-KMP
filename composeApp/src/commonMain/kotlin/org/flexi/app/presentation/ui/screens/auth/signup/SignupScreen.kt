@@ -99,7 +99,8 @@ class SignupScreen : Screen {
                 input = username,
                 label = "Username",
                 onValueChange = { username = it },
-                isError = false,
+                isError = usernameError != null,
+                errorText = usernameError,
                 leadingIcon = Icons.Outlined.Person,
                 isPasswordVisible = true
             )
@@ -108,7 +109,8 @@ class SignupScreen : Screen {
                 input = email,
                 label = "Email",
                 onValueChange = { email = it },
-                isError = false,
+                isError = emailError != null,
+                errorText = emailError,
                 leadingIcon = Icons.Outlined.Email,
                 isPasswordVisible = true
             )
@@ -117,7 +119,8 @@ class SignupScreen : Screen {
                 input = password,
                 label = "Password",
                 onValueChange = { password = it },
-                isError = false,
+                isError = passwordError != null,
+                errorText = passwordError,
                 leadingIcon = Icons.Outlined.Lock,
                 showPasswordToggle = true,
                 isPasswordVisible = passwordVisible,
@@ -127,7 +130,8 @@ class SignupScreen : Screen {
                 input = cpassword,
                 label = "Confirm Password",
                 onValueChange = { cpassword = it },
-                isError = false,
+                isError = cpasswordError != null,
+                errorText = cpasswordError,
                 leadingIcon = Icons.Outlined.Lock,
                 showPasswordToggle = true,
                 isPasswordVisible = cpasswordVisible,
@@ -144,9 +148,9 @@ class SignupScreen : Screen {
                         usernameError = SignupValidation.validateUsername(username)
                         emailError = SignupValidation.validateEmail(email)
                         passwordError = SignupValidation.validatePassword(password)
-                        cpasswordError = SignupValidation.validateConfirmPassword(password, cpassword)
+                        cpasswordError =
+                            SignupValidation.validateConfirmPassword(password, cpassword)
 
-                        // Combine errors
                         val errors = listOfNotNull(
                             usernameError?.let { "username" to it },
                             emailError?.let { "email" to it },
