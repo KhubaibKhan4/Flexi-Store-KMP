@@ -15,7 +15,9 @@ import kotlinx.serialization.json.Json
 import org.flexi.app.domain.model.LoginRequest
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
+import org.koin.core.annotation.Single
 
+@Single
 object FlexiApiClient {
     private val client = HttpClient {
         install(ContentNegotiation) {
