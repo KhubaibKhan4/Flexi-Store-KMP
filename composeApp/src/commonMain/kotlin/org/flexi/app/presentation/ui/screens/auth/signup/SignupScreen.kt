@@ -59,15 +59,23 @@ class SignupScreen : Screen {
         var serverBack by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         var cpasswordVisible by remember { mutableStateOf(false) }
+
+        var usernameError by remember { mutableStateOf<String?>(null) }
+        var emailError by remember { mutableStateOf<String?>(null) }
+        var passwordError by remember { mutableStateOf<String?>(null) }
+        var cpasswordError by remember { mutableStateOf<String?>(null) }
+
         val state by viewModel.signup.collectAsState()
         when (state) {
             is ResultState.Error -> {
                 val error = (state as ResultState.Error).error
                 ErrorBox(error)
             }
+
             is ResultState.Loading -> {
                 LoadingBox()
             }
+
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
                 serverBack = response
@@ -133,10 +141,10 @@ class SignupScreen : Screen {
             ) {
                 TextButton(
                     onClick = {
-                        var usernameError = SignupValidation.validateUsername(username)
-                        var emailError = SignupValidation.validateEmail(email)
-                        var passwordError = SignupValidation.validatePassword(password)
-                        var cpasswordError = SignupValidation.validateConfirmPassword(password, cpassword)
+                        usernameError = SignupValidation.validateUsername(username)
+                        emailError = SignupValidation.validateEmail(email)
+                        passwordError = SignupValidation.validatePassword(password)
+                        cpasswordError = SignupValidation.validateConfirmPassword(password, cpassword)
 
                         // Combine errors
                         val errors = listOfNotNull(
