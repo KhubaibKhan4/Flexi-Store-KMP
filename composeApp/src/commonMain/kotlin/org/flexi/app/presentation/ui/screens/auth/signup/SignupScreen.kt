@@ -41,6 +41,7 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HeadlineText
+import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
@@ -62,7 +63,9 @@ class SignupScreen : Screen {
                 val error = (state as ResultState.Error).error
                 ErrorBox(error)
             }
-            is ResultState.Loading -> TODO()
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
             is ResultState.Success -> TODO()
         }
 
