@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.repository.Repository
 import org.flexi.app.domain.usecase.ResultState
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel
 class MainViewModel(
     private val repository: Repository,
 ) : ViewModel() {
