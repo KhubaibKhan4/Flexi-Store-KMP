@@ -9,6 +9,7 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.formData
+import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
@@ -16,6 +17,7 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 import org.flexi.app.domain.model.login.LoginRequest
+import org.flexi.app.domain.model.products.Products
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
@@ -73,5 +75,8 @@ object FlexiApiClient {
         return client.post(url) {
             body = FormDataContent(formData)
         }.body()
+    }
+    suspend fun getProducts(): List<Products>{
+        return client.get(BASE_URL+"v1/products").body()
     }
 }
