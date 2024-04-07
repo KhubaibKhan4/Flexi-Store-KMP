@@ -74,7 +74,10 @@ kotlin {
             implementation(libs.ktor.logging)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.koin.core)
+            implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.4"))
+            implementation("io.insert-koin:koin-core")
+            implementation("io.insert-koin:koin-compose")
+            implementation("io.insert-koin:koin-annotations:1.3.1")
         }
 
         commonTest.dependencies {
@@ -90,6 +93,10 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.sqlDelight.driver.android)
+            implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.4"))
+            implementation("io.insert-koin:koin-core")
+            implementation("io.insert-koin:koin-android")
+            implementation("io.insert-koin:koin-annotations:1.3.1")
         }
 
         jvmMain.dependencies {
