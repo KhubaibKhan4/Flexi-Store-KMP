@@ -12,6 +12,7 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 import org.flexi.app.domain.model.login.LoginRequest
+import org.flexi.app.domain.model.singup.SignupRequest
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
@@ -46,8 +47,27 @@ object FlexiApiClient {
     suspend fun loginUser(email: String, password: String): String {
         val url = BASE_URL + "v1/login"
         val loginRequest = LoginRequest(email, password)
-        return client.post(url){
+        return client.post(url) {
             body = loginRequest
+        }.body()
+    }
+
+    @OptIn(InternalAPI::class)
+    suspend fun signupUser(username: String, email: String, password: String): String {
+        val signupRequest = SignupRequest(
+            username = username,
+            email = email,
+            password = password,
+            fullName = null,
+            address = null,
+            city = null,
+            country = null,
+            phoneNumber = null,
+            userRole = "Customer"
+        )
+        val url = BASE_URL + "v1/users"
+        return client.post(url) {
+            body = signupRequest
         }.body()
     }
 }

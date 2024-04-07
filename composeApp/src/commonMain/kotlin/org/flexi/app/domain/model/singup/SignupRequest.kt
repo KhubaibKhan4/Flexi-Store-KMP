@@ -7,10 +7,10 @@ data class SignupRequest(
     val username: String,
     val email: String,
     val password: String,
-    val fullName: String,
-    val address: String,
-    val city: String,
-    val country: String,
-    val phoneNumber: String,
+    val fullName: String? =null,
+    val address: String? = null,
+    val city: String? = null,
+    val country: String? = null,
+    val phoneNumber: String?=null,
     val userRole: String
 )
