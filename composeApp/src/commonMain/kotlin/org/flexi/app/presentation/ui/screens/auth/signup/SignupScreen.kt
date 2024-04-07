@@ -181,6 +181,16 @@ class SignupScreen : Screen {
                         navigator?.push(LoginScreen())
                     }
                 )
+                serverBack.let {
+                    Text(
+                        it,
+                        fontSize = 10.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.clickable {
+                            navigator?.push(LoginScreen())
+                        }
+                    )
+                }
             }
         }
     }
