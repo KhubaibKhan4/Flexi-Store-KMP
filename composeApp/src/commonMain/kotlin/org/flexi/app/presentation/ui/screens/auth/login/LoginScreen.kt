@@ -17,13 +17,13 @@ import androidx.compose.material.icons.filled.Facebook
 import androidx.compose.material.icons.filled.Synagogue
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,21 +36,43 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
+import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HeadlineText
+import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
 
 class LoginScreen : Screen {
     @Composable
     override fun Content() {
-        val viewModel : MainViewModel = koinInject<MainViewModel>()
+        val viewModel: MainViewModel = koinInject<MainViewModel>()
         val navigator = LocalNavigator.current
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
+        var emailError by remember { mutableStateOf<String?>(null) }
+        var passwordError by remember { mutableStateOf<String?>(null) }
+        var loginResponse by remember { mutableStateOf("") }
+        val state by viewModel.login.collectAsState()
+        when (state) {
+            is ResultState.Error -> {
+                val error = (state as ResultState.Error).error
+                ErrorBox(error)
+            }
 
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (state as ResultState.Success).response
+                loginResponse = response
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,8 +89,11 @@ class LoginScreen : Screen {
             CustomTextField(
                 input = email,
                 label = "Email",
-                onValueChange = { email = it },
-                isError = false,
+                onValueChange = {
+                    email = it
+                    emailError = SignupValidation.validateEmail(it)
+                },
+                isError = emailError != null,
                 leadingIcon = Icons.Outlined.Email,
                 isPasswordVisible = true
             )
@@ -76,8 +101,11 @@ class LoginScreen : Screen {
             CustomTextField(
                 input = password,
                 label = "Password",
-                onValueChange = { password = it },
-                isError = false,
+                onValueChange = {
+                    password = it
+                    passwordError = SignupValidation.validatePassword(it)
+                },
+                isError = passwordError != null,
                 leadingIcon = Icons.Outlined.Lock,
                 showPasswordToggle = true,
                 isPasswordVisible = passwordVisible,
@@ -90,7 +118,11 @@ class LoginScreen : Screen {
                 verticalArrangement = Arrangement.Center
             ) {
                 TextButton(
-                    onClick = {},
+                    onClick = {
+                        if (emailError == null && passwordError == null) {
+                            viewModel.loginUser(email, password)
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Blue,
                         contentColor = Color.White
