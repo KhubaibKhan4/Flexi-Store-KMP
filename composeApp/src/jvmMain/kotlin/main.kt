@@ -4,8 +4,13 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
 import org.flexi.app.App
+import org.flexi.app.di.appModule
+import org.koin.core.context.startKoin
 
 fun main() = application {
+    startKoin {
+        modules(appModule)
+    }
     Window(
         title = "Flexi-Store",
         state = rememberWindowState(width = 800.dp, height = 600.dp),
