@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.auth.login
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.Synagogue
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -43,7 +45,6 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HeadlineText
-import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.SignupValidation
@@ -72,7 +73,7 @@ class LoginScreen : Screen {
             }
 
             is ResultState.Loading -> {
-                isLoading = true
+
             }
 
             is ResultState.Success -> {
@@ -141,6 +142,13 @@ class LoginScreen : Screen {
                         .padding(start = 8.dp, end = 8.dp, top = 8.dp)
                 ) {
                     Text("Sign In")
+                    Spacer(modifier = Modifier.width(4.dp))
+                    AnimatedVisibility(isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(25.dp),
+                            color = Color.White
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
@@ -187,9 +195,8 @@ class LoginScreen : Screen {
                         fontSize = 10.sp,
                         color = Color.Red,
                     )
-                    isLoading = false
                     scope.launch {
-                        delay(3.seconds)
+                        delay(2.seconds)
                         if (loginResponse.contains("Invalid Email or Password")) {
                             isLoading = false
                             return@launch
