@@ -118,7 +118,7 @@ fun AppContent() {
         }) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(
-                    bottom = it.calculateBottomPadding(),
+                    top = it.calculateTopPadding(),
                     start = if (showNavigationRail) 80.dp else 0.dp
                 )
             ) {
