@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,6 +34,22 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.utils.Constant.BASE_URL
+
+@Composable
+fun ProductList(
+    products: List<Products>,
+    state: LazyGridState,
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(170.dp),
+        state = state,
+    ) {
+        items(products) { pro ->
+            ProductItem(pro)
+        }
+    }
+
+}
 
 @Composable
 fun ProductItem(
