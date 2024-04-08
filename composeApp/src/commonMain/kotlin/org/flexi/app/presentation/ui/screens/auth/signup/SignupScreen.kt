@@ -244,6 +244,10 @@ class SignupScreen : Screen {
                         email = ""
                         password = ""
                         cpassword = ""
+                        scope.launch {
+                            delay(5.seconds)
+                        }
+                        navigator?.push(LoginScreen())
                     }else{
                         Text(
                             text = "Error While Creating Account.",
