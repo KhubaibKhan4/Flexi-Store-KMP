@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.screens.navigation.tabs.profile
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonOutline
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +22,7 @@ object ProfileTab : Tab {
         @Composable
         get() {
             val title by remember { mutableStateOf("Profile") }
-            val icon = rememberVectorPainter(Icons.Default.PersonOutline)
+            val icon = rememberVectorPainter(Icons.Default.Person)
             val index: UShort = 4u
             return TabOptions(index, title, icon)
         }
