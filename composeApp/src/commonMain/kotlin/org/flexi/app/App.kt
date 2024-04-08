@@ -220,7 +220,7 @@ fun RowScope.TabItem(tab: Tab) {
             selectedIconColor = Color.Red,
             unselectedTextColor = Color.Black,
             unselectedIconColor = Color.Black,
-            selectedIndicatorColor = Color.Gray,
+            selectedIndicatorColor = Color.Transparent,
             disabledIconColor = Color.Black,
             disabledTextColor = Color.Black
         )
