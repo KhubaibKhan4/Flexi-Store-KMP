@@ -231,14 +231,30 @@ class SignupScreen : Screen {
                         delay(3.seconds)
                         serverBack = "Thank you for creating account..."
                     }
-                    Text(
-                        text = serverBack,
-                        fontSize = 10.sp,
-                        color = Color.Red,
-                        modifier = Modifier.clickable {
-                            navigator?.push(LoginScreen())
-                        }
-                    )
+                    if (serverBack.contains("Uploaded to Server Successfully ")){
+                        Text(
+                            text = "Account created Successfully.",
+                            fontSize = 10.sp,
+                            color = Color.Red,
+                            modifier = Modifier.clickable {
+                                navigator?.push(LoginScreen())
+                            }
+                        )
+                        username = ""
+                        email = ""
+                        password = ""
+                        cpassword = ""
+                    }else{
+                        Text(
+                            text = "Error While Creating Account.",
+                            fontSize = 10.sp,
+                            color = Color.Red,
+                            modifier = Modifier.clickable {
+                                navigator?.push(LoginScreen())
+                            }
+                        )
+                    }
+
                 }
             }
         }
