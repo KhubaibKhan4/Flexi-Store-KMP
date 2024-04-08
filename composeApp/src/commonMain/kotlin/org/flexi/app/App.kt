@@ -11,4 +11,9 @@ internal fun App() = AppTheme {
     Navigator(LoginScreen())
 }
 
+@Composable
+fun AppContent() {
+
+}
+
 internal expect fun openUrl(url: String?)
