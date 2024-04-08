@@ -62,20 +62,23 @@ class LoginScreen : Screen {
         var emailError by remember { mutableStateOf<String?>(null) }
         var passwordError by remember { mutableStateOf<String?>(null) }
         var loginResponse by remember { mutableStateOf("") }
+        var isLoading by remember { mutableStateOf(false) }
         val state by viewModel.login.collectAsState()
         when (state) {
             is ResultState.Error -> {
                 val error = (state as ResultState.Error).error
                 ErrorBox(error)
+                isLoading = false
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                isLoading = true
             }
 
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
                 loginResponse = response
+                isLoading = false
             }
         }
         Column(
@@ -125,6 +128,7 @@ class LoginScreen : Screen {
                 TextButton(
                     onClick = {
                         if (emailError == null && passwordError == null) {
+                            isLoading = true
                             viewModel.loginUser(email, password)
                         }
                     },
@@ -183,14 +187,17 @@ class LoginScreen : Screen {
                         fontSize = 10.sp,
                         color = Color.Red,
                     )
+                    isLoading = false
                     scope.launch {
                         delay(3.seconds)
                         if (loginResponse.contains("Invalid Email or Password")) {
+                            isLoading = false
                             return@launch
                         } else {
                             email = ""
                             password = ""
                             loginResponse = ""
+                            isLoading = false
                         }
                     }
                 } else {
@@ -199,6 +206,7 @@ class LoginScreen : Screen {
                         fontSize = 10.sp,
                         color = Color.Red,
                     )
+                    isLoading = false
                 }
             }
         }
