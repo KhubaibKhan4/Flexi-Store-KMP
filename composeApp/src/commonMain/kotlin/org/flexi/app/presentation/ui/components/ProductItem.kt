@@ -44,6 +44,8 @@ fun ProductList(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(170.dp),
         state = state,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(products) { pro ->
             ProductItem(pro)
