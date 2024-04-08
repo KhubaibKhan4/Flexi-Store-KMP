@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,7 +35,6 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
-import org.flexi.app.utils.Constant.BASE_URL
 
 @Composable
 fun ProductList(
@@ -56,7 +56,7 @@ fun ProductList(
 fun ProductItem(
     products: Products,
 ) {
-    val image: Resource<Painter> = asyncPainterResource(data = BASE_URL + products.imageUrl)
+    val image: Resource<Painter> = asyncPainterResource(data = "http://192.168.10.2:8080"+products.imageUrl)
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
@@ -72,6 +72,12 @@ fun ProductItem(
                     .clip(RoundedCornerShape(14.dp)),
                 contentScale = ContentScale.Crop,
                 animationSpec = tween(),
+                onLoading = {
+                    CircularProgressIndicator()
+                },
+                onFailure = {
+                    Text("Failed to Load")
+                }
             )
             Icon(
                 imageVector = Icons.Default.Favorite,
