@@ -8,7 +8,6 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.forms.FormDataContent
-import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
@@ -16,7 +15,6 @@ import io.ktor.http.Parameters
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
-import org.flexi.app.domain.model.login.LoginRequest
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
@@ -51,9 +49,12 @@ object FlexiApiClient {
     @OptIn(InternalAPI::class)
     suspend fun loginUser(email: String, password: String): String {
         val url = BASE_URL + "v1/login"
-        val loginRequest = LoginRequest(email, password)
+        val loginRequest = Parameters.build {
+            append("email", email)
+            append("password", password)
+        }
         return client.post(url) {
-            body = loginRequest
+            body = FormDataContent(loginRequest)
         }.body()
     }
 
@@ -76,7 +77,8 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
-    suspend fun getProducts(): List<Products>{
-        return client.get(BASE_URL+"v1/products").body()
+
+    suspend fun getProducts(): List<Products> {
+        return client.get(BASE_URL + "v1/products").body()
     }
 }
