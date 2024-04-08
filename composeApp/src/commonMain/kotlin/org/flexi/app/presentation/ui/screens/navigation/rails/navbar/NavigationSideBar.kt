@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.navigation.rails.navbar
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -53,15 +54,12 @@ fun NavigationSideBar(
                         )
                     },
                     label = {
-                        if (isTitleVisible) {
+                        AnimatedVisibility(isTitleVisible) {
                             Text(
                                 text = item.title,
                                 fontSize = MaterialTheme.typography.bodySmall.fontSize
                             )
-                        } else {
-                            //  Nothing to be here
                         }
-
                     },
                 )
             }
