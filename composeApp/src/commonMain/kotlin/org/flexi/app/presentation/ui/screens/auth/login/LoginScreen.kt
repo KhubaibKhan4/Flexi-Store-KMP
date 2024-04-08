@@ -172,6 +172,25 @@ class LoginScreen : Screen {
                         navigator?.push(SignupScreen())
                     }
                 )
+                if (loginResponse.contains("Login Successful")){
+                    Text(
+                        text = "Login Successful",
+                        fontSize = 10.sp,
+                        color = Color.Red,
+                        modifier = Modifier.clickable {
+                            navigator?.push(LoginScreen())
+                        }
+                    )
+                }else{
+                    Text(
+                        text = loginResponse,
+                        fontSize = 10.sp,
+                        color = Color.Red,
+                        modifier = Modifier.clickable {
+                            navigator?.push(LoginScreen())
+                        }
+                    )
+                }
             }
         }
     }
