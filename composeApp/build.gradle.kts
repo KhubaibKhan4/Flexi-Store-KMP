@@ -69,6 +69,7 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.screen.size)
             implementation(libs.composeImageLoader)
+            implementation(libs.kamel.image)
             implementation(libs.napier)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.moko.mvvm)
