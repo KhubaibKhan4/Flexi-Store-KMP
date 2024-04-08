@@ -58,7 +58,6 @@ class HomeScreen : Screen {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.safeDrawing)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
