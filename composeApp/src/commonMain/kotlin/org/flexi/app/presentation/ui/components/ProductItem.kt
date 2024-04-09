@@ -38,6 +38,7 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.utils.Constant.BASE_URL
 
 @Composable
 fun ProductList(
@@ -62,7 +63,7 @@ fun ProductItem(
     products: Products,
 ) {
     val image: Resource<Painter> =
-        asyncPainterResource(data = "http://192.168.10.2:8080" + products.imageUrl)
+        asyncPainterResource(data = BASE_URL + products.imageUrl)
     Column(
         modifier = Modifier.fillMaxWidth()
             .border(
