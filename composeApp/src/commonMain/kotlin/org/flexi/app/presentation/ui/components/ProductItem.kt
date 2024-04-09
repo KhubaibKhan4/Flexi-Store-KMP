@@ -1,12 +1,15 @@
 package org.flexi.app.presentation.ui.components
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -58,9 +61,15 @@ fun ProductList(
 fun ProductItem(
     products: Products,
 ) {
-    val image: Resource<Painter> = asyncPainterResource(data = "http://192.168.10.2:8080"+products.imageUrl)
+    val image: Resource<Painter> =
+        asyncPainterResource(data = "http://192.168.10.2:8080" + products.imageUrl)
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .border(
+                border = BorderStroke(width = 1.dp, color = Color.LightGray),
+                shape = RoundedCornerShape(14.dp),
+
+                ),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -85,9 +94,13 @@ fun ProductItem(
                 imageVector = Icons.Default.Favorite,
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier.size(55.dp)
+                modifier = Modifier.size(25.dp)
                     .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.65f))
+                    .background(
+                        Color.DarkGray.copy(alpha = 0.65f)
+                    )
+                    .align(Alignment.TopEnd)
+                    .padding(4.dp)
             )
         }
         Column(
