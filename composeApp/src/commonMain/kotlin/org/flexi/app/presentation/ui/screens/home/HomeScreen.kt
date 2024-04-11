@@ -59,11 +59,6 @@ class HomeScreen : Screen {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text("Signup",
-                modifier = Modifier.clickable {
-                    navigator?.push(SignupScreen())
-                }
-            )
             productsList?.let {
                 ProductList(products = it)
             }
