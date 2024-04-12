@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeGesturesPadding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,6 +36,7 @@ class HomeScreen : Screen {
         val navigator = LocalNavigator.current
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
+        val selectedTabIndex = remember { mutableStateOf(Tab.Home) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
         }
@@ -76,10 +79,38 @@ class HomeScreen : Screen {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                productsList?.let { list ->
-                    ProductList(products = list)
+                TabRow(
+                    selectedTabIndex = selectedTabIndex.value.ordinal,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Tab(
+                        selected = selectedTabIndex.value == Tab.Home,
+                        onClick = { selectedTabIndex.value = Tab.Home }) {
+                        Text(text = "Home")
+                    }
+                    Tab(
+                        selected = selectedTabIndex.value == Tab.Categories,
+                        onClick = { selectedTabIndex.value = Tab.Categories }) {
+                        Text(text = "Categories")
+                    }
                 }
+                when (selectedTabIndex.value) {
+                    Tab.Home -> {
+                        productsList?.let { list ->
+                            ProductList(products = list)
+                        }
+                    }
+
+                    Tab.Categories -> {
+                        Text("Nothing Here ")
+                    }
+                }
+
             }
         }
     }
+}
+
+enum class Tab {
+    Home, Categories
 }
