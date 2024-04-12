@@ -2,9 +2,9 @@
 
 kotlin = "1.9.23"
 compose = "1.6.1"
-agp = "8.3.1"
+agp = "8.3.2"
 androidx-activityCompose = "1.8.2"
-androidx-uiTest = "1.6.4"
+androidx-uiTest = "1.6.5"
 voyager = "1.0.0"
 composeImageLoader = "1.7.8"
 napier = "2.7.1"
