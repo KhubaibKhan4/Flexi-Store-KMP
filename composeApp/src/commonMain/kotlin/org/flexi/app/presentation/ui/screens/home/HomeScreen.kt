@@ -27,6 +27,7 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
+import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
@@ -59,7 +60,12 @@ class HomeScreen : Screen {
         Scaffold(
             modifier = Modifier.fillMaxWidth(),
             topBar = {
-
+                TopAppBarWithProfile(
+                    name = "Jonathan",
+                    onSearchClicked = {},
+                    onNotificationsClicked = {},
+                    profileImageUrl = null
+                )
             }
         ) {
             Column(
