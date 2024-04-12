@@ -45,10 +45,12 @@ import org.flexi.app.utils.Constant.BASE_URL
 fun ProductList(
     products: List<Products>,
     state: LazyGridState = rememberLazyGridState(),
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(170.dp),
+        columns = GridCells.Adaptive(150.dp),
         state = state,
+        modifier =modifier.padding(bottom = 34.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -81,7 +83,7 @@ fun ProductItem(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(250.dp)
+                    .height(180.dp)
                     .clip(RoundedCornerShape(14.dp)),
                 contentScale = ContentScale.Crop,
                 animationSpec = tween(),
@@ -96,7 +98,9 @@ fun ProductItem(
                 imageVector = Icons.Default.Favorite,
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier.size(25.dp)
+                modifier = Modifier
+                    .padding(top = 6.dp, end = 8.dp)
+                    .size(25.dp)
                     .clip(CircleShape)
                     .background(
                         Color.DarkGray.copy(alpha = 0.65f)
@@ -117,7 +121,9 @@ fun ProductItem(
                 textAlign = TextAlign.Center,
                 color = Color.Black,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(start = 3.dp, end = 3.dp)
             )
             Text(
                 text = products.categoryTitle,
