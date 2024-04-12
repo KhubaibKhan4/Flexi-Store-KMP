@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -29,6 +30,7 @@ import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
+import org.flexi.app.presentation.ui.screens.home.model.tab.Tab as NewTabs
 
 class HomeScreen : Screen {
     @Composable
@@ -36,7 +38,7 @@ class HomeScreen : Screen {
         val navigator = LocalNavigator.current
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
-        val selectedTabIndex = remember { mutableStateOf(Tab.Home) }
+        val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
         }
@@ -81,27 +83,32 @@ class HomeScreen : Screen {
             ) {
                 TabRow(
                     selectedTabIndex = selectedTabIndex.value.ordinal,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 12.dp),
                 ) {
                     Tab(
-                        selected = selectedTabIndex.value == Tab.Home,
-                        onClick = { selectedTabIndex.value = Tab.Home }) {
+                        unselectedContentColor = Color.DarkGray,
+                        selected = selectedTabIndex.value == NewTabs.Home,
+                        onClick = { selectedTabIndex.value = NewTabs.Home }) {
                         Text(text = "Home")
                     }
                     Tab(
-                        selected = selectedTabIndex.value == Tab.Categories,
-                        onClick = { selectedTabIndex.value = Tab.Categories }) {
+                        unselectedContentColor = Color.DarkGray,
+                        selected = selectedTabIndex.value == NewTabs.Categories,
+                        onClick = {
+                            selectedTabIndex.value = NewTabs.Categories
+                        }) {
                         Text(text = "Categories")
                     }
                 }
                 when (selectedTabIndex.value) {
-                    Tab.Home -> {
+                    NewTabs.Home -> {
                         productsList?.let { list ->
                             ProductList(products = list)
                         }
                     }
 
-                    Tab.Categories -> {
+                    NewTabs.Categories -> {
                         Text("Nothing Here ")
                     }
                 }
@@ -109,8 +116,4 @@ class HomeScreen : Screen {
             }
         }
     }
-}
-
-enum class Tab {
-    Home, Categories
 }
