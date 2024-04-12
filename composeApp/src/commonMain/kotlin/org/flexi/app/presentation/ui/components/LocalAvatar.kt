@@ -15,6 +15,6 @@ fun LocalAvatar() {
     Image(
         painter = painterResource(Res.drawable.avatar),
         contentDescription = null,
-        modifier = Modifier.size(25.dp)
+        modifier = Modifier.size(40.dp)
     )
 }

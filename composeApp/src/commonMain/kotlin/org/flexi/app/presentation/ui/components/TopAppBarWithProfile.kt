@@ -1,12 +1,12 @@
 package org.flexi.app.presentation.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -27,13 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import flexi_store.composeapp.generated.resources.Res
-import flexi_store.composeapp.generated.resources.avatar
-import flexi_store.composeapp.generated.resources.ic_cyclone
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun TopAppBarWithProfile(
@@ -43,11 +39,12 @@ fun TopAppBarWithProfile(
     profileImageUrl: String? = null,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(1f)
+            .padding(all = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        if (profileImageUrl.isNullOrEmpty()) {
+        if (profileImageUrl?.isNotEmpty() == true) {
             var profile by remember { mutableStateOf("") }
             profileImageUrl?.let {
                 profile = it
@@ -63,9 +60,10 @@ fun TopAppBarWithProfile(
             LocalAvatar()
         }
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(3.dp)
+            modifier = Modifier
+                .padding(start = 4.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             Text(
                 text = "Hi, $name",
@@ -78,19 +76,22 @@ fun TopAppBarWithProfile(
                 text = "Let's go shopping",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = Color.LightGray
+                color = Color.LightGray,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize
             )
         }
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
         Icon(
             imageVector = Icons.Default.Search,
             contentDescription = null,
-            modifier = Modifier.clickable { onSearchClicked() }
+            modifier = Modifier.clickable { onSearchClicked() },
         )
         Icon(
             imageVector = Icons.Default.Notifications,
             contentDescription = null,
-            modifier = Modifier.clickable { onNotificationsClicked() }
+            modifier = Modifier.clickable { onNotificationsClicked() },
         )
     }
 }
