@@ -2,12 +2,16 @@ package org.flexi.app.presentation.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -85,6 +89,17 @@ class HomeScreen : Screen {
                     selectedTabIndex = selectedTabIndex.value.ordinal,
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 12.dp),
+                    indicator = { tabPositions ->
+                        if (selectedTabIndex.value.ordinal < tabPositions.size) {
+                            TabRowDefaults.SecondaryIndicator(
+                                modifier = Modifier.tabIndicatorOffset(
+                                        tabPositions[selectedTabIndex.value.ordinal]
+                                    ),
+                                height = 2.dp,
+                                color = Color.Red
+                            )
+                        }
+                    }
                 ) {
                     Tab(
                         unselectedContentColor = Color.DarkGray,
