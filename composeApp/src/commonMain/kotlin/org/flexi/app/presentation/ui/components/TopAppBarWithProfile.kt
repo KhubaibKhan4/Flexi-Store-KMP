@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
@@ -70,7 +71,8 @@ fun TopAppBarWithProfile(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                color = Color.Black
+                color = Color.Black,
+                fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = "Let's go shopping",
