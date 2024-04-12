@@ -1,15 +1,12 @@
 package org.flexi.app.presentation.ui.screens.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeGesturesPadding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,7 +25,6 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
-import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 
@@ -71,12 +67,17 @@ class HomeScreen : Screen {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(
+                        top = it.calculateTopPadding(),
+                        bottom = it.calculateBottomPadding(),
+                        start = 6.dp,
+                        end = 6.dp
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                productsList?.let {
-                    ProductList(products = it)
+                productsList?.let { list ->
+                    ProductList(products = list)
                 }
             }
         }
