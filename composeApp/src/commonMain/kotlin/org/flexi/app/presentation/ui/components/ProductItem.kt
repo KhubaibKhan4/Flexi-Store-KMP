@@ -7,10 +7,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,17 +48,40 @@ import org.flexi.app.utils.Constant.BASE_URL
 fun ProductList(
     products: List<Products>,
     state: LazyGridState = rememberLazyGridState(),
-    modifier: Modifier = Modifier.fillMaxWidth()
+    modifier: Modifier = Modifier.fillMaxWidth(),
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        state = state,
-        modifier =modifier.padding(bottom = 34.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        items(products) { pro ->
-            ProductItem(pro)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "New Arrivals",
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "See All",
+                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                color = Color.Blue
+            )
+        }
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            state = state,
+            modifier = modifier.padding(bottom = 34.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(products) { pro ->
+                ProductItem(pro)
+            }
         }
     }
 
