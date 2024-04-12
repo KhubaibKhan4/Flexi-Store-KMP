@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -86,12 +86,12 @@ fun TopAppBarWithProfile(
             modifier = Modifier.weight(1f)
         )
         Icon(
-            imageVector = Icons.Default.Search,
+            imageVector = Icons.Outlined.Search,
             contentDescription = null,
             modifier = Modifier.clickable { onSearchClicked() },
         )
         Icon(
-            imageVector = Icons.Default.Notifications,
+            imageVector = Icons.Outlined.Notifications,
             contentDescription = null,
             modifier = Modifier.clickable { onNotificationsClicked() },
         )
