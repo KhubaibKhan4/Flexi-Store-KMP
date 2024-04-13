@@ -64,14 +64,16 @@ class HomeScreen : Screen {
             }
         }
         val promoState by viewModel.promotions.collectAsState()
-        when(promoState){
+        when (promoState) {
             is ResultState.Error -> {
-                val error =  (promoState as ResultState.Error).error
+                val error = (promoState as ResultState.Error).error
                 ErrorBox(error)
             }
+
             is ResultState.Loading -> {
                 LoadingBox()
             }
+
             is ResultState.Success -> {
                 val response = (promoState as ResultState.Success).response
                 promoList = response
@@ -108,8 +110,8 @@ class HomeScreen : Screen {
                         if (selectedTabIndex.value.ordinal < tabPositions.size) {
                             TabRowDefaults.SecondaryIndicator(
                                 modifier = Modifier.tabIndicatorOffset(
-                                        tabPositions[selectedTabIndex.value.ordinal]
-                                    ),
+                                    tabPositions[selectedTabIndex.value.ordinal]
+                                ),
                                 height = 2.dp,
                                 color = Color.Red
                             )
@@ -133,8 +135,14 @@ class HomeScreen : Screen {
                 }
                 when (selectedTabIndex.value) {
                     NewTabs.Home -> {
-                        productsList?.let { list ->
-                            ProductList(products = list)
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            productsList?.let { list ->
+                                ProductList(products = list)
+                            }
                         }
                     }
 
