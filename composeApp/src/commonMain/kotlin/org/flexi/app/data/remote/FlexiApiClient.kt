@@ -16,6 +16,7 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
@@ -80,5 +81,8 @@ object FlexiApiClient {
 
     suspend fun getProducts(): List<Products> {
         return client.get(BASE_URL + "v1/products").body()
+    }
+    suspend fun getPromotionsList(): List<PromotionsProductsItem>{
+        return client.get(BASE_URL+"v1/promotions").body()
     }
 }
