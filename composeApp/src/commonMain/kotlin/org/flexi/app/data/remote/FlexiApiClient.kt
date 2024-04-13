@@ -15,6 +15,7 @@ import io.ktor.http.Parameters
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
+import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.utils.Constant.BASE_URL
@@ -84,5 +85,8 @@ object FlexiApiClient {
     }
     suspend fun getPromotionsList(): List<PromotionsProductsItem>{
         return client.get(BASE_URL+"v1/promotions").body()
+    }
+    suspend fun getCategoriesList(): List<Categories>{
+        return client.get(BASE_URL+"v1/categories").body()
     }
 }
