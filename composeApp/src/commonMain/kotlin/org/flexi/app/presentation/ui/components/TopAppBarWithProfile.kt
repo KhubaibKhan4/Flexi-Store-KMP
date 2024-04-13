@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import org.flexi.app.theme.LocalThemeIsDark
 
 @Composable
 fun TopAppBarWithProfile(
@@ -39,6 +40,7 @@ fun TopAppBarWithProfile(
     onNotificationsClicked: () -> Unit,
     profileImageUrl: String? = null,
 ) {
+    var isDark by LocalThemeIsDark.current
     Row(
         modifier = Modifier.fillMaxWidth(1f)
             .padding(all = 4.dp),
@@ -93,7 +95,10 @@ fun TopAppBarWithProfile(
         Icon(
             imageVector = Icons.Outlined.Notifications,
             contentDescription = null,
-            modifier = Modifier.clickable { onNotificationsClicked() },
+            modifier = Modifier.clickable {
+                isDark = !isDark
+                onNotificationsClicked()
+            },
         )
     }
 }
