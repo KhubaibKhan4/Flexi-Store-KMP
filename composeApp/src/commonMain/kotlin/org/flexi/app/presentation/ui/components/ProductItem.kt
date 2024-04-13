@@ -51,9 +51,10 @@ fun ProductList(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
+            .height(2000.dp)
             .padding(top = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
