@@ -2,13 +2,9 @@ package org.flexi.app.presentation.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -29,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
@@ -43,10 +40,12 @@ class HomeScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.current
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
+        var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
+            viewModel.getPromotionsItems()
         }
         val state by viewModel.products.collectAsState()
         when (state) {
@@ -62,6 +61,20 @@ class HomeScreen : Screen {
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
                 productsList = response
+            }
+        }
+        val promoState by viewModel.promotions.collectAsState()
+        when(promoState){
+            is ResultState.Error -> {
+                val error =  (promoState as ResultState.Error).error
+                ErrorBox(error)
+            }
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+            is ResultState.Success -> {
+                val response = (promoState as ResultState.Success).response
+                promoList = response
             }
         }
         Scaffold(

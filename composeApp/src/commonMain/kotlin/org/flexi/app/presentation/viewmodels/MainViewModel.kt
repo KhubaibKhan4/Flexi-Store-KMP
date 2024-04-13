@@ -28,7 +28,7 @@ class MainViewModel(
     private val _promotions =
         MutableStateFlow<ResultState<List<PromotionsProductsItem>>>(ResultState.Loading)
     val promotions: StateFlow<ResultState<List<PromotionsProductsItem>>> = _promotions.asStateFlow()
-    fun promotionsItems() {
+    fun getPromotionsItems() {
         viewModelScope.launch {
             _promotions.value = ResultState.Loading
             try {
