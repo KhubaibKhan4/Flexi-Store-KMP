@@ -31,6 +31,7 @@ import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.components.CategoriesList
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
@@ -176,7 +177,9 @@ class HomeScreen : Screen {
                     }
 
                     NewTabs.Categories -> {
-                        Text("Nothing Here ")
+                        categoriesList?.let { category ->
+                            CategoriesList(category)
+                        }
                     }
                 }
 
