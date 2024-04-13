@@ -120,9 +120,9 @@ fun Dot(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    val color = if (isSelected) Color.Gray else Color.LightGray
+    val color = if (isSelected) Color.Blue else Color.LightGray
     Surface(
-        modifier = Modifier.size(12.dp),
+        modifier = Modifier.size(6.dp),
         shape = RoundedCornerShape(6.dp),
         color = color,
         onClick = onClick
