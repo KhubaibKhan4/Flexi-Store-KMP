@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.utils.Constant.BASE_URL
@@ -42,8 +43,16 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { promotions.size })
 
-    LaunchedEffect(pagerState.currentPage) {
-        currentPage = pagerState.currentPage
+    LaunchedEffect(Unit) {
+        delay(1000)
+        while (true) {
+            delay(2000)
+            val nextPage = (currentPage + 1) % promotions.size
+            scope.launch {
+                currentPage = nextPage
+                pagerState.animateScrollToPage(nextPage)
+            }
+        }
     }
 
     Column(
