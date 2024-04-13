@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.usecase.ResultState
@@ -46,11 +47,13 @@ class HomeScreen : Screen {
         val navigator = LocalNavigator.current
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
+        var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
             viewModel.getPromotionsItems()
+            viewModel.getCategoriesList()
         }
         val state by viewModel.products.collectAsState()
         when (state) {
@@ -82,6 +85,22 @@ class HomeScreen : Screen {
             is ResultState.Success -> {
                 val response = (promoState as ResultState.Success).response
                 promoList = response
+            }
+        }
+        val categoriesState by viewModel.categories.collectAsState()
+        when (categoriesState) {
+            is ResultState.Error -> {
+                val error = (categoriesState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (categoriesState as ResultState.Success).response
+                categoriesList = response
             }
         }
         Scaffold(
