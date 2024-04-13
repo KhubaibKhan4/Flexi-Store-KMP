@@ -1,5 +1,6 @@
 package org.flexi.app.data.repository
 
+import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.koin.core.annotation.Single
@@ -10,4 +11,5 @@ interface FlexiApi {
     suspend fun signupUser(username: String, email: String, password: String): String
     suspend fun getProducts(): List<Products>
     suspend fun getPromotionsProducts(): List<PromotionsProductsItem>
+    suspend fun getCategories(): List<Categories>
 }
