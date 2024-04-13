@@ -3,6 +3,7 @@ package org.flexi.app.domain.repository
 import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.data.repository.FlexiApi
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.koin.core.annotation.Single
 
 @Single
@@ -17,5 +18,9 @@ class Repository : FlexiApi {
 
     override suspend fun getProducts(): List<Products> {
         return FlexiApiClient.getProducts()
+    }
+
+    override suspend fun getPromotionsProducts(): List<PromotionsProductsItem> {
+        return FlexiApiClient.getPromotionsList()
     }
 }
