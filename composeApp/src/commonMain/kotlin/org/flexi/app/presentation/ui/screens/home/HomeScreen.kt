@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,12 +31,14 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
+import org.flexi.app.presentation.ui.components.PromotionCardWithPager
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 import org.flexi.app.presentation.ui.screens.home.model.tab.Tab as NewTabs
 
 class HomeScreen : Screen {
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -140,6 +143,9 @@ class HomeScreen : Screen {
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            promoList?.let {promotion->
+                                PromotionCardWithPager(promotion)
+                            }
                             productsList?.let { list ->
                                 ProductList(products = list)
                             }
