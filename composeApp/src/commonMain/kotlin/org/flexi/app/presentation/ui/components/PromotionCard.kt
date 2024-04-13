@@ -16,9 +16,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.utils.Constant.BASE_URL
 
@@ -36,6 +39,13 @@ import org.flexi.app.utils.Constant.BASE_URL
 @Composable
 fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
     var currentPage by remember { mutableStateOf(0) }
+    val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = { promotions.size })
+
+    // Observe the page changes and update the currentPage accordingly
+    LaunchedEffect(pagerState.currentPage) {
+        currentPage = pagerState.currentPage
+    }
 
     Column(
         modifier = Modifier
@@ -48,7 +58,7 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            state = rememberPagerState(pageCount = { promotions.size })
+            state = pagerState
         ) { page ->
             Card(
                 modifier = Modifier
@@ -58,7 +68,7 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                 shape = RoundedCornerShape(8.dp)
             ) {
                 val image: Resource<Painter> =
-                    asyncPainterResource(data =BASE_URL+promotions[page].imageUrl)
+                    asyncPainterResource(data = BASE_URL + promotions[page].imageUrl)
                 KamelImage(
                     resource = image,
                     contentDescription = null,
@@ -74,7 +84,10 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
             pageCount = promotions.size,
             currentPage = currentPage,
             onPageSelected = { page ->
-                currentPage = page
+                scope.launch {
+                    currentPage = page
+                    pagerState.scrollToPage(page)
+                }
             }
         )
     }
@@ -93,9 +106,10 @@ fun DotsIndicator(
             verticalAlignment = Alignment.CenterVertically
         ) {
             repeat(pageCount) { index ->
-                Dot(isSelected = index == currentPage) {
-                    onPageSelected(index)
-                }
+                Dot(
+                    isSelected = index == currentPage,
+                    onClick = { onPageSelected(index) }
+                )
             }
         }
     }
