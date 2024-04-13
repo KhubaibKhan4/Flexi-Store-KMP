@@ -143,7 +143,7 @@ class HomeScreen : Screen {
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            promoList?.let {promotion->
+                            promoList?.let { promotion ->
                                 PromotionCardWithPager(promotion)
                             }
                             productsList?.let { list ->

@@ -42,7 +42,6 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { promotions.size })
 
-    // Observe the page changes and update the currentPage accordingly
     LaunchedEffect(pagerState.currentPage) {
         currentPage = pagerState.currentPage
     }
