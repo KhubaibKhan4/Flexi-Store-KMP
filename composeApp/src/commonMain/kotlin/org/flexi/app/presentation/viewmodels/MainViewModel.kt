@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.repository.Repository
@@ -28,6 +29,22 @@ class MainViewModel(
     private val _promotions =
         MutableStateFlow<ResultState<List<PromotionsProductsItem>>>(ResultState.Loading)
     val promotions: StateFlow<ResultState<List<PromotionsProductsItem>>> = _promotions.asStateFlow()
+
+    private val _categories = MutableStateFlow<ResultState<List<Categories>>>(ResultState.Loading)
+    val categories: StateFlow<ResultState<List<Categories>>> = _categories.asStateFlow()
+
+    fun getCategoriesList() {
+        viewModelScope.launch {
+            _categories.value = ResultState.Loading
+            try {
+                val response = repository.getCategories()
+                _categories.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _categories.value = ResultState.Error(e)
+            }
+        }
+    }
+
     fun getPromotionsItems() {
         viewModelScope.launch {
             _promotions.value = ResultState.Loading
