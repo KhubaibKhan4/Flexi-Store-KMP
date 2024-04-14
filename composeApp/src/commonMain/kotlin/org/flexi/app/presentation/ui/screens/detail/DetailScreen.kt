@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -66,7 +67,7 @@ class DetailScreen(
         var selectedColor by remember { mutableStateOf(Color.Blue) }
 
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
         ) {
             Column(
@@ -122,9 +123,9 @@ class DetailScreen(
             }
             Card(
                 modifier = Modifier.fillMaxWidth()
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.Center)
                     .clip(
-                        RoundedCornerShape(topStartPercent = 24, topEndPercent = 24)
+                        RoundedCornerShape(topStartPercent = 14, topEndPercent = 14)
                     ),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
