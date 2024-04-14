@@ -90,12 +90,12 @@ fun TopAppBarWithProfile(
         Icon(
             imageVector = Icons.Outlined.Search,
             contentDescription = null,
-            modifier = Modifier.clickable { onSearchClicked() },
+            modifier = Modifier.padding(end = 3.dp).clickable { onSearchClicked() },
         )
         Icon(
             imageVector = Icons.Outlined.Notifications,
             contentDescription = null,
-            modifier = Modifier.clickable {
+            modifier = Modifier.padding(end = 3.dp).clickable {
                 isDark = !isDark
                 onNotificationsClicked()
             },
