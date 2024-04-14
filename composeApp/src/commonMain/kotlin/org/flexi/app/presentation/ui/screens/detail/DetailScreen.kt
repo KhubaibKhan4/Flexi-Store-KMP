@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.screens.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -171,6 +172,13 @@ class DetailScreen(
                                         modifier = Modifier.size(14.dp)
                                             .clip(CircleShape)
                                             .background(Color.White)
+                                            .clickable {
+                                                if (producstItems>=1){
+                                                    producstItems--
+                                                }else{
+                                                    producstItems = 0
+                                                }
+                                            }
                                     )
                                     Text(
                                         text = producstItems.toString(),
@@ -187,6 +195,11 @@ class DetailScreen(
                                         modifier = Modifier.size(14.dp)
                                             .clip(CircleShape)
                                             .background(Color.White)
+                                            .clickable {
+                                                if (producstItems>=0){
+                                                    producstItems++
+                                                }
+                                            }
                                     )
                                 }
                             }
