@@ -24,8 +24,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,6 +54,7 @@ import org.flexi.app.utils.Constant.BASE_URL
 class DetailScreen(
     val products: Products,
 ) : Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -122,6 +125,7 @@ class DetailScreen(
                     }
                 }
             }
+            //Impl Modal Sheet
             Card(
                 modifier = Modifier.fillMaxWidth()
                     .align(Alignment.Center)
