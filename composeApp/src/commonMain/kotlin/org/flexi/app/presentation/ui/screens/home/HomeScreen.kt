@@ -45,7 +45,6 @@ class HomeScreen : Screen {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.current
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }

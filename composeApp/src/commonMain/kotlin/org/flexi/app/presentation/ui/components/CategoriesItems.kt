@@ -53,13 +53,13 @@ fun CategoriesItems(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
-            .height(250.dp),
+            .height(200.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
             val image: Resource<Painter> =
                 asyncPainterResource(data = BASE_URL + categories.imageUrl)
@@ -76,17 +76,21 @@ fun CategoriesItems(
                     Text("Failed to Load $it")
                 }
             )
-            Text(
+            Box(
                 modifier = Modifier.fillMaxSize()
                     .clip(RoundedCornerShape(14.dp))
                     .background(Color.Black.copy(alpha = 0.45f))
-                    .align(Alignment.Center),
-                text = categories.name,
-                fontSize = 34.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.White,
-                textAlign = TextAlign.Center
-            )
+                    .align(Alignment.Center)
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = categories.name,
+                    fontSize = 34.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

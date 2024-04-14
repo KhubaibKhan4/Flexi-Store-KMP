@@ -49,7 +49,7 @@ fun TopAppBarWithProfile(
     ) {
         if (profileImageUrl?.isNotEmpty() == true) {
             var profile by remember { mutableStateOf("") }
-            profileImageUrl?.let {
+            profileImageUrl.let {
                 profile = it
             }
             val image: Resource<Painter> = asyncPainterResource(data = profile)
