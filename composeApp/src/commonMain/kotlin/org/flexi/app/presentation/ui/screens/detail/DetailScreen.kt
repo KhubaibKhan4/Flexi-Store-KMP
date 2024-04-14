@@ -5,19 +5,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material.icons.filled.Star
@@ -56,6 +56,15 @@ class DetailScreen(
     override fun Content() {
         val navigator = LocalNavigator.current
         var producstItems by remember { mutableStateOf(0) }
+        val colorOptions = listOf(
+            Color.Blue,
+            Color.Black,
+            Color.Green,
+            Color.Red,
+            Color.Gray,
+            Color.Cyan
+        )
+        var selectedColor by remember { mutableStateOf(Color.Blue) }
 
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -122,99 +131,155 @@ class DetailScreen(
                     containerColor = Color.White
                 )
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 14.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.Center
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 14.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = products.name,
-                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                            fontWeight = FontWeight.SemiBold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.Center
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = null,
-                                tint = Color.Yellow
-                            )
                             Text(
-                                text = "4.8",
-                                fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                                fontWeight = FontWeight.Bold,
+                                text = products.name,
+                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                fontWeight = FontWeight.SemiBold,
                                 maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = Color.Yellow
+                                )
+                                Text(
+                                    text = "4.8",
+                                    fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                                    fontWeight = FontWeight.Bold,
+                                    maxLines = 1,
+                                )
+                                Text(
+                                    text = "(320 Review)",
+                                    color = Color.LightGray
+                                )
+                            }
+                        }
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .width(84.dp)
+                                    .height(34.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(color = Color.LightGray.copy(alpha = 0.45f)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Remove,
+                                    contentDescription = "Decrease",
+                                    modifier = Modifier.size(25.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.White)
+                                        .clickable {
+                                            if (producstItems >= 1) {
+                                                producstItems--
+                                            } else {
+                                                producstItems = 0
+                                            }
+                                        }
+                                )
+                                Text(
+                                    text = producstItems.toString(),
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 8.dp)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Increase",
+                                    modifier = Modifier
+                                        .size(25.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.White)
+                                        .clickable {
+                                            producstItems++
+                                        }
+                                )
+                            }
                             Text(
-                                text = "(320 Review)",
-                                color = Color.LightGray
+                                text = "Available in stock",
+                                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                     }
+
                     Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = 6.dp, start = 12.dp),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.Start
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .width(84.dp)
-                                .height(34.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(color = Color.LightGray.copy(alpha = 0.45f))
-                            ,
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Remove,
-                                contentDescription = "Decrease",
-                                modifier = Modifier.size(25.dp)
-                                    .clip(CircleShape)
-                                    .background(Color.White)
-                                    .clickable {
-                                    if (producstItems >= 1) {
-                                        producstItems--
-                                    } else {
-                                        producstItems = 0
-                                    }
-                                }
-                            )
-                            Text(
-                                text = producstItems.toString(),
-                                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Increase",
-                                modifier = Modifier
-                                    .size(25.dp)
-                                    .clip(CircleShape)
-                                    .background(Color.White)
-                                    .clickable {
-                                    producstItems++
-                                }
-                            )
-                        }
                         Text(
-                            text = "Available in stock",
-                            fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                            text = "Color",
+                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
                             fontWeight = FontWeight.SemiBold
                         )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(0.55f),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            colorOptions.forEach { color ->
+                                ColorOption(
+                                    color = color,
+                                    isSelected = selectedColor == color,
+                                    onColorSelected = { selectedColor = color }
+                                )
+                            }
+                        }
                     }
                 }
             }
+        }
+    }
+}
+@Composable
+fun ColorOption(
+    color: Color,
+    isSelected: Boolean,
+    onColorSelected: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(35.dp)
+            .clip(CircleShape)
+            .background(color = color)
+            .clickable { onColorSelected() }
+    ) {
+        if (isSelected) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .size(20.dp)
+                    .align(Alignment.Center)
+            )
         }
     }
 }
