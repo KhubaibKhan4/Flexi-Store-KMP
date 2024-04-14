@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import flexi_store.composeapp.generated.resources.Res
@@ -34,7 +35,6 @@ import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.Font
-import org.jetbrains.compose.resources.FontResource
 
 @Composable
 fun CategoriesList(categories: List<Categories>) {
@@ -87,15 +87,23 @@ fun CategoriesItems(
                     .align(Alignment.Center)
             ) {
                 Text(
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .align(Alignment.Center),
                     text = categories.name,
                     fontSize = 34.sp,
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily(
                         Font(resource = Res.font.Roboto_Bold)
                     ),
+                    letterSpacing = 2.sp,
+                    maxLines = 2,
+                    softWrap = true,
+                    textDecoration = TextDecoration.Underline,
                     color = Color.White,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    lineHeight = 40.sp
                 )
             }
         }
