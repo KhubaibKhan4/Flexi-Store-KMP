@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,10 +38,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.presentation.ui.screens.detail.DetailScreen
 import org.flexi.app.utils.Constant.BASE_URL
 
 @Composable
@@ -92,6 +95,7 @@ fun ProductList(
 fun ProductItem(
     products: Products,
 ) {
+    val navigator = LocalNavigator.current
     val image: Resource<Painter> =
         asyncPainterResource(data = BASE_URL + products.imageUrl)
     Column(
@@ -100,7 +104,10 @@ fun ProductItem(
                 border = BorderStroke(width = 1.dp, color = Color.LightGray),
                 shape = RoundedCornerShape(14.dp),
 
-                ),
+                )
+            .clickable {
+                navigator?.push(DetailScreen(products))
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
