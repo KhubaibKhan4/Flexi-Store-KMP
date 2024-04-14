@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.detail
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -65,6 +66,7 @@ class DetailScreen(
             Color.Cyan
         )
         var selectedColor by remember { mutableStateOf(Color.Blue) }
+        var maxLines by remember { mutableStateOf(5) }
 
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -274,10 +276,22 @@ class DetailScreen(
                                 text = products.description,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Normal,
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                maxLines = maxLines,
+                                overflow = TextOverflow.Ellipsis
                             )
+                            AnimatedVisibility(maxLines >= 5) {
+                                Text(
+                                    text = "Read More",
+                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.fillMaxWidth()
+                                        .clickable { maxLines = 24 },
+                                )
+                            }
                         }
                     }
+
                 }
             }
         }
