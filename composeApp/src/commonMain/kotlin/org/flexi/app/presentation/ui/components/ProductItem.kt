@@ -64,7 +64,7 @@ fun ProductList(
             Text(
                 text = "New Arrivals \uD83D\uDD25",
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.ExtraBold,
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -76,7 +76,7 @@ fun ProductList(
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             state = state,
-            modifier = modifier.padding(bottom = 34.dp),
+            modifier = modifier.padding(bottom = 34.dp, top = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
