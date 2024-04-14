@@ -1,6 +1,5 @@
 package org.flexi.app.presentation.ui.screens.detail
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -267,26 +266,26 @@ class DetailScreen(
                             fontSize = MaterialTheme.typography.titleMedium.fontSize,
                             fontWeight = FontWeight.Bold
                         )
-                        Row(
+
+                        Box(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                            contentAlignment = Alignment.BottomEnd
                         ) {
                             Text(
                                 text = products.description,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Normal,
-                                modifier = Modifier.fillMaxWidth(),
                                 maxLines = maxLines,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
-                            AnimatedVisibility(maxLines >= 5) {
+                            if (maxLines >= 5) {
                                 Text(
-                                    text = "Read More",
+                                    text = if (maxLines == 5) "Read More" else "Read Less",
                                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.fillMaxWidth()
-                                        .clickable { maxLines = 24 },
+                                    modifier = Modifier.clickable {
+                                        maxLines = if (maxLines == 5) Int.MAX_VALUE else 5
+                                    }
                                 )
                             }
                         }
