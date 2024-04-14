@@ -57,7 +57,7 @@ fun CategoriesItems(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
-            .height(200.dp),
+            .height(170.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
