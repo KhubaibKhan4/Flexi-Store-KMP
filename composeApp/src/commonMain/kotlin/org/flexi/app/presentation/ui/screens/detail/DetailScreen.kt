@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.screens.detail
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,10 +27,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
@@ -84,6 +87,7 @@ class DetailScreen(
             Color.Cyan
         )
         var selectedColor by remember { mutableStateOf(Color.Blue) }
+        var isFavourite by remember { mutableStateOf(false) }
         val scrollState = rememberScrollState()
         val descriptionThreshold = 100
         val isLongDescription =
@@ -225,51 +229,29 @@ class DetailScreen(
                                 ) {
                                     Row(
                                         modifier = Modifier
-                                            .padding(2.dp)
-                                            .width(84.dp)
-                                            .height(34.dp)
-                                            .clip(RoundedCornerShape(12.dp))
+                                            .width(42.dp)
+                                            .height(42.dp)
+                                            .clip(CircleShape)
                                             .background(color = Color.LightGray.copy(alpha = 0.45f)),
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Center
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Default.Remove,
+                                            imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                                             contentDescription = "Decrease",
-                                            modifier = Modifier.size(25.dp)
-                                                .clip(CircleShape)
-                                                .background(Color.White)
-                                                .clickable {
-                                                    if (producstItems >= 1) {
-                                                        producstItems--
-                                                    } else {
-                                                        producstItems = 0
-                                                    }
-                                                }
-                                        )
-                                        Text(
-                                            text = producstItems.toString(),
-                                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                            fontWeight = FontWeight.Bold,
-                                            modifier = Modifier.padding(horizontal = 8.dp)
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Default.Add,
-                                            contentDescription = "Increase",
                                             modifier = Modifier
                                                 .size(25.dp)
-                                                .clip(CircleShape)
-                                                .background(Color.White)
-                                                .clickable {
-                                                    producstItems++
-                                                }
+                                                .clickable(
+                                                    interactionSource = MutableInteractionSource(),
+                                                    indication = rememberRipple(color = Color.Red),
+                                                    onClick = {
+                                                        isFavourite = !isFavourite
+                                                    }
+                                                ),
+                                            tint = if (isFavourite) Color.Red else Color.White
                                         )
+
                                     }
-                                    Text(
-                                        text = "Available in stock",
-                                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
                                 }
                             }
 
