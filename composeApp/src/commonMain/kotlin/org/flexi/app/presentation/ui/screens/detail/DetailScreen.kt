@@ -448,7 +448,7 @@ class DetailScreen(
                                     withStyle(
                                         style = SpanStyle(
                                             color = Color.Blue,
-                                            fontSize = 18.sp,
+                                            fontSize = 13.sp,
                                             fontWeight = FontWeight.Bold,
                                             baselineShift = BaselineShift.Superscript
                                         )
@@ -467,7 +467,7 @@ class DetailScreen(
                                 }
                                 Text(
                                     text = price,
-                                    modifier = Modifier.padding(start =10.dp )
+                                    modifier = Modifier.padding(start = 10.dp)
                                 )
                             }
 
@@ -554,7 +554,7 @@ fun ExpandableDescription(description: String) {
             modifier = Modifier.padding(top = 6.dp, start = 12.dp)
         )
 
-        val descriptionThreshold = 100
+        val descriptionThreshold = 150
         val isLongDescription = description.length > descriptionThreshold
 
         val truncatedDescription = if (!expanded) {
@@ -567,7 +567,13 @@ fun ExpandableDescription(description: String) {
             append(truncatedDescription)
 
             if (isLongDescription) {
-                append(if (expanded) " Read Less" else " Read More")
+                withStyle(
+                    SpanStyle(
+                        color = Color.Red
+                    )
+                ) {
+                    append(if (expanded) " Read Less" else " Read More")
+                }
             }
         }
 
