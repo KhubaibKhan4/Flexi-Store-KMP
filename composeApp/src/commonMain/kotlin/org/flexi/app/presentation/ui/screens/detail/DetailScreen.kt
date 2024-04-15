@@ -112,7 +112,7 @@ class DetailScreen(
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth()
-                            .background(color = Color.Black.copy(alpha = 0.05f))
+                            .background(color = Color.Black.copy(alpha = 0.25f))
                             .padding(horizontal = 8.dp, vertical = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.Top
@@ -121,18 +121,21 @@ class DetailScreen(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Arrow Back",
                             modifier = Modifier.size(25.dp)
-                                .clickable { navigator?.pop() }
+                                .clickable { navigator?.pop() },
+                            tint = Color.White
                         )
                         Text(
                             text = "Detail Product",
                             fontSize = MaterialTheme.typography.titleMedium.fontSize,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.align(Alignment.CenterVertically)
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            color = Color.White
                         )
                         Icon(
                             imageVector = Icons.Default.ShoppingBasket,
                             contentDescription = "Shopping Cart",
-                            modifier = Modifier.size(25.dp)
+                            modifier = Modifier.size(25.dp),
+                            tint = Color.White
                         )
                     }
                 }
