@@ -381,6 +381,61 @@ class DetailScreen(
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth()
+                                .padding(top = 20.dp, bottom = 20.dp, start = 14.dp, end = 14.dp),
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Choose amount:",
+                                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                            Spacer(modifier = Modifier.fillMaxWidth().weight(1f))
+                            Row(
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .width(84.dp)
+                                    .height(34.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(color = Color.LightGray.copy(alpha = 0.45f)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Remove,
+                                    contentDescription = "Decrease",
+                                    modifier = Modifier.size(25.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.White)
+                                        .clickable {
+                                            if (producstItems >= 1) {
+                                                producstItems--
+                                            } else {
+                                                producstItems = 0
+                                            }
+                                        }
+                                )
+                                Text(
+                                    text = producstItems.toString(),
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 8.dp)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Increase",
+                                    modifier = Modifier
+                                        .size(25.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.White)
+                                        .clickable {
+                                            producstItems++
+                                        }
+                                )
+                            }
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
                                 .animateContentSize()
                                 .padding(all = 6.dp),
                             horizontalArrangement = Arrangement.Center,
