@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,10 +25,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,7 +43,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
@@ -52,7 +50,6 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.utils.Constant.BASE_URL
-import kotlin.math.log
 
 class DetailScreen(
     val products: Products,
@@ -91,7 +88,7 @@ class DetailScreen(
                         resource = image,
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth()
-                            .height(350.dp),
+                            .height(360.dp),
                         contentScale = ContentScale.Crop,
                         onLoading = {
                             CircularProgressIndicator(progress = { it })
@@ -127,183 +124,203 @@ class DetailScreen(
                     }
                 }
             }
-            //Impl Modal Sheet
-            Card(
+
+            Column(
                 modifier = Modifier.fillMaxWidth()
-                    .align(Alignment.Center)
-                    .clip(
-                        RoundedCornerShape(topStartPercent = 14, topEndPercent = 14)
-                    ),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                )
+                    .padding(top = 240.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
             ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 8.dp)
+                        .heightIn(400.dp)
                 ) {
-                    Row(
+                    Card(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 14.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                            .align(Alignment.Center)
+                            .clip(
+                                RoundedCornerShape(topStartPercent = 14, topEndPercent = 14)
+                            ),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
                     ) {
                         Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.Start,
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            Text(
-                                text = products.name,
-                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
                             Row(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(horizontal = 14.dp, vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = null,
-                                    tint = Color.Yellow
-                                )
-                                Text(
-                                    text = "4.8",
-                                    fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                                    fontWeight = FontWeight.Bold,
-                                    maxLines = 1,
-                                )
-                                Text(
-                                    text = "(320 Review)",
-                                    color = Color.LightGray
-                                )
-                            }
-                        }
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .padding(2.dp)
-                                    .width(84.dp)
-                                    .height(34.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(color = Color.LightGray.copy(alpha = 0.45f)),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Remove,
-                                    contentDescription = "Decrease",
-                                    modifier = Modifier.size(25.dp)
-                                        .clip(CircleShape)
-                                        .background(Color.White)
-                                        .clickable {
-                                            if (producstItems >= 1) {
-                                                producstItems--
-                                            } else {
-                                                producstItems = 0
-                                            }
-                                        }
-                                )
-                                Text(
-                                    text = producstItems.toString(),
-                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.padding(horizontal = 8.dp)
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Increase",
-                                    modifier = Modifier
-                                        .size(25.dp)
-                                        .clip(CircleShape)
-                                        .background(Color.White)
-                                        .clickable {
-                                            producstItems++
-                                        }
-                                )
-                            }
-                            Text(
-                                text = "Available in stock",
-                                fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-                    }
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(top = 6.dp, start = 12.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Text(
-                            text = "Color",
-                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Row(
-                            modifier = Modifier.fillMaxWidth(0.55f),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            colorOptions.forEach { color ->
-                                ColorOption(
-                                    color = color,
-                                    isSelected = selectedColor == color,
-                                    onColorSelected = { selectedColor = color }
-                                )
-                            }
-                        }
-                    }
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(top = 6.dp, start = 12.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Text(
-                            text = "Description",
-                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        val descriptionThreshold = 100
-                        val isLongDescription = products.description.length > descriptionThreshold
-
-                        Text(
-                            text = buildAnnotatedString {
-                                append(if (isLongDescription) {
-                                    if (maxLines == 5) {
-                                        "${products.description.take(descriptionThreshold)}... "
-                                    } else {
-                                        products.description
+                                Column(
+                                    modifier = Modifier.weight(1f),
+                                    horizontalAlignment = Alignment.Start,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = products.name,
+                                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                        fontWeight = FontWeight.SemiBold,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Star,
+                                            contentDescription = null,
+                                            tint = Color.Yellow
+                                        )
+                                        Text(
+                                            text = "4.8",
+                                            fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                                            fontWeight = FontWeight.Bold,
+                                            maxLines = 1,
+                                        )
+                                        Text(
+                                            text = "(320 Review)",
+                                            color = Color.LightGray
+                                        )
                                     }
-                                } else {
-                                    products.description
-                                })
-
-                                if (isLongDescription) {
-                                    append(
-                                        if (maxLines == 5) "Read More" else "Read Less"
+                                }
+                                Column(
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Row(
+                                        modifier = Modifier
+                                            .padding(2.dp)
+                                            .width(84.dp)
+                                            .height(34.dp)
+                                            .clip(RoundedCornerShape(12.dp))
+                                            .background(color = Color.LightGray.copy(alpha = 0.45f)),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Remove,
+                                            contentDescription = "Decrease",
+                                            modifier = Modifier.size(25.dp)
+                                                .clip(CircleShape)
+                                                .background(Color.White)
+                                                .clickable {
+                                                    if (producstItems >= 1) {
+                                                        producstItems--
+                                                    } else {
+                                                        producstItems = 0
+                                                    }
+                                                }
+                                        )
+                                        Text(
+                                            text = producstItems.toString(),
+                                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(horizontal = 8.dp)
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Default.Add,
+                                            contentDescription = "Increase",
+                                            modifier = Modifier
+                                                .size(25.dp)
+                                                .clip(CircleShape)
+                                                .background(Color.White)
+                                                .clickable {
+                                                    producstItems++
+                                                }
+                                        )
+                                    }
+                                    Text(
+                                        text = "Available in stock",
+                                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                                        fontWeight = FontWeight.SemiBold
                                     )
                                 }
-                            },
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            fontWeight = FontWeight.Normal,
-                            maxLines = maxLines,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.clickable {
-                                maxLines = if (maxLines == 5) Int.MAX_VALUE else 5
                             }
-                        )
-                    }
 
+                            Column(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(top = 6.dp, start = 12.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Text(
+                                    text = "Color",
+                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(0.55f),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    colorOptions.forEach { color ->
+                                        ColorOption(
+                                            color = color,
+                                            isSelected = selectedColor == color,
+                                            onColorSelected = { selectedColor = color }
+                                        )
+                                    }
+                                }
+                            }
+
+                            Column(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(top = 6.dp, start = 12.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Text(
+                                    text = "Description",
+                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                val descriptionThreshold = 100
+                                val isLongDescription =
+                                    products.description.length > descriptionThreshold
+
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append(
+                                            if (isLongDescription) {
+                                                if (maxLines == 5) {
+                                                    "${
+                                                        products.description.take(
+                                                            descriptionThreshold
+                                                        )
+                                                    }... "
+                                                } else {
+                                                    products.description
+                                                }
+                                            } else {
+                                                products.description
+                                            }
+                                        )
+
+                                        if (isLongDescription) {
+                                            append(
+                                                if (maxLines == 5) "Read More" else "Read Less"
+                                            )
+                                        }
+                                    },
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                    fontWeight = FontWeight.Normal,
+                                    maxLines = maxLines,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier.clickable {
+                                        maxLines = if (maxLines == 5) Int.MAX_VALUE else 5
+                                    }
+                                )
+                            }
+
+                        }
+                    }
                 }
             }
         }
