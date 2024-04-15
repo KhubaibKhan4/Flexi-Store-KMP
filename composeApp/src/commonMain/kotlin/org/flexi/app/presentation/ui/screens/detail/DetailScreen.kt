@@ -2,8 +2,10 @@ package org.flexi.app.presentation.ui.screens.detail
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -72,7 +75,6 @@ class DetailScreen(
             Color.Cyan
         )
         var selectedColor by remember { mutableStateOf(Color.Blue) }
-        var maxLines by remember { mutableStateOf(5) }
         val scrollState = rememberScrollState()
         val descriptionThreshold = 100
         val isLongDescription =
@@ -335,27 +337,29 @@ fun ExpandableDescription(description: String) {
         val descriptionThreshold = 100
         val isLongDescription = description.length > descriptionThreshold
 
-        Text(
-            text = buildAnnotatedString {
-                append(
-                    if (isLongDescription && !expanded) {
-                        description.take(descriptionThreshold) + "..."
-                    } else {
-                        description
-                    }
-                )
+        val truncatedDescription = if (!expanded) {
+            description.take(descriptionThreshold) + "..."
+        } else {
+            description
+        }
 
-                if (isLongDescription) {
-                    append(if (expanded) " Read Less" else " Read More")
-                }
-            },
+        val clickableText = buildAnnotatedString {
+            append(truncatedDescription)
+
+            if (isLongDescription) {
+                append(if (expanded) " Read Less" else " Read More")
+            }
+        }
+
+        Text(
+            text = clickableText,
             fontSize = 16.sp,
-            maxLines = if (expanded) Int.MAX_VALUE else 5,
+            maxLines = Int.MAX_VALUE,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 6.dp, start = 12.dp)
                 .clickable {
-                setExpanded(!expanded)
-            }
+                    setExpanded(!expanded)
+                }
         )
     }
 }
