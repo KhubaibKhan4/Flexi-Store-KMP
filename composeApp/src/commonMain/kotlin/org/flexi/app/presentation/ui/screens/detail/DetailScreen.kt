@@ -42,6 +42,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -75,7 +76,7 @@ class DetailScreen(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        var producstItems by remember { mutableStateOf(0) }
+        var producstItems by remember { mutableStateOf(1) }
         val colorOptions = listOf(
             Color.Blue,
             Color.Black,
@@ -90,6 +91,17 @@ class DetailScreen(
         val descriptionThreshold = 100
         val isLongDescription =
             products.description.length > descriptionThreshold
+
+        var totalPrice by remember { mutableStateOf(products.price) }
+
+        LaunchedEffect(producstItems) {
+            if (producstItems > 1) {
+                totalPrice = products.price * producstItems
+            } else {
+                producstItems = 1
+                totalPrice = products.price
+            }
+        }
 
         Box(
             modifier = Modifier.fillMaxWidth()
@@ -390,8 +402,6 @@ class DetailScreen(
                                         .clickable {
                                             if (producstItems >= 1) {
                                                 producstItems--
-                                            } else {
-                                                producstItems = 0
                                             }
                                         }
                                 )
@@ -430,7 +440,7 @@ class DetailScreen(
                                 Text(
                                     text = "Price",
                                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                    color = Color.LightGray,
+                                    color = Color.Gray,
                                     fontWeight = FontWeight.SemiBold
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
@@ -452,7 +462,7 @@ class DetailScreen(
                                             fontWeight = FontWeight.Bold
                                         )
                                     ) {
-                                        append(products.price.toString())
+                                        append(totalPrice.toString())
                                     }
                                 }
                                 Text(
