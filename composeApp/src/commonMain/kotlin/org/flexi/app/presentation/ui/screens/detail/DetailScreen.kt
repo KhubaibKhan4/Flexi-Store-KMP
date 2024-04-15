@@ -43,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
@@ -50,11 +51,11 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.utils.Constant.BASE_URL
+import kotlin.math.log
 
 class DetailScreen(
     val products: Products,
 ) : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -271,6 +272,8 @@ class DetailScreen(
                             fontWeight = FontWeight.Bold
                         )
 
+                        val descriptionThreshold = 100
+
                         Box(
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.BottomEnd
@@ -282,7 +285,8 @@ class DetailScreen(
                                 maxLines = maxLines,
                                 overflow = TextOverflow.Ellipsis,
                             )
-                            if (maxLines >= 5) {
+
+                            if (products.description.length > descriptionThreshold) {
                                 Text(
                                     text = if (maxLines == 5) "Read More" else "Read Less",
                                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
