@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -273,30 +274,34 @@ class DetailScreen(
                         )
 
                         val descriptionThreshold = 100
+                        val isLongDescription = products.description.length > descriptionThreshold
 
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.BottomEnd
-                        ) {
-                            Text(
-                                text = products.description,
-                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontWeight = FontWeight.Normal,
-                                maxLines = maxLines,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-
-                            if (products.description.length > descriptionThreshold) {
-                                Text(
-                                    text = if (maxLines == 5) "Read More" else "Read Less",
-                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.clickable {
-                                        maxLines = if (maxLines == 5) Int.MAX_VALUE else 5
+                        Text(
+                            text = buildAnnotatedString {
+                                append(if (isLongDescription) {
+                                    if (maxLines == 5) {
+                                        "${products.description.take(descriptionThreshold)}... "
+                                    } else {
+                                        products.description
                                     }
-                                )
+                                } else {
+                                    products.description
+                                })
+
+                                if (isLongDescription) {
+                                    append(
+                                        if (maxLines == 5) "Read More" else "Read Less"
+                                    )
+                                }
+                            },
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            maxLines = maxLines,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.clickable {
+                                maxLines = if (maxLines == 5) Int.MAX_VALUE else 5
                             }
-                        }
+                        )
                     }
 
                 }
