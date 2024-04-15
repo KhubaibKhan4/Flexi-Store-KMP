@@ -1,4 +1,14 @@
-# Compose Multiplatform Application
+# Flexi-Store-KMP
+## Flexi Store KMP is an Ecommerce Platform that is Developed using Compose Multiplatform.
+Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in future including the Seller Central too where users can register and sell their products to earn.
+
+* - User can Buy or Sell Products.
+* - User can Make their own Store.
+* - Can Review The Product Images, Videos & Old ratings.
+* - Can Chat with Seller.
+
+* (Work is still in progress)
+
 
 ## Before running!
  - check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
