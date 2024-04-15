@@ -2,6 +2,7 @@ package org.flexi.app.presentation.ui.screens.detail
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -143,7 +144,10 @@ class DetailScreen(
 
             Column(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = if (isLongDescription) 244.dp else 260.dp),
+                    .animateContentSize(
+                        animationSpec = tween()
+                    )
+                    .padding(top = if (isLongDescription) 244.dp else 280.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
