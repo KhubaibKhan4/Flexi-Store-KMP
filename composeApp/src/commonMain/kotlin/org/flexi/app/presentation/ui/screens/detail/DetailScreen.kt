@@ -277,7 +277,7 @@ class DetailScreen(
                                     fontWeight = FontWeight.SemiBold
                                 )
                                 Row(
-                                    modifier = Modifier.fillMaxWidth(0.55f),
+                                    modifier = Modifier.wrapContentWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
@@ -287,6 +287,7 @@ class DetailScreen(
                                             isSelected = selectedColor == color,
                                             onColorSelected = { selectedColor = color }
                                         )
+                                        Spacer(modifier = Modifier.width(3.dp))
                                     }
                                 }
                             }
