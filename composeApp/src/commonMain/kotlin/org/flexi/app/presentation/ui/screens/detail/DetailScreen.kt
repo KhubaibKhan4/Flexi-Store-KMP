@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -68,9 +70,12 @@ class DetailScreen(
         )
         var selectedColor by remember { mutableStateOf(Color.Blue) }
         var maxLines by remember { mutableStateOf(5) }
+        val scrollState = rememberScrollState()
 
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .verticalScroll(enabled = true, state = scrollState)
+                .padding(bottom = 34.dp),
             contentAlignment = Alignment.TopCenter
         ) {
             Column(
@@ -140,14 +145,15 @@ class DetailScreen(
                         modifier = Modifier.fillMaxWidth()
                             .align(Alignment.Center)
                             .clip(
-                                RoundedCornerShape(topStartPercent = 14, topEndPercent = 14)
+                                RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                             ),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
                         )
                     ) {
                         Column(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(top = 14.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
