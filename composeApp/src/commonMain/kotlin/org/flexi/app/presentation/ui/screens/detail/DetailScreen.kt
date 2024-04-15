@@ -94,7 +94,7 @@ class DetailScreen(
             products.description.length > descriptionThreshold
 
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
                 .verticalScroll(enabled = true, state = scrollState)
                 .padding(bottom = 34.dp),
             contentAlignment = Alignment.TopCenter
@@ -114,7 +114,7 @@ class DetailScreen(
                         resource = image,
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth()
-                            .height(360.dp),
+                            .height(390.dp),
                         contentScale = ContentScale.Crop,
                         onLoading = {
                             CircularProgressIndicator(progress = { it })
@@ -159,14 +159,14 @@ class DetailScreen(
                     .animateContentSize(
                         animationSpec = tween()
                     )
-                    .padding(top = if (isLongDescription) 244.dp else 280.dp),
+                    .padding(top = if (isLongDescription) 320.dp else 340.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
                 Box(
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 8.dp)
-                        .heightIn(400.dp)
+                        .heightIn(200.dp)
                 ) {
                     Card(
                         modifier = Modifier.fillMaxWidth()
