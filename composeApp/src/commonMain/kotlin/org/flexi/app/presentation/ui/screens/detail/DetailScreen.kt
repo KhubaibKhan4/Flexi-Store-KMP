@@ -1,5 +1,7 @@
 package org.flexi.app.presentation.ui.screens.detail
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +47,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
@@ -71,6 +74,9 @@ class DetailScreen(
         var selectedColor by remember { mutableStateOf(Color.Blue) }
         var maxLines by remember { mutableStateOf(5) }
         val scrollState = rememberScrollState()
+        val descriptionThreshold = 100
+        val isLongDescription =
+            products.description.length > descriptionThreshold
 
         Box(
             modifier = Modifier.fillMaxSize()
@@ -132,7 +138,7 @@ class DetailScreen(
 
             Column(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = 240.dp),
+                    .padding(top = if (isLongDescription) 244.dp else 260.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
@@ -274,57 +280,7 @@ class DetailScreen(
                                     }
                                 }
                             }
-
-                            Column(
-                                modifier = Modifier.fillMaxWidth()
-                                    .padding(top = 6.dp, start = 12.dp),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Text(
-                                    text = "Description",
-                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                    fontWeight = FontWeight.Bold
-                                )
-
-                                val descriptionThreshold = 100
-                                val isLongDescription =
-                                    products.description.length > descriptionThreshold
-
-                                Text(
-                                    text = buildAnnotatedString {
-                                        append(
-                                            if (isLongDescription) {
-                                                if (maxLines == 5) {
-                                                    "${
-                                                        products.description.take(
-                                                            descriptionThreshold
-                                                        )
-                                                    }... "
-                                                } else {
-                                                    products.description
-                                                }
-                                            } else {
-                                                products.description
-                                            }
-                                        )
-
-                                        if (isLongDescription) {
-                                            append(
-                                                if (maxLines == 5) "Read More" else "Read Less"
-                                            )
-                                        }
-                                    },
-                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                    fontWeight = FontWeight.Normal,
-                                    maxLines = maxLines,
-                                    overflow = TextOverflow.Ellipsis,
-                                    modifier = Modifier.clickable {
-                                        maxLines = if (maxLines == 5) Int.MAX_VALUE else 5
-                                    }
-                                )
-                            }
-
+                            ExpandableDescription(products.description)
                         }
                     }
                 }
@@ -356,5 +312,50 @@ fun ColorOption(
                     .align(Alignment.Center)
             )
         }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun ExpandableDescription(description: String) {
+    val (expanded, setExpanded) = remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .animateContentSize(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = "Description",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 6.dp, start = 12.dp)
+        )
+
+        val descriptionThreshold = 100
+        val isLongDescription = description.length > descriptionThreshold
+
+        Text(
+            text = buildAnnotatedString {
+                append(
+                    if (isLongDescription && !expanded) {
+                        description.take(descriptionThreshold) + "..."
+                    } else {
+                        description
+                    }
+                )
+
+                if (isLongDescription) {
+                    append(if (expanded) " Read Less" else " Read More")
+                }
+            },
+            fontSize = 16.sp,
+            maxLines = if (expanded) Int.MAX_VALUE else 5,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(top = 6.dp, start = 12.dp)
+                .clickable {
+                setExpanded(!expanded)
+            }
+        )
     }
 }
