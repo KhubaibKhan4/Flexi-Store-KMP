@@ -5,6 +5,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.ShoppingBag
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -48,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -209,7 +212,8 @@ class DetailScreen(
                                         )
                                         Text(
                                             text = "(320 Review)",
-                                            color = Color.LightGray
+                                            color = Color.LightGray,
+                                            fontSize = MaterialTheme.typography.labelMedium.fontSize
                                         )
                                     }
                                 }
@@ -390,7 +394,6 @@ fun ColorOption(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ExpandableDescription(description: String) {
     val (expanded, setExpanded) = remember { mutableStateOf(false) }
@@ -430,9 +433,15 @@ fun ExpandableDescription(description: String) {
             maxLines = Int.MAX_VALUE,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 6.dp, start = 12.dp)
-                .clickable {
-                    setExpanded(!expanded)
-                }
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = rememberRipple(color = Color.Transparent),
+                    enabled = true,
+                    role = Role.Button,
+                    onClick = {
+                        setExpanded(!expanded)
+                    }
+                )
         )
     }
 }
