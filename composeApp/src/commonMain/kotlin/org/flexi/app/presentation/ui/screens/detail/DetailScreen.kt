@@ -1,6 +1,5 @@
 package org.flexi.app.presentation.ui.screens.detail
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -18,6 +17,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,12 +29,14 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -298,6 +300,85 @@ class DetailScreen(
                             }
                             ExpandableDescription(products.description)
                         }
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 12.dp, end = 12.dp, top = 12.dp),
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            val image: Resource<Painter> =
+                                asyncPainterResource(data = BASE_URL + products.imageUrl)
+                            KamelImage(
+                                resource = image,
+                                contentDescription = null,
+                                modifier = Modifier.size(35.dp)
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                            Column(
+                                modifier = Modifier.padding(start = 3.dp),
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Row(
+                                    modifier = Modifier.wrapContentWidth(),
+                                    horizontalArrangement = Arrangement.Start,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Upbox Bog",
+                                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Icon(
+                                        imageVector = Icons.Default.Verified,
+                                        contentDescription = null,
+                                        tint = Color.Blue,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier.wrapContentWidth()
+                                        .padding(start = 6.dp),
+                                    horizontalArrangement = Arrangement.Start,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "104 Products",
+                                        fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Color.DarkGray
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "1.5k Followers",
+                                        fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Color.DarkGray
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.fillMaxWidth().weight(1f))
+                            FilledIconButton(
+                                onClick = {},
+                                modifier = Modifier
+                                    .width(75.dp)
+                                    .height(30.dp),
+                                enabled = true,
+                                shape = RoundedCornerShape(24.dp),
+                                colors = IconButtonDefaults.iconButtonColors(
+                                    containerColor = Color.Blue,
+                                    contentColor = Color.White
+                                )
+                            ) {
+                                Text("Follow")
+                            }
+                        }
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 12.dp, end = 12.dp, top = 14.dp),
+                            color = Color.LightGray
+                        )
                         Row(
                             modifier = Modifier.fillMaxWidth()
                                 .animateContentSize()
