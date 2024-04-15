@@ -1,7 +1,6 @@
 package org.flexi.app.presentation.ui.screens.detail
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -29,9 +27,6 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.filled.ShoppingBag
-import androidx.compose.material.icons.filled.ShoppingBasket
-import androidx.compose.material.icons.filled.ShoppingCartCheckout
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -61,6 +56,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -426,34 +422,52 @@ class DetailScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Spacer(modifier = Modifier.width(4.dp))
-                            val price = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = Color.Blue,
-                                        fontSize = 24.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                ) {
-                                    append("$")
+                            Column(
+                                modifier = Modifier.wrapContentWidth(),
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "Price",
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                    color = Color.LightGray,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                val price = buildAnnotatedString {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color.Blue,
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            baselineShift = BaselineShift.Superscript
+                                        )
+                                    ) {
+                                        append("\$")
+                                    }
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color.Black,
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    ) {
+                                        append(products.price.toString())
+                                    }
                                 }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = Color.Black,
-                                        fontSize = 24.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                ) {
-                                    append(products.price.toString())
-                                }
+                                Text(
+                                    text = price,
+                                    modifier = Modifier.padding(start =10.dp )
+                                )
                             }
-                            Text(text = price)
 
                             Spacer(modifier = Modifier.weight(1f))
                             FilledIconButton(
                                 onClick = {},
                                 modifier = Modifier
                                     .fillMaxWidth(.5f)
-                                    .height(55.dp),
+                                    .height(55.dp)
+                                    .padding(top = 4.dp),
                                 enabled = true,
                                 shape = RoundedCornerShape(24.dp),
                                 colors = IconButtonDefaults.iconButtonColors(
