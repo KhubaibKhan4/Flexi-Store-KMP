@@ -29,7 +29,9 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material.icons.filled.ShoppingBasket
+import androidx.compose.material.icons.filled.ShoppingCartCheckout
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -145,7 +147,7 @@ class DetailScreen(
                             color = Color.White
                         )
                         Icon(
-                            imageVector = Icons.Default.ShoppingBasket,
+                            imageVector = Icons.Outlined.ShoppingBag,
                             contentDescription = "Shopping Cart",
                             modifier = Modifier.size(25.dp),
                             tint = Color.White
