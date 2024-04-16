@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -33,14 +32,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import flexi_store.composeapp.generated.resources.Res
-import flexi_store.composeapp.generated.resources.ic_cyclone
-import flexi_store.composeapp.generated.resources.ic_dark_mode
-import flexi_store.composeapp.generated.resources.ic_light_mode
+import flexi_store.composeapp.generated.resources.basket
+import flexi_store.composeapp.generated.resources.cloth_category
+import flexi_store.composeapp.generated.resources.travel
 import kotlinx.coroutines.launch
 import org.flexi.app.presentation.ui.screens.onboarding.model.OnBoardingItems
 import org.jetbrains.compose.resources.painterResource
@@ -54,17 +54,17 @@ fun OnBoardingScreen() {
         OnBoardingItems(
             title = "Various Collections of The Latest Products",
             description = "Urna amet, suspenisse ullamcorper oc elit diam foclislis cursus vestibulum.",
-            imageRes = painterResource(Res.drawable.ic_cyclone)
+            imageRes = painterResource(Res.drawable.basket)
         ),
         OnBoardingItems(
             title = "Discover New Features",
             description = "Eget aliquet nibh praesent tristique magna sit amet purus gravida quis blandit turpis cursus in hac.",
-            imageRes = painterResource(Res.drawable.ic_dark_mode)
+            imageRes = painterResource(Res.drawable.cloth_category)
         ),
         OnBoardingItems(
             title = "Easy Shopping Experience",
             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            imageRes = painterResource(Res.drawable.ic_light_mode)
+            imageRes = painterResource(Res.drawable.travel)
         )
     )
 
@@ -117,10 +117,9 @@ fun OnBoardingScreen() {
             )
         }
         Text(
-            text = "Already Have Account!",
+            text = "Already Have Account",
             fontWeight = FontWeight.Bold,
-            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-            lineHeight = 14.sp,
+            fontSize = MaterialTheme.typography.titleSmall.fontSize,
             textAlign = TextAlign.Center,
             color = Color(0xFF5821c4)
         )
@@ -143,11 +142,9 @@ fun OnBoardingItem(
         Image(
             painter = imageRes,
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth(.8f)
-                .fillMaxHeight(.30f)
-                .clip(
-                    RoundedCornerShape(28.dp)
-                )
+            modifier = Modifier
+                .fillMaxWidth(.95f)
+                .clip(RoundedCornerShape(24.dp)),
         )
         Text(
             text = title,
@@ -161,7 +158,7 @@ fun OnBoardingItem(
         Text(
             text = description,
             fontSize = MaterialTheme.typography.bodySmall.fontSize,
-            color = Color.LightGray,
+            color = Color.Gray,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(all = 10.dp)
