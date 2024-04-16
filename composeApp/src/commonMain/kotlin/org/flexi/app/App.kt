@@ -48,6 +48,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -83,8 +84,8 @@ internal fun App() = AppTheme {
         if (showSplashScreen && platform != Platform.Android) {
             SplashScreen()
         } else {
-            OnBoardingScreen()
-            //AppContent()
+            //Navigator(OnBoardingScreen())
+            AppContent()
         }
     }
 }

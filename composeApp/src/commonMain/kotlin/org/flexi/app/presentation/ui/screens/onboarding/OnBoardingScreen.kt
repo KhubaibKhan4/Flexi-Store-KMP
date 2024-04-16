@@ -2,6 +2,7 @@ package org.flexi.app.presentation.ui.screens.onboarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,92 +37,104 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.electronics
 import flexi_store.composeapp.generated.resources.female_products
 import flexi_store.composeapp.generated.resources.shopping
 import kotlinx.coroutines.launch
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
+import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.ui.screens.onboarding.model.OnBoardingItems
 import org.jetbrains.compose.resources.painterResource
 
 
 @OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun OnBoardingScreen() {
-    val scope = rememberCoroutineScope()
-    val onBoardingData = listOf(
-        OnBoardingItems(
-            title = "Shop the Latest Electronics",
-            description = "Discover an extensive range of electronics, from the latest smartphones and tablets to cutting-edge gadgets, all at unbeatable prices.",
-            imageRes = painterResource(Res.drawable.electronics)
-        ),
-        OnBoardingItems(
-            title = "Explore Fashion Trends",
-            description = "Stay ahead of the curve with our curated collection of fashion essentials, including clothing, accessories, and footwear from top brands.",
-            imageRes = painterResource(Res.drawable.female_products)
-        ),
-        OnBoardingItems(
-            title = "Enjoy Hassle-free Shopping",
-            description = "Experience seamless shopping with our user-friendly interface, secure payment options, and fast delivery service, ensuring a stress-free shopping experience.",
-            imageRes = painterResource(Res.drawable.shopping)
-        )
-    )
-
-    var currentPage by remember { mutableStateOf(0) }
-    val pagerState = rememberPagerState(pageCount = { onBoardingData.size })
-    LaunchedEffect(pagerState.currentPage) {
-        currentPage = pagerState.currentPage
-    }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight(.75f)
-        ) { page ->
-            OnBoardingItem(
-                title = onBoardingData[page].title,
-                description = onBoardingData[page].description,
-                imageRes = onBoardingData[page].imageRes
+class OnBoardingScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.current
+        val scope = rememberCoroutineScope()
+        val onBoardingData = listOf(
+            OnBoardingItems(
+                title = "Shop the Latest Electronics",
+                description = "Discover an extensive range of electronics, from the latest smartphones and tablets to cutting-edge gadgets, all at unbeatable prices.",
+                imageRes = painterResource(Res.drawable.electronics)
+            ),
+            OnBoardingItems(
+                title = "Explore Fashion Trends",
+                description = "Stay ahead of the curve with our curated collection of fashion essentials, including clothing, accessories, and footwear from top brands.",
+                imageRes = painterResource(Res.drawable.female_products)
+            ),
+            OnBoardingItems(
+                title = "Enjoy Hassle-free Shopping",
+                description = "Experience seamless shopping with our user-friendly interface, secure payment options, and fast delivery service, ensuring a stress-free shopping experience.",
+                imageRes = painterResource(Res.drawable.shopping)
             )
-        }
-        HorizontalPagerDots(
-            modifier = Modifier.padding(vertical = 12.dp),
-            pageCount = onBoardingData.size,
-            currentPage = currentPage,
-            onPageSelected = { page ->
-                currentPage = page
-                scope.launch {
-                    pagerState.scrollToPage(page)
-                }
-            }
         )
-        FilledTonalButton(
-            onClick = {},
-            modifier = Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(14.dp))
-                .padding(all = 12.dp),
-            colors = ButtonDefaults
-                .buttonColors(
-                    containerColor = Color(0xFF5821c4),
-                    contentColor = Color.White
-                )
+
+        var currentPage by remember { mutableStateOf(0) }
+        val pagerState = rememberPagerState(pageCount = { onBoardingData.size })
+        LaunchedEffect(pagerState.currentPage) {
+            currentPage = pagerState.currentPage
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth()
+                    .fillMaxHeight(.75f)
+            ) { page ->
+                OnBoardingItem(
+                    title = onBoardingData[page].title,
+                    description = onBoardingData[page].description,
+                    imageRes = onBoardingData[page].imageRes
+                )
+            }
+            HorizontalPagerDots(
+                modifier = Modifier.padding(vertical = 12.dp),
+                pageCount = onBoardingData.size,
+                currentPage = currentPage,
+                onPageSelected = { page ->
+                    currentPage = page
+                    scope.launch {
+                        pagerState.scrollToPage(page)
+                    }
+                }
+            )
+            FilledTonalButton(
+                onClick = {
+                    navigator?.push(SignupScreen())
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .padding(all = 12.dp),
+                colors = ButtonDefaults
+                    .buttonColors(
+                        containerColor = Color(0xFF5821c4),
+                        contentColor = Color.White
+                    )
+            ) {
+                Text(
+                    text = "Create Account"
+                )
+            }
             Text(
-                text = "Create Account"
+                text = "Already Have Account",
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                textAlign = TextAlign.Center,
+                color = Color(0xFF5821c4),
+                modifier = Modifier.clickable {
+                    navigator?.push(LoginScreen())
+                }
             )
         }
-        Text(
-            text = "Already Have Account",
-            fontWeight = FontWeight.Bold,
-            fontSize = MaterialTheme.typography.titleSmall.fontSize,
-            textAlign = TextAlign.Center,
-            color = Color(0xFF5821c4)
-        )
     }
 }
 
