@@ -79,21 +79,8 @@ internal fun App() = AppTheme {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (showSplashScreen) {
-            when(platform){
-                Platform.Android -> {
-                    SplashScreen()
-                }
-                Platform.Desktop ->{
-                    SplashScreen()
-                }
-                Platform.IOS -> {
-                    SplashScreen()
-                }
-                Platform.Web -> {
-                    SplashScreen()
-                }
-            }
+        if (showSplashScreen && platform != Platform.Android) {
+            SplashScreen()
         } else {
             AppContent()
         }
