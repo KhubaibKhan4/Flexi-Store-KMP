@@ -326,7 +326,7 @@ class DetailScreen(
                                     Icon(
                                         imageVector = Icons.Default.Verified,
                                         contentDescription = null,
-                                        tint = Color.Blue,
+                                        tint = Color(0xFF5821c4),
                                         modifier = Modifier.size(14.dp)
                                     )
                                 }
@@ -360,7 +360,7 @@ class DetailScreen(
                                 enabled = true,
                                 shape = RoundedCornerShape(24.dp),
                                 colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = Color.Blue,
+                                    containerColor =Color(0xFF5821c4),
                                     contentColor = Color.White
                                 )
                             ) {
@@ -448,7 +448,7 @@ class DetailScreen(
                                 val price = buildAnnotatedString {
                                     withStyle(
                                         style = SpanStyle(
-                                            color = Color.Blue,
+                                            color = Color(0xFF5821c4),
                                             fontSize = 13.sp,
                                             fontWeight = FontWeight.Bold,
                                             baselineShift = BaselineShift.Superscript
@@ -482,7 +482,7 @@ class DetailScreen(
                                 enabled = true,
                                 shape = RoundedCornerShape(24.dp),
                                 colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = Color.Blue,
+                                    containerColor = Color(0xFF5821c4),
                                     contentColor = Color.White
                                 )
                             ) {

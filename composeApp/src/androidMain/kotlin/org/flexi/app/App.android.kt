@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import io.ktor.client.plugins.logging.Logger
 import org.flexi.app.di.appModule
 import org.flexi.app.domain.model.version.Platform
 import org.koin.android.ext.koin.androidContext
@@ -49,5 +48,5 @@ internal actual fun openUrl(url: String?) {
 }
 
 actual fun getPlatform(): Platform {
-   return Platform.Android
+    return Platform.Android
 }
