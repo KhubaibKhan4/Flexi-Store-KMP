@@ -60,6 +60,7 @@ import org.flexi.app.presentation.ui.screens.navigation.tabs.favourite.Favourite
 import org.flexi.app.presentation.ui.screens.navigation.tabs.home.HomeTab
 import org.flexi.app.presentation.ui.screens.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.screens.navigation.tabs.profile.ProfileTab
+import org.flexi.app.presentation.ui.screens.onboarding.OnBoardingScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
 import org.flexi.app.theme.LocalThemeIsDark
@@ -82,7 +83,8 @@ internal fun App() = AppTheme {
         if (showSplashScreen && platform != Platform.Android) {
             SplashScreen()
         } else {
-            AppContent()
+            OnBoardingScreen()
+            //AppContent()
         }
     }
 }
