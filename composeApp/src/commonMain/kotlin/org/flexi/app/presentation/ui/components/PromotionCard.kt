@@ -3,6 +3,7 @@ package org.flexi.app.presentation.ui.components
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Surface
@@ -55,7 +57,7 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
     val activePromotions = promotions.filter { promotion ->
         promotion.startDate <= currentTimeMillis && promotion.endDate >= currentTimeMillis && promotion.enabled
     }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(currentPage) {
         delay(1000)
         while (true) {
             delay(2000)
@@ -113,7 +115,6 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                             )
                         }
                     }
-
                 }
             }
 
@@ -146,13 +147,16 @@ fun DotsIndicator(
 ) {
     Box(modifier = modifier) {
         Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             repeat(pageCount) { index ->
                 Dot(
                     isSelected = index == currentPage,
-                    onClick = { onPageSelected(index) }
+                    onClick = {
+                        onPageSelected(index)
+                    }
                 )
             }
         }
