@@ -1,7 +1,7 @@
 [versions]
 
 kotlin = "1.9.23"
-compose = "1.6.1"
+compose = "1.6.2"
 agp = "8.3.2"
 androidx-activityCompose = "1.8.2"
 androidx-uiTest = "1.6.5"
