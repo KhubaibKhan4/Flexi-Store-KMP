@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -79,6 +82,7 @@ fun OnBoardingScreen() {
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxWidth()
+                .fillMaxHeight(.75f)
         ) { page ->
             OnBoardingItem(
                 title = onBoardingData[page].title,
@@ -87,7 +91,7 @@ fun OnBoardingScreen() {
             )
         }
         HorizontalPagerDots(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(vertical = 12.dp),
             pageCount = onBoardingData.size,
             currentPage = currentPage,
             onPageSelected = { page ->
@@ -96,6 +100,29 @@ fun OnBoardingScreen() {
                     pagerState.scrollToPage(page)
                 }
             }
+        )
+        FilledTonalButton(
+            onClick = {},
+            modifier = Modifier.fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .padding(all = 12.dp),
+            colors = ButtonDefaults
+                .buttonColors(
+                    containerColor = Color(0xFF5821c4),
+                    contentColor = Color.White
+                )
+        ) {
+            Text(
+                text = "Create Account"
+            )
+        }
+        Text(
+            text = "Already Have Account!",
+            fontWeight = FontWeight.Bold,
+            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+            lineHeight = 14.sp,
+            textAlign = TextAlign.Center,
+            color = Color(0xFF5821c4)
         )
     }
 }
