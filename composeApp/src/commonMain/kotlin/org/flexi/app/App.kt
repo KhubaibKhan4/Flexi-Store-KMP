@@ -53,6 +53,7 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import kotlinx.coroutines.delay
+import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.screens.navigation.rails.items.NavigationItem
 import org.flexi.app.presentation.ui.screens.navigation.rails.navbar.NavigationSideBar
 import org.flexi.app.presentation.ui.screens.navigation.tabs.favourite.FavouriteTab
@@ -65,6 +66,7 @@ import org.flexi.app.theme.LocalThemeIsDark
 
 @Composable
 internal fun App() = AppTheme {
+    val platform = getPlatform()
     var showSplashScreen by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
@@ -78,7 +80,20 @@ internal fun App() = AppTheme {
         verticalArrangement = Arrangement.Center
     ) {
         if (showSplashScreen) {
-            SplashScreen()
+            when(platform){
+                Platform.Android -> {
+                    SplashScreen()
+                }
+                Platform.Desktop ->{
+                    SplashScreen()
+                }
+                Platform.IOS -> {
+                    SplashScreen()
+                }
+                Platform.Web -> {
+                    SplashScreen()
+                }
+            }
         } else {
             AppContent()
         }
@@ -248,3 +263,4 @@ fun RowScope.TabItem(tab: Tab) {
 }
 
 internal expect fun openUrl(url: String?)
+expect fun getPlatform(): Platform

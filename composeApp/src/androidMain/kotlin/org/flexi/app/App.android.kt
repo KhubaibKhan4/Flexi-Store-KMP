@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import io.ktor.client.plugins.logging.Logger
 import org.flexi.app.di.appModule
+import org.flexi.app.domain.model.version.Platform
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -45,4 +46,8 @@ internal actual fun openUrl(url: String?) {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     AndroidApp.INSTANCE.startActivity(intent)
+}
+
+actual fun getPlatform(): Platform {
+   return Platform.Android
 }
