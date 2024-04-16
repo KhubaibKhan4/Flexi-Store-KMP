@@ -32,15 +32,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import flexi_store.composeapp.generated.resources.Res
-import flexi_store.composeapp.generated.resources.basket
-import flexi_store.composeapp.generated.resources.cloth_category
-import flexi_store.composeapp.generated.resources.travel
+import flexi_store.composeapp.generated.resources.electronics
+import flexi_store.composeapp.generated.resources.female_products
+import flexi_store.composeapp.generated.resources.shopping
 import kotlinx.coroutines.launch
 import org.flexi.app.presentation.ui.screens.onboarding.model.OnBoardingItems
 import org.jetbrains.compose.resources.painterResource
@@ -52,19 +51,19 @@ fun OnBoardingScreen() {
     val scope = rememberCoroutineScope()
     val onBoardingData = listOf(
         OnBoardingItems(
-            title = "Various Collections of The Latest Products",
-            description = "Urna amet, suspenisse ullamcorper oc elit diam foclislis cursus vestibulum.",
-            imageRes = painterResource(Res.drawable.basket)
+            title = "Shop the Latest Electronics",
+            description = "Discover an extensive range of electronics, from the latest smartphones and tablets to cutting-edge gadgets, all at unbeatable prices.",
+            imageRes = painterResource(Res.drawable.electronics)
         ),
         OnBoardingItems(
-            title = "Discover New Features",
-            description = "Eget aliquet nibh praesent tristique magna sit amet purus gravida quis blandit turpis cursus in hac.",
-            imageRes = painterResource(Res.drawable.cloth_category)
+            title = "Explore Fashion Trends",
+            description = "Stay ahead of the curve with our curated collection of fashion essentials, including clothing, accessories, and footwear from top brands.",
+            imageRes = painterResource(Res.drawable.female_products)
         ),
         OnBoardingItems(
-            title = "Easy Shopping Experience",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            imageRes = painterResource(Res.drawable.travel)
+            title = "Enjoy Hassle-free Shopping",
+            description = "Experience seamless shopping with our user-friendly interface, secure payment options, and fast delivery service, ensuring a stress-free shopping experience.",
+            imageRes = painterResource(Res.drawable.shopping)
         )
     )
 
@@ -137,7 +136,7 @@ fun OnBoardingItem(
         modifier = Modifier.fillMaxWidth()
             .padding(all = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         Image(
             painter = imageRes,
