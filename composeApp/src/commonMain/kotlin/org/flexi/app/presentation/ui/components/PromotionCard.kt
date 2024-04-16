@@ -20,6 +20,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,6 +41,7 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.utils.Constant.BASE_URL
 
@@ -50,11 +52,16 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { promotions.size })
 
+
+    val currentTimeMillis = Clock.System.now().toEpochMilliseconds()
+    val activePromotions = promotions.filter { promotion ->
+        promotion.startDate <= currentTimeMillis && promotion.endDate >= currentTimeMillis && promotion.enabled
+    }
     LaunchedEffect(Unit) {
         delay(1000)
         while (true) {
             delay(2000)
-            val nextPage = (currentPage + 1) % promotions.size
+            val nextPage = (currentPage + 1) % activePromotions.size
             scope.launch {
                 currentPage = nextPage
                 pagerState.animateScrollToPage(nextPage)
@@ -68,48 +75,59 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
             .height(250.dp)
             .padding(16.dp)
     ) {
-        HorizontalPager(
-            beyondBoundsPageCount = promotions.size,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            state = pagerState
-        ) { page ->
-            Card(
+        if (activePromotions.isNotEmpty()) {
+            HorizontalPager(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
-                elevation = 8.dp,
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                val image: Resource<Painter> =
-                    asyncPainterResource(data = BASE_URL + promotions[page].imageUrl)
-                KamelImage(
-                    resource = image,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.Crop,
-                    animationSpec = tween(
-                        durationMillis = 100,
-                        delayMillis = 100,
-                        easing = FastOutSlowInEasing
-                    ),
-                )
-            }
-        }
-        DotsIndicator(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .align(Alignment.CenterHorizontally),
-            pageCount = promotions.size,
-            currentPage = currentPage,
-            onPageSelected = { page ->
-                scope.launch {
-                    currentPage = page
-                    pagerState.scrollToPage(page)
+                    .fillMaxWidth()
+                    .weight(1f),
+                state = pagerState
+            ) { page ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp),
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    if (activePromotions.isNotEmpty() && page in activePromotions.indices) {
+                        val image: Resource<Painter> = asyncPainterResource(data = BASE_URL + activePromotions[page].imageUrl)
+                        KamelImage(
+                            resource = image,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth(),
+                            contentScale = ContentScale.Crop,
+                            animationSpec = tween(
+                                durationMillis = 100,
+                                delayMillis = 100,
+                                easing = FastOutSlowInEasing
+                            ),
+                        )
+                    } else {
+                        // Handle the case where activePromotions is empty or page is out of bounds
+                        // You can show a placeholder image or any appropriate UI
+                    }
+
                 }
             }
-        )
+
+            DotsIndicator(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .align(Alignment.CenterHorizontally),
+                pageCount = activePromotions.size,
+                currentPage = currentPage,
+                onPageSelected = { page ->
+                    scope.launch {
+                        currentPage = page
+                        pagerState.scrollToPage(page)
+                    }
+                }
+            )
+        } else {
+            // Handle the case where there are no active promotions
+            Text("No active promotions available")
+        }
+
     }
 }
 
