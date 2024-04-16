@@ -1,9 +1,6 @@
 package org.flexi.app.presentation.ui.components
 
-import androidx.compose.animation.core.EaseInOutCirc
-import androidx.compose.animation.core.EaseInOutExpo
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -30,12 +27,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -90,7 +88,8 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     if (activePromotions.isNotEmpty() && page in activePromotions.indices) {
-                        val image: Resource<Painter> = asyncPainterResource(data = BASE_URL + activePromotions[page].imageUrl)
+                        val image: Resource<Painter> =
+                            asyncPainterResource(data = BASE_URL + activePromotions[page].imageUrl)
                         KamelImage(
                             resource = image,
                             contentDescription = null,
@@ -103,8 +102,16 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                             ),
                         )
                     } else {
-                        // Handle the case where activePromotions is empty or page is out of bounds
-                        // You can show a placeholder image or any appropriate UI
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "No promotions available",
+                                style = TextStyle(color = Color.Gray, fontSize = 16.sp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
 
                 }
@@ -124,7 +131,6 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                 }
             )
         } else {
-            // Handle the case where there are no active promotions
             Text("No active promotions available")
         }
 
