@@ -54,7 +54,6 @@ fun ProductList(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
-            .height(1000.dp)
             .padding(top = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
@@ -79,7 +78,8 @@ fun ProductList(
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             state = state,
-            modifier = modifier.padding(bottom = 34.dp, top = 10.dp),
+            modifier = modifier.fillMaxWidth()
+                .height(1200.dp).padding(bottom = 34.dp, top = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {

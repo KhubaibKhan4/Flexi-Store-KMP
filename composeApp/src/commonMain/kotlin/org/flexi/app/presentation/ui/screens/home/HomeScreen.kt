@@ -3,9 +3,9 @@ package org.flexi.app.presentation.ui.screens.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -51,6 +51,7 @@ class HomeScreen : Screen {
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
+        val scrollState = rememberScrollState()
         val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
@@ -119,19 +120,21 @@ class HomeScreen : Screen {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(2000.dp)
                     .padding(
                         top = it.calculateTopPadding(),
                         bottom = it.calculateBottomPadding(),
                         start = 6.dp,
                         end = 6.dp
-                    ),
+                    )
+                    .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 promoList?.let { promotion ->
                     PromotionCardWithPager(promotion)
                 }
-                productsList?.let {pro->
+                productsList?.let { pro ->
                     FeaturedList(pro)
                     FoodList(pro)
                 }
@@ -168,9 +171,9 @@ class HomeScreen : Screen {
                 }
                 when (selectedTabIndex.value) {
                     NewTabs.Home -> {
-                        val scrollState = rememberScrollState()
                         Column(
                             modifier = Modifier.fillMaxWidth()
+                                .height(765.dp)
                                 .verticalScroll(scrollState),
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
