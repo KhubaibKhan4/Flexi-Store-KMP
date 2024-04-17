@@ -1,6 +1,7 @@
 # Flexi-Store-KMP
-## Flexi Store KMP is an Ecommerce Platform that is Developed using Compose Multiplatform.
 ![Flexi-Store-KMP](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/banner.png)
+
+## Flexi Store KMP is an Ecommerce Platform that is Developed using Compose Multiplatform.
 Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in future including the Seller Central too where users can register and sell their products to earn.
 
 * - User can Buy or Sell Products.
@@ -24,7 +25,7 @@ Are you generous enought?
 
 | ![Screenshot 1](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/30.png) | 
 | --- |
-| ![Screenshot 2]https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/31.png) | 
+| ![Screenshot 2](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/31.png) | 
 | ![Screenshot 3](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/32.png) |
 | ![Screenshot 4](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/33.png) |
 | ![Screenshot 5](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/34.png) | 
