@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -58,15 +59,41 @@ import org.jetbrains.compose.resources.Font
 @Composable
 fun FeaturedList(products: List<Products>) {
     val filteredList = products.filter { it.isFeatured }
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(top = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        items(filteredList) { product ->
-            FeaturedItems(product)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Featured",
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = FontFamily(Font(Res.font.Roboto_Bold))
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "See All",
+                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                color = Color(0xFFe85110)
+            )
+        }
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items(filteredList) { product ->
+                FeaturedItems(product)
+            }
         }
     }
+
 }
 
 @Composable
