@@ -34,6 +34,7 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CategoriesList
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.FeaturedList
+import org.flexi.app.presentation.ui.components.FoodList
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.PromotionCardWithPager
@@ -117,7 +118,7 @@ class HomeScreen : Screen {
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(
                         top = it.calculateTopPadding(),
                         bottom = it.calculateBottomPadding(),
@@ -132,6 +133,7 @@ class HomeScreen : Screen {
                 }
                 productsList?.let {pro->
                     FeaturedList(pro)
+                    FoodList(pro)
                 }
                 TabRow(
                     selectedTabIndex = selectedTabIndex.value.ordinal,
