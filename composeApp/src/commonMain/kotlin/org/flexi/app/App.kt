@@ -2,7 +2,6 @@ package org.flexi.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
@@ -42,13 +41,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -61,7 +58,6 @@ import org.flexi.app.presentation.ui.screens.navigation.tabs.favourite.Favourite
 import org.flexi.app.presentation.ui.screens.navigation.tabs.home.HomeTab
 import org.flexi.app.presentation.ui.screens.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.screens.navigation.tabs.profile.ProfileTab
-import org.flexi.app.presentation.ui.screens.onboarding.OnBoardingScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
 import org.flexi.app.theme.LocalThemeIsDark
@@ -76,17 +72,12 @@ internal fun App() = AppTheme {
         showSplashScreen = false
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (showSplashScreen && platform != Platform.Android) {
-            SplashScreen()
-        } else {
-            //Navigator(OnBoardingScreen())
-            AppContent()
-        }
+
+    if (showSplashScreen && platform != Platform.Android) {
+        SplashScreen()
+    } else {
+        //Navigator(OnBoardingScreen())
+        AppContent()
     }
 }
 
