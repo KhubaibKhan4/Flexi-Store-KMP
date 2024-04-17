@@ -173,8 +173,7 @@ class HomeScreen : Screen {
                     NewTabs.Home -> {
                         Column(
                             modifier = Modifier.fillMaxWidth()
-                                .height(765.dp)
-                                .verticalScroll(scrollState),
+                                .height(765.dp),
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {

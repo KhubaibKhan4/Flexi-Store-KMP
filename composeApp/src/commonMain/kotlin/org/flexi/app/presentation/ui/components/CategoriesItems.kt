@@ -40,6 +40,7 @@ import org.jetbrains.compose.resources.Font
 fun CategoriesList(categories: List<Categories>) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
+            .height(1200.dp)
             .padding(bottom = 34.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

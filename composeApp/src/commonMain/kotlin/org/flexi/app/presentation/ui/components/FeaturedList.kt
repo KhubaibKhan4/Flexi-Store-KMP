@@ -204,7 +204,7 @@ fun FeaturedItems(
             }
             Text(
                 text = price,
-                modifier = Modifier.padding(start = 10.dp),
+                modifier = Modifier.padding(start = 10.dp, bottom =4.dp ),
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily(Font(Res.font.Roboto_Bold)),
