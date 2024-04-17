@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
@@ -28,6 +30,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -100,6 +106,7 @@ fun FeaturedList(products: List<Products>) {
 fun FeaturedItems(
     products: Products,
 ) {
+    var isFav by remember { mutableStateOf(false) }
     val image: Resource<Painter> = asyncPainterResource(BASE_URL + products.imageUrl)
     Card(
         modifier = Modifier.width(165.dp)
@@ -133,11 +140,15 @@ fun FeaturedItems(
             Icon(
                 imageVector = Icons.Outlined.FavoriteBorder,
                 contentDescription = null,
-                tint = Color(0xFFe85110),
+                tint = if (isFav) Color.White else Color(0xFFe85110),
                 modifier = Modifier
                     .padding(top = 6.dp, start = 8.dp)
-                    .size(20.dp)
                     .align(Alignment.TopStart)
+                    .size(20.dp)
+                    .clickable {
+                        isFav != isFav
+                    }
+
             )
         }
         Column(
