@@ -14,10 +14,10 @@ Are you generous enought?
 
 ## Screen Shots
 
-| ![Screenshot 1](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/1.png) | ![Screenshot 2](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/2.png) | ![Screenshot 3](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/3.png) |
+| ![Screenshot 1](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/1.png) | ![Screenshot 2](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/2.png) | ![Screenshot 3](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/3.png) |
 | --- | --- | --- |
-| ![Screenshot 4](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/4.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/5.png) | ![Screenshot 6](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/6.png) |
-| ![Screenshot 7](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/screenshots/7.png) |
+| ![Screenshot 4](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/4.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/5.png) | ![Screenshot 6](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/6.png) |
+| ![Screenshot 7](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/7.png) |
 
 ## Before running!
  - check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
