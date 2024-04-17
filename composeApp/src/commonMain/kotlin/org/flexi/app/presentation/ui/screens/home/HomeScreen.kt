@@ -126,6 +126,9 @@ class HomeScreen : Screen {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
+                promoList?.let { promotion ->
+                    PromotionCardWithPager(promotion)
+                }
                 TabRow(
                     selectedTabIndex = selectedTabIndex.value.ordinal,
                     modifier = Modifier.fillMaxWidth()
@@ -166,9 +169,6 @@ class HomeScreen : Screen {
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            promoList?.let { promotion ->
-                                PromotionCardWithPager(promotion)
-                            }
                             productsList?.let { list ->
                                 ProductList(products = list)
                             }
