@@ -39,5 +39,11 @@ data class Products(
     @SerialName("updated_at")
     val updatedAt: String = "",
     @SerialName("weight")
-    val weight: Double = 0.0
+    val weight: Double = 0.0,
+    @SerialName("isFeatured")
+    val isFeatured: Boolean,
+    @SerialName("manufacturer")
+    val manufacturer: String,
+    @SerialName("colors")
+    val colors: String,
 )

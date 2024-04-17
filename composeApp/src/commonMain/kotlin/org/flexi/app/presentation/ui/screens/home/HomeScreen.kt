@@ -26,13 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CategoriesList
 import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.FeaturedList
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.PromotionCardWithPager
@@ -128,6 +128,9 @@ class HomeScreen : Screen {
             ) {
                 promoList?.let { promotion ->
                     PromotionCardWithPager(promotion)
+                }
+                productsList?.let {pro->
+                    FeaturedList(pro)
                 }
                 TabRow(
                     selectedTabIndex = selectedTabIndex.value.ordinal,

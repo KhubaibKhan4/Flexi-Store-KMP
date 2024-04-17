@@ -1,14 +1,17 @@
 package org.flexi.app.presentation.ui.components
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -16,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,8 +41,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import flexi_store.composeapp.generated.resources.IndieFlower_Regular
+import flexi_store.composeapp.generated.resources.Poppins_Regular
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.Roboto_Bold
+import flexi_store.composeapp.generated.resources.times
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -48,8 +55,13 @@ import org.jetbrains.compose.resources.Font
 
 @Composable
 fun FeaturedList(products: List<Products>) {
-    LazyRow {
-        items(products) { product ->
+    val filteredList = products.filter { it.isFeatured }
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        items(filteredList) { product ->
             FeaturedItems(product)
         }
     }
@@ -61,8 +73,16 @@ fun FeaturedItems(
 ) {
     val image: Resource<Painter> = asyncPainterResource(BASE_URL + products.imageUrl)
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.width(165.dp)
+            .height(220.dp),
         shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        border = BorderStroke(
+            width = 1.dp,
+            color = Color.LightGray
+        )
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             KamelImage(
@@ -70,8 +90,8 @@ fun FeaturedItems(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(14.dp)),
+                    .height(140.dp)
+                    .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)),
                 contentScale = ContentScale.Crop,
                 animationSpec = tween(),
                 onLoading = {
@@ -84,13 +104,11 @@ fun FeaturedItems(
             Icon(
                 imageVector = Icons.Outlined.Favorite,
                 contentDescription = null,
+                tint = Color.White,
                 modifier = Modifier
                     .padding(top = 6.dp, start = 8.dp)
                     .size(25.dp)
                     .clip(CircleShape)
-                    .background(
-                        Color.DarkGray.copy(alpha = 0.65f)
-                    )
                     .align(Alignment.TopStart)
                     .padding(4.dp)
             )
@@ -98,12 +116,12 @@ fun FeaturedItems(
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = products.name,
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Center,
                 color = Color.Black,
                 maxLines = 1,
@@ -112,14 +130,19 @@ fun FeaturedItems(
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = 3.dp, end = 3.dp)
             )
+            Spacer(modifier = Modifier.height(4.dp))
+
             Text(
                 text = products.categoryTitle,
-                fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                fontWeight = FontWeight.Bold,
+                lineHeight = 14.sp,
                 color = Color(0xFFe85110),
                 textAlign = TextAlign.Center,
-                fontFamily = FontFamily(Font(Res.font.Roboto_Bold)),
+
             )
+            Spacer(modifier = Modifier.height(4.dp))
+
             val price = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
@@ -134,7 +157,7 @@ fun FeaturedItems(
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 24.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
@@ -148,6 +171,7 @@ fun FeaturedItems(
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily(Font(Res.font.Roboto_Bold)),
             )
+            Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }
