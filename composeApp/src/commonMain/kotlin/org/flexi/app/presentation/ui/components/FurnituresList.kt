@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -105,13 +106,12 @@ fun FurnitureItems(
     Box(
         modifier = Modifier
             .width(150.dp)
-            .height(290.dp),
+            .wrapContentHeight(),
     ) {
         Box(
             modifier = Modifier
+                .fillMaxWidth()
                 .align(Alignment.TopStart)
-                .width(145.dp)
-                .height(280.dp)
         ) {
             BoxWithConstraints {
                 val cardHeight = constraints.maxHeight - 60
@@ -184,7 +184,8 @@ fun FurnitureItems(
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(start = 64.dp, top = 20.dp)
+                .padding(start = 64.dp)
+                .offset(y = 10.dp, x = 4.dp)
         ) {
             Icon(
                 imageVector = Icons.Outlined.BookmarkBorder,
