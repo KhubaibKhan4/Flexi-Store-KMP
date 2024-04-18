@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.Roboto_Bold
@@ -103,70 +105,78 @@ fun FurnitureItems(
     Box(
         modifier = Modifier
             .width(150.dp)
-            .height(270.dp),
+            .height(290.dp),
     ) {
         Box(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .width(145.dp)
-                .height(320.dp)
+                .height(280.dp)
         ) {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-                    .clickable {
-                        navigator?.push(DetailScreen(products))
-                    },
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = Color.LightGray
-                ),
-                elevation = CardDefaults.cardElevation(4.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
+            BoxWithConstraints {
+                val cardHeight = constraints.maxHeight - 60
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(cardHeight.dp)
+                        .clickable {
+                            navigator?.push(DetailScreen(products))
+                        },
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = Color.LightGray
+                    ),
+                    elevation = CardDefaults.cardElevation(4.dp),
+                    shape = RoundedCornerShape(8.dp)
                 ) {
-                    KamelImage(
-                        resource = image,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxWidth()
-                            .height(150.dp),
-                        contentScale = ContentScale.Crop
-                    )
                     Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(start = 4.dp, end = 2.dp),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.SpaceBetween
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
                     ) {
-                        Text(
-                            text = products.name,
-                            textAlign = TextAlign.Start,
-                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black,
-                            modifier = Modifier.fillMaxWidth(),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
+                        KamelImage(
+                            resource = image,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth()
+                                .height(150.dp),
+                            contentScale = ContentScale.Crop
                         )
-                        Text(
-                            text = products.brand,
-                            textAlign = TextAlign.Start,
-                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                        Text(
-                            text = "$" + products.price,
-                            color = Color.Blue,
-                            fontSize = MaterialTheme.typography.headlineSmall.fontSize,
-                            textAlign = TextAlign.Start
-                        )
-                        Spacer(modifier = Modifier.height(3.dp))
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 4.dp, end = 2.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = products.name,
+                                textAlign = TextAlign.Start,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                                modifier = Modifier.fillMaxWidth(),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = products.brand,
+                                textAlign = TextAlign.Start,
+                                fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+
+                            Text(
+                                text = "$" + products.price,
+                                color = Color.Blue,
+                                fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+                                textAlign = TextAlign.Start
+                            )
+                            Spacer(modifier = Modifier.height(3.dp))
+                        }
                     }
                 }
             }
@@ -174,7 +184,7 @@ fun FurnitureItems(
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(start = 64.dp, bottom = 30.dp)
+                .padding(start = 64.dp, top = 20.dp)
         ) {
             Icon(
                 imageVector = Icons.Outlined.BookmarkBorder,
