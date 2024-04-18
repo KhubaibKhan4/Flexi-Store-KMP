@@ -35,6 +35,7 @@ import org.flexi.app.presentation.ui.components.CategoriesList
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.FeaturedList
 import org.flexi.app.presentation.ui.components.FoodList
+import org.flexi.app.presentation.ui.components.FurnituresList
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.PromotionCardWithPager
@@ -137,6 +138,7 @@ class HomeScreen : Screen {
                 productsList?.let { pro ->
                     FeaturedList(pro)
                     FoodList(pro)
+                    FurnituresList(pro)
                 }
                 TabRow(
                     selectedTabIndex = selectedTabIndex.value.ordinal,
