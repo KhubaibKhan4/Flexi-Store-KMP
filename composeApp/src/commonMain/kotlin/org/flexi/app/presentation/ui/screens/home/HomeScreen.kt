@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
@@ -52,6 +53,7 @@ class HomeScreen : Screen {
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
+        var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val scrollState = rememberScrollState()
         val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
@@ -59,6 +61,7 @@ class HomeScreen : Screen {
             viewModel.getProducts()
             viewModel.getPromotionsItems()
             viewModel.getCategoriesList()
+            viewModel.getBooksList()
         }
         val state by viewModel.products.collectAsState()
         when (state) {
@@ -106,6 +109,22 @@ class HomeScreen : Screen {
             is ResultState.Success -> {
                 val response = (categoriesState as ResultState.Success).response
                 categoriesList = response
+            }
+        }
+        val booksState by viewModel.books.collectAsState()
+        when (booksState) {
+            is ResultState.Error -> {
+                val error = (booksState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (booksState as ResultState.Success).response
+                booksList = response
             }
         }
         Scaffold(
