@@ -32,6 +32,7 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CategoriesList
+import org.flexi.app.presentation.ui.components.ElectronicsList
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.FeaturedList
 import org.flexi.app.presentation.ui.components.FoodList
@@ -139,6 +140,7 @@ class HomeScreen : Screen {
                     FeaturedList(pro)
                     FoodList(pro)
                     FurnituresList(pro)
+                    ElectronicsList(pro)
                 }
                 TabRow(
                     selectedTabIndex = selectedTabIndex.value.ordinal,
