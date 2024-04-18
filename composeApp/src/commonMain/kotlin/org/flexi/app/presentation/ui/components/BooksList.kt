@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.books.BooksItem
+import org.flexi.app.presentation.ui.screens.detail.books.BooksDetail
 import org.flexi.app.utils.Constant
 import org.flexi.app.utils.generateRandomColor
 import org.jetbrains.compose.resources.Font
@@ -95,7 +97,10 @@ fun BooksItems(
         verticalArrangement = Arrangement.Center
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .clickable {
+                  navigator?.push(BooksDetail(booksItem))
+                },
             contentAlignment = Alignment.Center
         ) {
             Card(

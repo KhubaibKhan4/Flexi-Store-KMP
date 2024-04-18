@@ -552,6 +552,7 @@ fun ExpandableDescription(description: String) {
             text = "Description",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
+            color = Color.Black,
             modifier = Modifier.padding(top = 6.dp, start = 12.dp)
         )
 
