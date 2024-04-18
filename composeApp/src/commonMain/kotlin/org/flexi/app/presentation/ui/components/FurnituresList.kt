@@ -153,7 +153,7 @@ fun FurnitureItems(
                             Text(
                                 text = products.name,
                                 textAlign = TextAlign.Start,
-                                fontSize = 18.sp,
+                                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black,
                                 modifier = Modifier.fillMaxWidth(),
@@ -164,7 +164,7 @@ fun FurnitureItems(
                             Text(
                                 text = products.brand,
                                 textAlign = TextAlign.Start,
-                                fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 color = Color.Gray,
                             )
                             Spacer(modifier = Modifier.height(6.dp))
@@ -172,7 +172,7 @@ fun FurnitureItems(
                             Text(
                                 text = "$" + products.price,
                                 color = Color.Blue,
-                                fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+                                fontSize = MaterialTheme.typography.labelLarge.fontSize,
                                 textAlign = TextAlign.Start
                             )
                             Spacer(modifier = Modifier.height(3.dp))
