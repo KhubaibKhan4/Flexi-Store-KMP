@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -152,7 +153,7 @@ fun FoodItems(
             )
         }
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
                 .background(randomColor)
                 .padding(all = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -179,8 +180,7 @@ fun FoodItems(
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = FontFamily(Font(Res.font.Roboto_Bold)),
-                    color = Color.White,
-                    )
+                    color = Color.White)
             }
         }
     }
