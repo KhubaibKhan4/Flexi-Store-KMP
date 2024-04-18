@@ -154,7 +154,7 @@ fun FeaturedItems(
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
                 text = products.name,
@@ -179,7 +179,6 @@ fun FeaturedItems(
                 textAlign = TextAlign.Center,
 
                 )
-            Spacer(modifier = Modifier.height(4.dp))
 
             val price = buildAnnotatedString {
                 withStyle(
@@ -204,12 +203,10 @@ fun FeaturedItems(
             }
             Text(
                 text = price,
-                modifier = Modifier.padding(start = 10.dp, bottom =4.dp ),
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily(Font(Res.font.Roboto_Bold)),
             )
-            Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }
