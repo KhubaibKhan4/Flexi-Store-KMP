@@ -83,7 +83,12 @@ fun FeaturedList(products: List<Products>) {
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color(0xFFe85110),
                 modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList))
+                    navigator?.push(
+                        SeeAllProducts(
+                            filteredList,
+                            category = "Featured"
+                        )
+                    )
                 }
             )
         }
