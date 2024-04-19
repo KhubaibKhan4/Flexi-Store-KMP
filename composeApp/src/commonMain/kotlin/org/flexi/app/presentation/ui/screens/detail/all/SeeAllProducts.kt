@@ -2,6 +2,7 @@ package org.flexi.app.presentation.ui.screens.detail.all
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -160,7 +161,8 @@ fun FurnitureAndDecorProducts(products: List<Products>) {
         columns = GridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(vertical = 12.dp)
     ) {
         items(products) { product ->
             FurnitureItems(product)
@@ -175,7 +177,8 @@ fun ElectronicsAccessoriesProducts(products: List<Products>) {
         columns = GridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(vertical = 6.dp)
     ) {
         items(products) { product ->
             ElectronicsItems(product)
@@ -194,8 +197,7 @@ fun BooksAndJournalsProducts(books: List<BooksItem>?) {
         books?.let { bookList ->
             items(bookList) { book ->
                 println(book)
-                //BooksItems(book)
-                Text(book.title, fontSize = 44.sp)
+                BooksItems(book)
             }
         }
     }
