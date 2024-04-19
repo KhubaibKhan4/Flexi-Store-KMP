@@ -32,6 +32,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -63,263 +64,278 @@ class BooksDetail(
         Box(
             modifier = Modifier.fillMaxWidth()
                 .background(generateRandomColor())
-                .verticalScroll(scrollState)
-                .padding(bottom = 34.dp),
+                .verticalScroll(scrollState),
             contentAlignment = Alignment.Center
         ) {
-            Card(
-                modifier = Modifier.fillMaxWidth()
+            Surface(
+                modifier = Modifier
                     .padding(top = 200.dp)
+                    .fillMaxWidth()
                     .fillMaxHeight()
                     .clip(
-                        RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                        RoundedCornerShape(
+                            topStart = 32.dp, topEnd = 32.dp
+                        )
                     ),
+
             ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(top = 180.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .clip(
+                            RoundedCornerShape(
+                                topStart = 32.dp, topEnd = 32.dp
+                            )
+                        ),
                 ) {
-                    Text(
-                        text = booksItem.author,
-                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                        color = Color.DarkGray,
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Text(
-                        text = booksItem.title,
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black,
-                        lineHeight = 20.sp
-                    )
-                    Spacer(modifier = Modifier.height(30.dp))
-                    HorizontalDivider(
+                    Column(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(start = 8.dp, end = 8.dp),
-                        color = Color.LightGray
-                    )
-                    Spacer(modifier = Modifier.height(30.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(start = 12.dp, end = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                            .padding(top = 180.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "About Book",
-                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
+                            text = booksItem.author,
+                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                            color = Color.DarkGray,
                         )
-                    }
-                    Spacer(modifier = Modifier.height(30.dp))
-                    Card(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(start = 8.dp, end = 8.dp),
-                        shape = RoundedCornerShape(6.dp)
-                    ) {
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = booksItem.title,
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black,
+                            lineHeight = 20.sp
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp),
+                            color = Color.LightGray
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth()
-                                .background(Color(0XFF59bab2))
-                                .clip(RoundedCornerShape(12.dp))
-                                .padding(6.dp),
+                                .padding(start = 12.dp, end = 4.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            BooksRating(
-                                rating = booksItem.averageRating.toString(),
-                                text = "Rating"
-                            )
-                            BooksRating(
-                                rating = booksItem.pageCount.toString(),
-                                text = "Pages"
-                            )
-                            BooksRating(
-                                rating = booksItem.category,
-                                text = "Category"
-                            )
-                            BooksRating(
-                                rating = booksItem.genre,
-                                text = "Genre"
+                            Text(
+                                text = "About Book",
+                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
                             )
                         }
-                    }
-                    Spacer(modifier = Modifier.height(30.dp))
-                    ExpandableDescription(booksItem.description)
-                    Spacer(modifier = Modifier.height(30.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Business,
-                            contentDescription = "Publisher Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = booksItem.publisher,
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(30.dp))
+                        Card(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp),
+                            shape = RoundedCornerShape(6.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth()
+                                    .background(Color(0XFF59bab2))
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .padding(6.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                BooksRating(
+                                    rating = booksItem.averageRating.toString(),
+                                    text = "Rating"
+                                )
+                                BooksRating(
+                                    rating = booksItem.pageCount.toString(),
+                                    text = "Pages"
+                                )
+                                BooksRating(
+                                    rating = booksItem.category,
+                                    text = "Category"
+                                )
+                                BooksRating(
+                                    rating = booksItem.genre,
+                                    text = "Genre"
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(30.dp))
+                        ExpandableDescription(booksItem.description)
+                        Spacer(modifier = Modifier.height(30.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Business,
+                                contentDescription = "Publisher Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = booksItem.publisher,
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Event,
-                            contentDescription = "Publication Year Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Publication Year: ${booksItem.publicationYear}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Event,
+                                contentDescription = "Publication Year Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Publication Year: ${booksItem.publicationYear}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Description,
-                            contentDescription = "ISBN Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "ISBN: ${booksItem.isbn}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Description,
+                                contentDescription = "ISBN Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "ISBN: ${booksItem.isbn}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Language,
-                            contentDescription = "Language Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Language: ${booksItem.language}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Language,
+                                contentDescription = "Language Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Language: ${booksItem.language}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.FormatListNumbered,
-                            contentDescription = "Format Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Format: ${booksItem.format}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.FormatListNumbered,
+                                contentDescription = "Format Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Format: ${booksItem.format}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Book,
-                            contentDescription = "Edition Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Edition: ${booksItem.edition}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Book,
+                                contentDescription = "Edition Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Edition: ${booksItem.edition}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.Toc,
-                            contentDescription = "Binding Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Binding: ${booksItem.binding}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.Toc,
+                                contentDescription = "Binding Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Binding: ${booksItem.binding}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = "Publication Date Icon",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Publication Date: ${booksItem.publicationDate}",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            color = Color.Gray,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(30.dp))
-                    TextButton(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF22877f)
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                            .clip(RoundedCornerShape(6.dp))
-                            .padding(start = 6.dp, end = 6.dp)
-                    ) {
-                        Text(
-                            text = "Buy Now"
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = "Publication Date Icon",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Publication Date: ${booksItem.publicationDate}",
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                color = Color.Gray,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(30.dp))
+                        TextButton(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF22877f)
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                                .clip(RoundedCornerShape(6.dp))
+                                .padding(start = 6.dp, end = 6.dp)
+                        ) {
+                            Text(
+                                text = "Buy Now"
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(34.dp))
                     }
                 }
             }
