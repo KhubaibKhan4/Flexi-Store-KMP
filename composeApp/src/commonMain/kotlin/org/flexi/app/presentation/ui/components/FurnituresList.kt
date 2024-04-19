@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.Card
@@ -62,6 +63,10 @@ fun FurnituresList(products: List<Products>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp)
+            .background(color = Color.White)
+            .padding(horizontal = 0.dp, vertical = 8.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -73,24 +78,26 @@ fun FurnituresList(products: List<Products>) {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
-                modifier = Modifier.padding(start = 10.dp)
+                modifier = Modifier.padding(start = 4.dp)
             )
             Text(
                 text = "See All",
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 color = Color(0xFFe85110),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable {
                         navigator?.push(SeeAllProducts(filteredList, books = null, "Furniture & Decor"))
                     }
-                    .padding(end = 16.dp)
+                    .padding(end = 4.dp)
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
+        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             items(filteredList) { product ->
@@ -99,6 +106,7 @@ fun FurnituresList(products: List<Products>) {
         }
     }
 }
+
 
 
 @Composable
