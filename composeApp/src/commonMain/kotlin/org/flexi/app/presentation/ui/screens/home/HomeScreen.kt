@@ -1,12 +1,16 @@
 package org.flexi.app.presentation.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -25,7 +29,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.category.Categories
@@ -58,6 +66,7 @@ class HomeScreen : Screen {
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val scrollState = rememberScrollState()
         val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
+        var selectedCategoryIndex by remember { mutableStateOf(0) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
             viewModel.getPromotionsItems()
@@ -165,58 +174,53 @@ class HomeScreen : Screen {
                 booksList?.let {bookList->
                     BooksList(bookList)
                 }
-                TabRow(
-                    selectedTabIndex = selectedTabIndex.value.ordinal,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(top = 12.dp),
-                    indicator = { tabPositions ->
-                        if (selectedTabIndex.value.ordinal < tabPositions.size) {
-                            TabRowDefaults.SecondaryIndicator(
-                                modifier = Modifier.tabIndicatorOffset(
-                                    tabPositions[selectedTabIndex.value.ordinal]
-                                ),
-                                height = 2.dp,
-                                color = Color.Red
-                            )
-                        }
-                    }
-                ) {
-                    Tab(
-                        unselectedContentColor = Color.DarkGray,
-                        selected = selectedTabIndex.value == NewTabs.Home,
-                        onClick = { selectedTabIndex.value = NewTabs.Home }) {
-                        Text(text = "Home")
-                    }
-                    Tab(
-                        unselectedContentColor = Color.DarkGray,
-                        selected = selectedTabIndex.value == NewTabs.Categories,
-                        onClick = {
-                            selectedTabIndex.value = NewTabs.Categories
-                        }) {
-                        Text(text = "Categories")
-                    }
-                }
-                when (selectedTabIndex.value) {
-                    NewTabs.Home -> {
-                        Column(
-                            modifier = Modifier.fillMaxWidth()
-                                .height(765.dp),
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            productsList?.let { list ->
-                                ProductList(products = list)
+                categoriesList?.let { categories ->
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            text = "Categories",
+                            fontWeight = FontWeight.ExtraBold,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            textAlign = TextAlign.Start,
+                            fontSize = 28.sp
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        LazyRow {
+                            item {
+                                Text(
+                                    text = "All",
+                                    fontWeight = if (selectedCategoryIndex == 0) FontWeight.Bold else FontWeight.Normal,
+                                    textDecoration = if (selectedCategoryIndex == 0) TextDecoration.Underline else TextDecoration.None,
+                                    color = if (selectedCategoryIndex == 0) Color.Black else Color.Gray,
+                                    modifier = Modifier.clickable { selectedCategoryIndex = 0 }
+                                        .padding(end = 16.dp)
+                                )
+                            }
+                            itemsIndexed(categories) { index, category ->
+                                Text(
+                                    text = category.name,
+                                    fontWeight = if (selectedCategoryIndex == index + 1) FontWeight.Bold else FontWeight.Normal,
+                                    textDecoration = if (selectedCategoryIndex == index + 1) TextDecoration.Underline else TextDecoration.None,
+                                    color = if (selectedCategoryIndex == index + 1) Color.Black else Color.Gray,
+                                    modifier = Modifier.clickable { selectedCategoryIndex = index + 1 }
+                                        .padding(end = 16.dp)
+                                )
                             }
                         }
-                    }
 
-                    NewTabs.Categories -> {
-                        categoriesList?.let { category ->
-                            CategoriesList(category)
+                        val filteredProducts = if (selectedCategoryIndex == 0) {
+                            productsList
+                        } else {
+                            productsList?.filter { it.categoryTitle == categories[selectedCategoryIndex - 1].name }
+                        }
+                        filteredProducts?.let { productList ->
+                            ProductList(products = productList)
                         }
                     }
                 }
-
             }
         }
     }

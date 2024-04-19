@@ -58,23 +58,6 @@ fun ProductList(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "New Arrivals \uD83D\uDD25",
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.ExtraBold,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = "See All",
-                fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                color = Color.Blue
-            )
-        }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             state = state,
