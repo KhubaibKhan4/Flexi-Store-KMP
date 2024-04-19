@@ -56,34 +56,37 @@ import org.jetbrains.compose.resources.Font
 @Composable
 fun FoodList(products: List<Products>) {
     val navigator = LocalNavigator.current
-    val filteredList = products.filter { it.categoryId==15 }
+    val filteredList = products.filter { it.categoryId == 15 }
     Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding(top = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Food & Groceries",
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily(Font(Res.font.Roboto_Bold))
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(start = 10.dp)
             )
-            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "See All",
-                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                fontSize = 14.sp,
                 color = Color(0xFFe85110),
-                modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList, books = null,"Food & Groceries"))
-                }
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clickable {
+                        navigator?.push(SeeAllProducts(filteredList, books = null, "Food & Groceries"))
+                    }
+                    .padding(end = 16.dp)
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -94,8 +97,8 @@ fun FoodList(products: List<Products>) {
             }
         }
     }
-
 }
+
 
 @Composable
 fun FoodItems(

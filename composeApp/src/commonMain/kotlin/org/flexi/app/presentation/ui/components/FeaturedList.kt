@@ -83,14 +83,13 @@ fun FeaturedList(products: List<Products>) {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 10.dp)
             )
             Text(
                 text = "See All",
-                fontSize = 16.sp,
+                fontSize = 14.sp,
+                color = Color(0xFFe85110),
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFCC3333),
-                textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .clickable {
                         navigator?.push(
@@ -105,7 +104,7 @@ fun FeaturedList(products: List<Products>) {
             )
         }
         LazyRow(
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+            contentPadding = PaddingValues(start = 8.dp, end = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
