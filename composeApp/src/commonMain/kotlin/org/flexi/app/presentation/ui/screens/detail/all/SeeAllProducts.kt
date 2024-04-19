@@ -64,7 +64,7 @@ class SeeAllProducts(
                     ),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                CategorySpecificProducts(products = products)
+                CategorySpecificProducts(products = products, category = category)
             }
         }
     }
@@ -72,8 +72,7 @@ class SeeAllProducts(
 }
 
 @Composable
-fun CategorySpecificProducts(products: List<Products>) {
-    val category = getCategory(products)
+fun CategorySpecificProducts(products: List<Products>, category: String) {
     when (category) {
         "Featured" -> {
             FeaturedProducts(products)
@@ -129,8 +128,8 @@ fun FurnitureAndDecorProducts(products: List<Products>) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(products) { product ->
             FurnitureItems(product)
@@ -138,13 +137,14 @@ fun FurnitureAndDecorProducts(products: List<Products>) {
     }
 }
 
+
 @Composable
 fun ElectronicsAccessoriesProducts(products: List<Products>) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(products) { product ->
             ElectronicsItems(product)
@@ -161,14 +161,7 @@ fun BooksAndJournalsProducts(products: List<Products>) {
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         items(products) { product ->
-           // BooksItems(product)
+            // BooksItems(product)
         }
     }
-}
-
-fun getCategory(products: List<Products>): String {
-    // Implement logic to determine category based on products list
-    // For example, you could check the category of the first product in the list
-    // and return the corresponding category name
-    return "Featured" // Placeholder, replace with actual logic
 }

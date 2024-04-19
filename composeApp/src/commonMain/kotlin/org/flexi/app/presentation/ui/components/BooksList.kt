@@ -38,6 +38,7 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.books.BooksItem
+import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.books.BooksDetail
 import org.flexi.app.utils.Constant
 import org.flexi.app.utils.generateRandomColor
@@ -45,6 +46,7 @@ import org.jetbrains.compose.resources.Font
 
 @Composable
 fun BooksList(products: List<BooksItem>) {
+    val navigator = LocalNavigator.current
     Column(
         modifier = Modifier.fillMaxWidth()
             .padding(top = 8.dp),
@@ -66,7 +68,10 @@ fun BooksList(products: List<BooksItem>) {
             Text(
                 text = "See All",
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                color = Color(0xFFe85110)
+                color = Color(0xFFe85110),
+                modifier = Modifier.clickable {
+                    //navigator?.push(SeeAllProducts(products, "Food & Groceries"))
+                }
             )
         }
         LazyRow(

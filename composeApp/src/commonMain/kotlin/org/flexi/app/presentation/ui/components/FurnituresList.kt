@@ -48,12 +48,14 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
 import org.flexi.app.utils.Constant
 import org.jetbrains.compose.resources.Font
 
 @Composable
 fun FurnituresList(products: List<Products>) {
+    val navigator = LocalNavigator.current
     val filteredList = products.filter { it.categoryId == 13 }
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -76,7 +78,10 @@ fun FurnituresList(products: List<Products>) {
             Text(
                 text = "See All",
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                color = Color(0xFFe85110)
+                color = Color(0xFFe85110),
+                modifier = Modifier.clickable {
+                    navigator?.push(SeeAllProducts(filteredList, "Furniture & Decor"))
+                }
             )
         }
         LazyRow(
