@@ -57,7 +57,7 @@ class HomeScreen : Screen {
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
-        val viewModel: MainViewModel = koinInject<MainViewModel>()
+        val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
         var selectedCategoryIndex by remember { mutableStateOf(0) }
         LaunchedEffect(Unit) {
