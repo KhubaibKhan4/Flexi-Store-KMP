@@ -51,7 +51,7 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
-import org.flexi.app.presentation.ui.screens.detail.DetailScreen
+import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.Font
 

@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.screens.detail
+package org.flexi.app.presentation.ui.screens.detail.common
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
