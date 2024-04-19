@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.Roboto_Bold
@@ -58,32 +59,35 @@ fun FurnituresList(products: List<Products>) {
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.categoryId == 13 }
     Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding(top = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Furniture & Decor",
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily(Font(Res.font.Roboto_Bold))
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(start = 10.dp)
             )
-            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "See All",
-                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                fontSize = 14.sp,
                 color = Color(0xFFe85110),
-                modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList, books = null,"Furniture & Decor"))
-                }
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clickable {
+                        navigator?.push(SeeAllProducts(filteredList, books = null, "Furniture & Decor"))
+                    }
+                    .padding(end = 16.dp)
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -94,8 +98,8 @@ fun FurnituresList(products: List<Products>) {
             }
         }
     }
-
 }
+
 
 @Composable
 fun FurnitureItems(
