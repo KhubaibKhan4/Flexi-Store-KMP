@@ -7,17 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,7 +36,6 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.BooksList
-import org.flexi.app.presentation.ui.components.CategoriesList
 import org.flexi.app.presentation.ui.components.ElectronicsList
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.FeaturedList
@@ -171,7 +165,7 @@ class HomeScreen : Screen {
                     FurnituresList(pro)
                     ElectronicsList(pro)
                 }
-                booksList?.let {bookList->
+                booksList?.let { bookList ->
                     BooksList(bookList)
                 }
                 categoriesList?.let { categories ->
@@ -205,7 +199,9 @@ class HomeScreen : Screen {
                                     fontWeight = if (selectedCategoryIndex == index + 1) FontWeight.Bold else FontWeight.Normal,
                                     textDecoration = if (selectedCategoryIndex == index + 1) TextDecoration.Underline else TextDecoration.None,
                                     color = if (selectedCategoryIndex == index + 1) Color.Black else Color.Gray,
-                                    modifier = Modifier.clickable { selectedCategoryIndex = index + 1 }
+                                    modifier = Modifier.clickable {
+                                        selectedCategoryIndex = index + 1
+                                    }
                                         .padding(end = 16.dp)
                                 )
                             }
