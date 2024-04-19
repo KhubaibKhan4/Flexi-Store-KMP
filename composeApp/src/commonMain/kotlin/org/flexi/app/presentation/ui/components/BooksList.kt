@@ -70,7 +70,7 @@ fun BooksList(products: List<BooksItem>) {
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color(0xFFe85110),
                 modifier = Modifier.clickable {
-                    //navigator?.push(SeeAllProducts(products, "Food & Groceries"))
+                    navigator?.push(SeeAllProducts(null,books = products, "Books & Journals"))
                 }
             )
         }

@@ -80,7 +80,7 @@ fun FoodList(products: List<Products>) {
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color(0xFFe85110),
                 modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList, "Food & Groceries"))
+                    navigator?.push(SeeAllProducts(filteredList, books = null,"Food & Groceries"))
                 }
             )
         }

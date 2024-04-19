@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.outlined.ShoppingBag
@@ -76,7 +77,7 @@ fun ElectronicsList(products: List<Products>) {
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color(0xFFe85110),
                 modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList, "Electronics Accessories"))
+                    navigator?.push(SeeAllProducts(filteredList, books = null,"Electronics Accessories"))
                 }
             )
         }
@@ -166,7 +167,7 @@ fun ElectronicsItems(
                         val decimalRating = products.averageRating - integerRating
 
                         Icon(
-                            imageVector = if (decimalRating >= 0.25f && decimalRating < 0.75f) Icons.Filled.StarHalf else Icons.Filled.Star,
+                            imageVector = if (decimalRating >= 0.25f && decimalRating < 0.75f) Icons.AutoMirrored.Filled.StarHalf else Icons.Filled.Star,
                             contentDescription = null,
                             tint = Color(0XFFf74623),
                             modifier = Modifier.size(20.dp)

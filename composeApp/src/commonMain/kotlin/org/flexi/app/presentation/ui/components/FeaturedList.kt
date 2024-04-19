@@ -86,6 +86,7 @@ fun FeaturedList(products: List<Products>) {
                     navigator?.push(
                         SeeAllProducts(
                             filteredList,
+                            books = null,
                             category = "Featured"
                         )
                     )

@@ -3,6 +3,7 @@
 <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".AndroidApp"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@android:drawable/ic_menu_compass"
         android:label="Flexi-Store"
         android:usesCleartextTraffic="true"

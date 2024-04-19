@@ -80,7 +80,7 @@ fun FurnituresList(products: List<Products>) {
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color(0xFFe85110),
                 modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList, "Furniture & Decor"))
+                    navigator?.push(SeeAllProducts(filteredList, books = null,"Furniture & Decor"))
                 }
             )
         }
