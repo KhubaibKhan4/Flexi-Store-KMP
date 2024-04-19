@@ -1,11 +1,17 @@
 package org.flexi.app.presentation.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
@@ -40,6 +47,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -61,40 +69,43 @@ fun FeaturedList(products: List<Products>) {
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.isFeatured }
     Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding(top = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Featured",
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily(Font(Res.font.Roboto_Bold))
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
-            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "See All",
-                fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                color = Color(0xFFe85110),
-                modifier = Modifier.clickable {
-                    navigator?.push(
-                        SeeAllProducts(
-                            filteredList,
-                            books = null,
-                            category = "Featured"
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFCC3333),
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier
+                    .clickable {
+                        navigator?.push(
+                            SeeAllProducts(
+                                filteredList,
+                                books = null,
+                                category = "Featured"
+                            )
                         )
-                    )
-                }
+                    }
+                    .padding(horizontal = 16.dp)
             )
         }
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -103,7 +114,6 @@ fun FeaturedList(products: List<Products>) {
             }
         }
     }
-
 }
 
 @Composable
