@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -49,7 +51,9 @@ fun BooksList(products: List<BooksItem>) {
     val navigator = LocalNavigator.current
     Column(
         modifier = Modifier.fillMaxWidth()
-            .padding(top = 8.dp),
+            .padding(top = 16.dp, bottom = 16.dp)
+            .border(width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(8.dp))
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -69,11 +73,15 @@ fun BooksList(products: List<BooksItem>) {
                 text = "See All",
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color(0xFFe85110),
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(null,books = products, "Books & Journals"))
-                }
+                    navigator?.push(SeeAllProducts(null, books = products, "Books & Journals"))
+                }.padding(horizontal = 8.dp)
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.fillMaxWidth()) // Add divider line
+        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -84,8 +92,8 @@ fun BooksList(products: List<BooksItem>) {
             }
         }
     }
-
 }
+
 
 @Composable
 fun BooksItems(

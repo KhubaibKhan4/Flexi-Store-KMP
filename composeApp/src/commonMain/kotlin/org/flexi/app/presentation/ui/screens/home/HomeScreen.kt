@@ -59,7 +59,6 @@ class HomeScreen : Screen {
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val scrollState = rememberScrollState()
-        val selectedTabIndex = remember { mutableStateOf(NewTabs.Home) }
         var selectedCategoryIndex by remember { mutableStateOf(0) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
