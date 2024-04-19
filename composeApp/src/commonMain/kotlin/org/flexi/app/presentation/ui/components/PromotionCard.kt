@@ -1,6 +1,8 @@
 package org.flexi.app.presentation.ui.components
 
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
@@ -13,9 +15,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Surface
@@ -168,10 +172,20 @@ fun Dot(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
+    val width by animateDpAsState(
+        targetValue = if (isSelected) 16.dp else 6.dp,
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = LinearOutSlowInEasing
+        )
+    )
+    val shape = if (isSelected) CircleShape else RoundedCornerShape(50)
     val color = if (isSelected) Color.Blue else Color.LightGray
+
     Surface(
-        modifier = Modifier.size(6.dp),
-        shape = RoundedCornerShape(6.dp),
+        modifier = Modifier.width(width)
+            .height(6.dp),
+        shape = shape,
         color = color,
         onClick = onClick
     ) {}

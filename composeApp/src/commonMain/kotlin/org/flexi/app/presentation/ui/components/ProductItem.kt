@@ -8,13 +8,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,8 +26,12 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,13 +40,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
@@ -105,13 +115,13 @@ fun ProductItem(
     val navigator = LocalNavigator.current
     val image: Resource<Painter> =
         asyncPainterResource(data = BASE_URL + products.imageUrl)
+    val discountedPrice = products.price - products.discountPrice
     Column(
         modifier = Modifier.fillMaxWidth()
             .border(
                 border = BorderStroke(width = 1.dp, color = Color.LightGray),
-                shape = RoundedCornerShape(14.dp),
-
-                )
+                shape = RoundedCornerShape(14.dp)
+            )
             .clickable {
                 navigator?.push(DetailScreen(products))
             },
@@ -125,7 +135,7 @@ fun ProductItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(180.dp)
-                    .clip(RoundedCornerShape(14.dp)),
+                    .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)),
                 contentScale = ContentScale.Crop,
                 animationSpec = tween(),
                 onLoading = {
@@ -135,49 +145,138 @@ fun ProductItem(
                     Text("Failed to Load")
                 }
             )
+
             Icon(
                 imageVector = Icons.Default.Favorite,
                 contentDescription = null,
-                tint = Color.White,
+                tint = Color.Red,
                 modifier = Modifier
-                    .padding(top = 6.dp, end = 8.dp)
-                    .size(25.dp)
+                    .padding(top = 12.dp, end = 8.dp)
+                    .offset(y = 14.dp)
+                    .size(30.dp)
                     .clip(CircleShape)
-                    .background(
-                        Color.DarkGray.copy(alpha = 0.65f)
-                    )
-                    .align(Alignment.TopEnd)
+                    .background(Color.White)
+                    .align(Alignment.BottomEnd)
                     .padding(4.dp)
+                    .shadow(
+                        elevation = 8.dp,
+                        spotColor = Color.DarkGray,
+                        ambientColor = Color.Red,
+                        shape = CircleShape
+                    )
             )
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 4.dp)
+                    .wrapContentWidth()
+                    .padding(4.dp)
+                    .background(
+                        Color.Red.copy(alpha = 0.7f),
+                        RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp)
+                    )
+                    .align(Alignment.TopStart)
+
+            ) {
+                Text(
+                    text = "-${(products.discountPrice / products.price.toDouble() * 100).toInt()}%",
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    modifier = Modifier.padding(4.dp)
+                )
+            }
         }
+
+        Spacer(modifier = Modifier.height(18.dp))
+
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+                .padding(start = 4.dp, end = 3.dp, bottom = 4.dp),
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                val rating = products.averageRating
+                val filledStars = rating.toInt()
+                val halfStarVisible = rating - filledStars >= 0.5
+                val emptyStars = 5 - filledStars - if (halfStarVisible) 1 else 0
+
+                repeat(filledStars) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = Color.Red.copy(alpha = 0.7f),
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+
+                if (halfStarVisible) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.StarHalf,
+                        contentDescription = null,
+                        tint = Color.Red.copy(alpha = 0.7f),
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+
+                repeat(emptyStars) {
+                    Icon(
+                        imageVector = Icons.Default.StarBorder,
+                        contentDescription = null,
+                        tint = Color.Red.copy(alpha = 0.7f),
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+
+                Text(
+                    text = "(${products.averageRating})",
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+            }
+
+
             Text(
                 text = products.name,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Start,
                 color = Color.Black,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = 3.dp, end = 3.dp)
             )
-            Text(
-                text = products.categoryTitle,
-                fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center,
-            )
-            Text(
-                text = "$" + products.price,
-                fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-            )
+
+            Row(modifier = Modifier.wrapContentWidth()
+                .padding(start = 4.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "$" + products.price,
+                    fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                    textAlign = TextAlign.Start,
+                    textDecoration = TextDecoration.LineThrough,
+                    color = Color.Gray
+                )
+
+                Text(
+                    text = " $" + discountedPrice,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.Green,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
         }
     }
 }
