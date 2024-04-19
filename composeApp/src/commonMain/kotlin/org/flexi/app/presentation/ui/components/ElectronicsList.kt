@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Star
@@ -55,35 +57,44 @@ fun ElectronicsList(products: List<Products>) {
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.categoryId == 22 }
     Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding(top = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .background(color = Color.White)
+            .padding(horizontal = 0.dp, vertical = 8.dp),
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Electronics Accessories",
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily(Font(Res.font.Roboto_Bold))
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(start = 4.dp)
             )
-            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "See All",
-                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                fontSize = 16.sp,
                 color = Color(0xFFe85110),
-                modifier = Modifier.clickable {
-                    navigator?.push(SeeAllProducts(filteredList, books = null,"Electronics Accessories"))
-                }
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clickable {
+                        navigator?.push(SeeAllProducts(filteredList, books = null, "Electronics Accessories"))
+                    }
+                    .padding(end = 4.dp)
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             items(filteredList) { product ->
@@ -91,7 +102,6 @@ fun ElectronicsList(products: List<Products>) {
             }
         }
     }
-
 }
 
 @Composable
