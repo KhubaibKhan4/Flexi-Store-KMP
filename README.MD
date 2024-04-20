@@ -20,6 +20,11 @@ Are you generous enought?
 | --- | --- | --- |
 | ![Screenshot 4](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/4.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/5.png) | ![Screenshot 6](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/6.png) |
 | ![Screenshot 7](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/7.png) | ![Screenshot 8](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/8.png) | ![Screenshot 9](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/9.png) |
+| ![Screenshot 10](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/10.png) | ![Screenshot 11](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/11.png) | ![Screenshot 12](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/12.png) |
+| ![Screenshot 13](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/13.png) | ![Screenshot 14](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/14.png) | ![Screenshot 15](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/15.png) |
+| ![Screenshot 16](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/16.png) | ![Screenshot 17](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/17.png) | ![Screenshot 18](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/18.png) |
+
+
 
 ## Desktop Screen Shots
 
@@ -33,6 +38,11 @@ Are you generous enought?
 | ![Screenshot 7](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/36.png) | 
 | ![Screenshot 8](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/37.png) | 
 | ![Screenshot 9](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/38.png) | 
+| ![Screenshot 10](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/39.png) | 
+| ![Screenshot 11](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/40.png) | 
+| ![Screenshot 12](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/41.png) | 
+| ![Screenshot 13](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/42.png) | 
+| ![Screenshot 14](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/43.png) | 
 
 ## Before running!
  - check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
