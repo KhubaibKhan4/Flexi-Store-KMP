@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,10 +48,9 @@ import org.flexi.app.presentation.ui.components.PromotionCardWithPager
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
-import org.flexi.app.presentation.ui.screens.home.model.tab.Tab as NewTabs
 
 class HomeScreen : Screen {
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
@@ -60,6 +60,7 @@ class HomeScreen : Screen {
         val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
         var selectedCategoryIndex by remember { mutableStateOf(0) }
+        var query by remember { mutableStateOf("") }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
             viewModel.getPromotionsItems()
@@ -135,9 +136,9 @@ class HomeScreen : Screen {
             topBar = {
                 TopAppBarWithProfile(
                     name = "Jonathan",
-                    onSearchClicked = {},
-                    onNotificationsClicked = {},
-                    profileImageUrl = null
+                    onCartClicked = {},
+                    profileImageUrl = null,
+                    itemCount = 2
                 )
             }
         ) {

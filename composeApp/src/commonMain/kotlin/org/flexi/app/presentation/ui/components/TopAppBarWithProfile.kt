@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,22 +33,20 @@ import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import org.flexi.app.theme.LocalThemeIsDark
 
 @Composable
 fun TopAppBarWithProfile(
     name: String,
-    onSearchClicked: () -> Unit,
-    onNotificationsClicked: () -> Unit,
+    itemCount: Int,
+    onCartClicked: () -> Unit,
     profileImageUrl: String? = null,
 ) {
-    var isDark by LocalThemeIsDark.current
     Row(
-        modifier = Modifier.fillMaxWidth(1f)
-            .padding(all = 4.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
+        Spacer(modifier = Modifier.width(3.dp))
         if (profileImageUrl?.isNotEmpty() == true) {
             var profile by remember { mutableStateOf("") }
             profileImageUrl.let {
@@ -58,15 +58,15 @@ fun TopAppBarWithProfile(
                 contentDescription = "Profile",
                 modifier = Modifier.size(25.dp)
                     .clip(CircleShape)
+                    .padding(8.dp)
             )
         } else {
             LocalAvatar()
         }
         Column(
-            modifier = Modifier
-                .padding(start = 4.dp),
+            modifier = Modifier.padding(start = 4.dp),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(1.dp)
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Hi, $name",
@@ -84,21 +84,27 @@ fun TopAppBarWithProfile(
                 fontSize = MaterialTheme.typography.bodySmall.fontSize
             )
         }
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
-        Icon(
-            imageVector = Icons.Outlined.Search,
-            contentDescription = null,
-            modifier = Modifier.padding(end = 3.dp).clickable { onSearchClicked() },
-        )
-        Icon(
-            imageVector = Icons.Outlined.Notifications,
-            contentDescription = null,
-            modifier = Modifier.padding(end = 3.dp).clickable {
-                isDark = !isDark
-                onNotificationsClicked()
-            },
-        )
+        Spacer(modifier = Modifier.weight(1f))
+
+        BadgedBox(
+            modifier = Modifier
+                .padding(end = 4.dp)
+                .clickable { onCartClicked() },
+            badge = {
+                if (itemCount != null) {
+                    Badge {
+                        Text(text = itemCount.toString())
+                    }
+                } else if (itemCount == null) {
+                    Badge()
+                }
+            }) {
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = ""
+            )
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
     }
 }
