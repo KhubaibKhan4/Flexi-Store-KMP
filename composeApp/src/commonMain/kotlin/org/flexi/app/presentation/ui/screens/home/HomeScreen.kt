@@ -64,6 +64,7 @@ import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.PromotionCardWithPager
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.koin.compose.koinInject
 
 class HomeScreen : Screen {
@@ -148,12 +149,15 @@ class HomeScreen : Screen {
                 booksList = response
             }
         }
+        var isDark by LocalThemeIsDark.current
         Scaffold(
             modifier = Modifier.fillMaxWidth(),
             topBar = {
                 TopAppBarWithProfile(
                     name = "Jonathan",
-                    onCartClicked = {},
+                    onCartClicked = {
+                        isDark = !isDark
+                    },
                     profileImageUrl = null,
                     itemCount = 2
                 )
@@ -213,8 +217,7 @@ class HomeScreen : Screen {
                     Card(
                         modifier = Modifier
                             .size(48.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(Color.Blue),
+                            .clip(RoundedCornerShape(16.dp)),
                         elevation = CardDefaults.cardElevation(8.dp)
                     ) {
                         Icon(

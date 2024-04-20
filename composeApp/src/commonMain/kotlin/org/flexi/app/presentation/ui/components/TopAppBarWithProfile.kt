@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import org.flexi.app.theme.LocalThemeIsDark
 
 @Composable
 fun TopAppBarWithProfile(
