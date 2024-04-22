@@ -9,7 +9,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * - Can Review The Product Images, Videos & Old ratings.
 * - Can Chat with Seller.
 
-* (Work is still in progress)
+* (Work is still in progress with Seller Central Section)
 
 Are you generous enought? 
 <a href="https://www.buymeacoffee.com/khubaibkhan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=khubaibkhan&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
