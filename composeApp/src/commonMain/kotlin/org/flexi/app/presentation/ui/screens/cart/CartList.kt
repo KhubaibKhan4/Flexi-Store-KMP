@@ -52,6 +52,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -70,27 +71,32 @@ class CartList(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.current
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "My Cart"
-                        )
-                    },
-                    navigationIcon = {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIosNew,
-                            contentDescription = null
-                        )
-                    },
-                    actions = {
-                        Icon(
-                            imageVector = Icons.Outlined.ShoppingBag,
-                            contentDescription = null
-                        )
-                    }
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(start = 2.dp, end = 2.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                           navigator?.pop()
+                        }
+                    )
+                    Text(
+                        text = "My Cart",
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.ShoppingBag,
+                        contentDescription = null
+                    )
+                }
             }
         ) {
             LazyColumn(
@@ -112,6 +118,7 @@ fun CartItem(
     cartItem: CartItem,
 ) {
     var product by remember { mutableStateOf<Products?>(null) }
+    var isCheck by remember { mutableStateOf(false) }
     val viewModel: MainViewModel = koinInject()
 
     LaunchedEffect(cartItem.productId) {
@@ -137,7 +144,7 @@ fun CartItem(
     var producstItems by remember { mutableStateOf(cartItem.quantity) }
     Column(
         modifier = Modifier.fillMaxWidth()
-            .padding(all = 6.dp),
+            .padding(all = 10.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -147,24 +154,12 @@ fun CartItem(
             horizontalArrangement = Arrangement.Center
         ) {
             Checkbox(
-                checked = false,
-                onCheckedChange = null,
+                checked = isCheck,
+                onCheckedChange = {
+                     isCheck = it
+                },
                 modifier = Modifier.size(30.dp),
                 enabled = true,
-                colors = CheckboxColors(
-                    uncheckedBorderColor = Color.Gray,
-                    checkedBorderColor = Color.Blue,
-                    checkedBoxColor = Color.White,
-                    uncheckedBoxColor = Color.DarkGray,
-                    checkedCheckmarkColor = Color.Red,
-                    uncheckedCheckmarkColor = Color.LightGray,
-                    disabledBorderColor = Color.LightGray,
-                    disabledCheckedBoxColor = Color.LightGray,
-                    disabledIndeterminateBorderColor = Color.LightGray,
-                    disabledIndeterminateBoxColor = Color.LightGray,
-                    disabledUncheckedBorderColor = Color.LightGray,
-                    disabledUncheckedBoxColor = Color.LightGray,
-                )
             )
             Spacer(modifier = Modifier.width(8.dp))
             val image: Resource<Painter> =
@@ -286,7 +281,7 @@ fun CartItem(
             }
         }
         HorizontalDivider(
-            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(.85f),
+            modifier = Modifier.padding(top = 12.dp).fillMaxWidth(.85f),
             color = Color.LightGray
         )
     }
