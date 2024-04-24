@@ -85,19 +85,24 @@ object FlexiApiClient {
     suspend fun getProducts(): List<Products> {
         return client.get(BASE_URL + "v1/products").body()
     }
-    suspend fun getPromotionsList(): List<PromotionsProductsItem>{
-        return client.get(BASE_URL+"v1/promotions").body()
+
+    suspend fun getPromotionsList(): List<PromotionsProductsItem> {
+        return client.get(BASE_URL + "v1/promotions").body()
     }
-    suspend fun getCategoriesList(): List<Categories>{
-        return client.get(BASE_URL+"v1/categories").body()
+
+    suspend fun getCategoriesList(): List<Categories> {
+        return client.get(BASE_URL + "v1/categories").body()
     }
-    suspend fun getBooksList(): List<BooksItem>{
-        return client.get(BASE_URL+"v1/books").body()
+
+    suspend fun getBooksList(): List<BooksItem> {
+        return client.get(BASE_URL + "v1/books").body()
     }
-    suspend fun getCartListByUserId(id: Long): List<CartItem>{
-        return client.get(BASE_URL+"v1/cart/user/1").body()
+
+    suspend fun getCartListByUserId(id: Long): List<CartItem> {
+        return client.get(BASE_URL + "v1/cart/user/1").body()
     }
-    suspend fun getProductById(id: Long): Products{
-        return client.get(BASE_URL+"v1/products/$id").body()
+
+    suspend fun getProductById(id: List<Long>): List<Products>? {
+        return client.get(BASE_URL + "v1/products/userId/$id").body()
     }
 }
