@@ -38,4 +38,8 @@ class Repository : FlexiApi {
     override suspend fun getCartListByUserId(id: Long): List<CartItem> {
         return FlexiApiClient.getCartListByUserId(id)
     }
+
+    override suspend fun getProductById(id: Long): List<Products> {
+        return FlexiApiClient.getProductById(id)
+    }
 }
