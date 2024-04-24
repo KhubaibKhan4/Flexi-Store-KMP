@@ -172,16 +172,18 @@ class HomeScreen : Screen {
         Scaffold(
             modifier = Modifier.fillMaxWidth(),
             topBar = {
-                TopAppBarWithProfile(
-                    name = "Jonathan",
-                    onCartClicked = {
-                        CartsList?.let {carts->
-                            navigator?.push(CartList(carts))
-                        }
-                    },
-                    profileImageUrl = null,
-                    itemCount = 2
-                )
+                CartsList?.size?.let {
+                    TopAppBarWithProfile(
+                        name = "Jonathan",
+                        onCartClicked = {
+                            CartsList?.let {carts->
+                                navigator?.push(CartList(carts))
+                            }
+                        },
+                        profileImageUrl = null,
+                        itemCount = it
+                    )
+                }
             }
         ) {
             Column(
