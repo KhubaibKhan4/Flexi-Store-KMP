@@ -1,10 +1,8 @@
 package org.flexi.app.presentation.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +17,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Filter
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
@@ -48,6 +45,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
@@ -64,6 +62,7 @@ import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.PromotionCardWithPager
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
+import org.flexi.app.presentation.ui.screens.cart.CartList
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.theme.LocalThemeIsDark
 import org.koin.compose.koinInject
@@ -79,6 +78,7 @@ class HomeScreen : Screen {
         var CartsList by remember { mutableStateOf<List<CartItem>?>(null) }
         val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
+        val navigator = LocalNavigator.current
         var selectedCategoryIndex by remember { mutableStateOf(0) }
         var query by remember { mutableStateOf("") }
         LaunchedEffect(Unit) {
@@ -175,7 +175,9 @@ class HomeScreen : Screen {
                 TopAppBarWithProfile(
                     name = "Jonathan",
                     onCartClicked = {
-                        isDark = !isDark
+                        CartsList?.let {carts->
+                            navigator?.push(CartList(carts))
+                        }
                     },
                     profileImageUrl = null,
                     itemCount = 2
@@ -243,6 +245,9 @@ class HomeScreen : Screen {
                             imageVector = Icons.Outlined.FilterAlt,
                             contentDescription = "Filter",
                             modifier = Modifier
+                                .clickable {
+                                    isDark = !isDark
+                                }
                                 .padding(12.dp),
                             tint = Color.Gray,
                         )
