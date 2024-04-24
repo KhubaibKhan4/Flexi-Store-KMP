@@ -52,34 +52,35 @@ import org.flexi.app.utils.Constant.BASE_URL
 @ExperimentalFoundationApi
 @Composable
 fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
-    var currentPage by remember { mutableStateOf(0) }
-    val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState(pageCount = { promotions.size })
+    if (promotions.isNotEmpty()) {
+        var currentPage by remember { mutableStateOf(0) }
+        val scope = rememberCoroutineScope()
+        val pagerState = rememberPagerState(pageCount = { promotions.size })
 
-
-    val currentTimeMillis = Clock.System.now().toEpochMilliseconds()
-    val activePromotions = promotions.filter { promotion ->
-        promotion.startDate <= currentTimeMillis && promotion.endDate >= currentTimeMillis && promotion.enabled
-    }
-    LaunchedEffect(currentPage) {
-        delay(1000)
-        while (true) {
-            delay(2000)
-            val nextPage = (currentPage + 1) % activePromotions.size
-            scope.launch {
-                currentPage = nextPage
-                pagerState.animateScrollToPage(nextPage)
+        val currentTimeMillis = Clock.System.now().toEpochMilliseconds()
+        val activePromotions = promotions.filter { promotion ->
+            promotion.startDate <= currentTimeMillis && promotion.endDate >= currentTimeMillis && promotion.enabled
+        }
+        LaunchedEffect(currentPage) {
+            delay(1000)
+            while (true) {
+                delay(2000)
+                if (activePromotions.isNotEmpty()) {
+                    val nextPage = (currentPage + 1) % activePromotions.size
+                    scope.launch {
+                        currentPage = nextPage
+                        pagerState.animateScrollToPage(nextPage)
+                    }
+                }
             }
         }
-    }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(250.dp)
-            .padding(16.dp)
-    ) {
-        if (activePromotions.isNotEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+                .padding(16.dp)
+        ) {
             HorizontalPager(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -135,14 +136,7 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                     }
                 }
             )
-        } else {
-            Text(
-                "No active promotions available",
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                color = Color.Red
-            )
         }
-
     }
 }
 
