@@ -94,6 +94,11 @@ class DetailScreen(
             Color.Gray,
             Color.Cyan
         )
+        val message = if (cartItem != null) {
+            "Product added to cart successfully"
+        } else {
+            null
+        }
         var selectedColor by remember { mutableStateOf(Color.Blue) }
         var isFavourite by remember { mutableStateOf(false) }
         val scrollState = rememberScrollState()
@@ -118,7 +123,7 @@ class DetailScreen(
                 ErrorBox(error)
             }
             ResultState.Loading -> {
-                LoadingBox()
+               // LoadingBox()
             }
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
@@ -447,6 +452,9 @@ class DetailScreen(
                                         }
                                 )
                             }
+                        }
+                        message?.let { msg ->
+                            Text(text = msg, color = Color.Green, modifier = Modifier.padding(8.dp))
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth()
