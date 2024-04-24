@@ -40,9 +40,10 @@ class MainViewModel(
 
     private val _carts = MutableStateFlow<ResultState<List<CartItem>>>(ResultState.Loading)
     val carts: StateFlow<ResultState<List<CartItem>>> = _carts.asStateFlow()
-    private val _productItem = MutableStateFlow<ResultState<Products>>(ResultState.Loading)
-    val productItem: StateFlow<ResultState<Products>> = _productItem.asStateFlow()
-    fun getProductById(id: Long){
+
+    private val _productItem = MutableStateFlow<ResultState<List<Products>>>(ResultState.Loading)
+    val productItem: StateFlow<ResultState<List<Products>>> = _productItem.asStateFlow()
+    fun getProductById(id: List<Long>){
         viewModelScope.launch {
             _productItem.value = ResultState.Loading
             try {

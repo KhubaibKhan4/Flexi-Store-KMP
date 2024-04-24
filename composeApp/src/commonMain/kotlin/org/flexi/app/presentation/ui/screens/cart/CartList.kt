@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -68,10 +69,34 @@ import org.koin.compose.koinInject
 class CartList(
     private val cartItem: List<CartItem>,
 ) : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+        val viewModel: MainViewModel = koinInject()
+        var product by remember { mutableStateOf<List<Products>?>(null) }
+
+        val ids = cartItem.map { it.productId.toLong() }
+        val quantityMap = cartItem.associate { it.productId to it.quantity }
+
+        LaunchedEffect(Unit) {
+            viewModel.getProductById(ids)
+        }
+        val productState by viewModel.productItem.collectAsState()
+        when (productState) {
+            is ResultState.Error -> {
+                val error = (productState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (productState as ResultState.Success).response
+                product = response
+            }
+        }
         Scaffold(
             topBar = {
                 Row(
@@ -103,9 +128,16 @@ class CartList(
                 modifier = Modifier.fillMaxWidth()
                     .padding(top = it.calculateTopPadding())
             ) {
-                items(cartItem) {cart ->
-                    CartItem(cart)
+                product?.let { list ->
+                    items(list) { pro ->
+                        val quantity = quantityMap[pro.id] ?: 0
+                        CartItem(
+                            pro,
+                            quantity
+                        )
+                    }
                 }
+
             }
         }
 
@@ -115,33 +147,11 @@ class CartList(
 
 @Composable
 fun CartItem(
-    cartItem: CartItem,
+    product: Products,
+    quantity: Int
 ) {
-    var product by remember { mutableStateOf<Products?>(null) }
     var isCheck by remember { mutableStateOf(false) }
-    val viewModel: MainViewModel = koinInject()
-
-    LaunchedEffect(cartItem.productId) {
-        viewModel.getProductById(cartItem.productId.toLong())
-    }
-
-    val productState by viewModel.productItem.collectAsState()
-    when (productState) {
-        is ResultState.Error -> {
-            val error = (productState as ResultState.Error).error
-            ErrorBox(error)
-        }
-
-        is ResultState.Loading -> {
-            LoadingBox()
-        }
-
-        is ResultState.Success -> {
-            val response = (productState as ResultState.Success).response
-            product = response
-        }
-    }
-    var producstItems by remember { mutableStateOf(cartItem.quantity) }
+    var producstItems by remember { mutableStateOf(quantity) }
     Column(
         modifier = Modifier.fillMaxWidth()
             .padding(all = 10.dp),

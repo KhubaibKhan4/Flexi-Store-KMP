@@ -16,5 +16,5 @@ interface FlexiApi {
     suspend fun getCategories(): List<Categories>
     suspend fun getBooksList(): List<BooksItem>
     suspend fun getCartListByUserId(id: Long): List<CartItem>
-    suspend fun getProductById(id: List<Long>): List<Products>?
+    suspend fun getProductById(id: List<Long>): List<Products>
 }

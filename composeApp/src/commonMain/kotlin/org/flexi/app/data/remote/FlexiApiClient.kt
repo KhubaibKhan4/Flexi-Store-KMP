@@ -101,8 +101,8 @@ object FlexiApiClient {
     suspend fun getCartListByUserId(id: Long): List<CartItem> {
         return client.get(BASE_URL + "v1/cart/user/1").body()
     }
-
-    suspend fun getProductById(id: List<Long>): List<Products>? {
-        return client.get(BASE_URL + "v1/products/userId/$id").body()
+    suspend fun getProductById(id: List<Long>): List<Products> {
+        val idString = id.joinToString(",")
+        return client.get(BASE_URL+"v1/products/userId/$idString").body()
     }
 }
