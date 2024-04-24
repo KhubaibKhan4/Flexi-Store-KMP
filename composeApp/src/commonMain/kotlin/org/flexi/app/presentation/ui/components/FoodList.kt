@@ -120,7 +120,8 @@ fun FoodItems(
         border = BorderStroke(
             width = 1.dp,
             color = Color.LightGray
-        )
+        ),
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth().clickable {
             navigator?.push(DetailScreen(products))
