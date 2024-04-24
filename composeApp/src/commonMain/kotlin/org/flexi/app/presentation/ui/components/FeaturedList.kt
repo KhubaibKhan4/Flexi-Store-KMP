@@ -132,10 +132,7 @@ fun FeaturedItems(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        border = BorderStroke(
-            width = 1.dp,
-            color = Color.LightGray
-        )
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth().clickable {
             navigator?.push(DetailScreen(products))
@@ -220,6 +217,7 @@ fun FeaturedItems(
                     append(products.price.toString() + ".00")
                 }
             }
+            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = price,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
