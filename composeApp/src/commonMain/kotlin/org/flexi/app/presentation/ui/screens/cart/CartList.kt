@@ -17,13 +17,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.ShoppingBag
+import androidx.compose.material.icons.outlined.ShoppingBag
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,17 +56,53 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.cart.CartItem
+import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.LoadingBox
+import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.utils.Constant.BASE_URL
+import org.koin.compose.koinInject
 
 class CartList(
     private val cartItem: List<CartItem>,
 ) : Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        LazyColumn {
-            items(cartItem) {
-                CartItem(it)
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "My Cart"
+                        )
+                    },
+                    navigationIcon = {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIosNew,
+                            contentDescription = null
+                        )
+                    },
+                    actions = {
+                        Icon(
+                            imageVector = Icons.Outlined.ShoppingBag,
+                            contentDescription = null
+                        )
+                    }
+                )
+            }
+        ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = it.calculateTopPadding())
+            ) {
+                items(cartItem) {cart ->
+                    CartItem(cart)
+                }
             }
         }
+
     }
 
 }
@@ -65,9 +111,33 @@ class CartList(
 fun CartItem(
     cartItem: CartItem,
 ) {
-    var producstItems by remember { mutableStateOf(1) }
+    var product by remember { mutableStateOf<Products?>(null) }
+    val viewModel: MainViewModel = koinInject()
+
+    LaunchedEffect(cartItem.productId) {
+        viewModel.getProductById(cartItem.productId.toLong())
+    }
+
+    val productState by viewModel.productItem.collectAsState()
+    when (productState) {
+        is ResultState.Error -> {
+            val error = (productState as ResultState.Error).error
+            ErrorBox(error)
+        }
+
+        is ResultState.Loading -> {
+            LoadingBox()
+        }
+
+        is ResultState.Success -> {
+            val response = (productState as ResultState.Success).response
+            product = response
+        }
+    }
+    var producstItems by remember { mutableStateOf(cartItem.quantity) }
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(all = 6.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -76,18 +146,34 @@ fun CartItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Icon(
-                imageVector = Icons.Default.CheckBox,
-                contentDescription = null,
-                modifier = Modifier.size(55.dp)
+            Checkbox(
+                checked = false,
+                onCheckedChange = null,
+                modifier = Modifier.size(30.dp),
+                enabled = true,
+                colors = CheckboxColors(
+                    uncheckedBorderColor = Color.Gray,
+                    checkedBorderColor = Color.Blue,
+                    checkedBoxColor = Color.White,
+                    uncheckedBoxColor = Color.DarkGray,
+                    checkedCheckmarkColor = Color.Red,
+                    uncheckedCheckmarkColor = Color.LightGray,
+                    disabledBorderColor = Color.LightGray,
+                    disabledCheckedBoxColor = Color.LightGray,
+                    disabledIndeterminateBorderColor = Color.LightGray,
+                    disabledIndeterminateBoxColor = Color.LightGray,
+                    disabledUncheckedBorderColor = Color.LightGray,
+                    disabledUncheckedBoxColor = Color.LightGray,
+                )
             )
             Spacer(modifier = Modifier.width(8.dp))
-            val image: Resource<Painter> = asyncPainterResource("")
+            val image: Resource<Painter> =
+                asyncPainterResource(BASE_URL + product?.imageUrl.toString())
             KamelImage(
                 resource = image,
                 contentDescription = null,
-                modifier = Modifier.width(55.dp)
-                    .height(35.dp)
+                modifier = Modifier.width(125.dp)
+                    .height(75.dp)
                     .clip(RoundedCornerShape(6.dp))
             )
             Spacer(modifier = Modifier.width(6.dp))
@@ -97,7 +183,7 @@ fun CartItem(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "Bix Bag Limited Edition 229",
+                    text = product?.name.toString(),
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -119,7 +205,7 @@ fun CartItem(
                             fontSize = MaterialTheme.typography.bodyMedium.fontSize
                         )
                     ) {
-                        append("Brown")
+                        append(product?.colors)
                     }
                 }
                 Text(color)
@@ -183,24 +269,24 @@ fun CartItem(
                         withStyle(
                             style = SpanStyle(
                                 color = Color.Black,
-                                fontSize = 24.sp,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("65.00")
+                            append("${product?.price}.00")
                         }
                     }
                     Text(
                         text = price,
-                        modifier = Modifier.padding(start = 10.dp)
-                    )
+
+                        )
                 }
 
 
             }
         }
         HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(.85f),
+            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(.85f),
             color = Color.LightGray
         )
     }
