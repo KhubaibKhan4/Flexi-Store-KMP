@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.books.BooksItem
+import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
@@ -36,6 +37,21 @@ class MainViewModel(
 
     private val _books = MutableStateFlow<ResultState<List<BooksItem>>>(ResultState.Loading)
     val books: StateFlow<ResultState<List<BooksItem>>> = _books.asStateFlow()
+
+    private val _carts = MutableStateFlow<ResultState<List<CartItem>>>(ResultState.Loading)
+    val carts: StateFlow<ResultState<List<CartItem>>> = _carts.asStateFlow()
+    fun getCartsList(userId: Long) {
+        viewModelScope.launch {
+            _carts.value = ResultState.Loading
+            try {
+                val response = repository.getCartListByUserId(userId)
+                _carts.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _carts.value = ResultState.Error(e)
+            }
+        }
+    }
+
     fun getBooksList() {
         viewModelScope.launch {
             _books.value = ResultState.Loading
