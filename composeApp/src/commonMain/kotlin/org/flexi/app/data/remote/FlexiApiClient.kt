@@ -97,4 +97,7 @@ object FlexiApiClient {
     suspend fun getCartListByUserId(id: Long): List<CartItem>{
         return client.get(BASE_URL+"v1/cart/user/1").body()
     }
+    suspend fun getProductById(id: Long): List<Products>{
+        return client.get(BASE_URL+"v1/products/$id").body()
+    }
 }
