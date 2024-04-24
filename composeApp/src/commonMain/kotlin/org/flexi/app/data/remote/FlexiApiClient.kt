@@ -105,4 +105,17 @@ object FlexiApiClient {
         val idString = id.joinToString(",")
         return client.get(BASE_URL+"v1/products/userId/$idString").body()
     }
+    @OptIn(InternalAPI::class)
+    suspend fun addToCart(productId: Long, quantity: Int, userId: Long): CartItem {
+        val url = BASE_URL + "v1/cart"
+        val formData = Parameters.build {
+            append("productId", productId.toString())
+            append("quantity", quantity.toString())
+            append("userId", userId.toString())
+        }
+        return client.post(url) {
+            body = FormDataContent(formData)
+        }.body()
+    }
+
 }

@@ -43,6 +43,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,16 +68,24 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.LoadingBox
+import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
+import org.koin.compose.koinInject
 
 class DetailScreen(
     val products: Products,
 ) : Screen {
     @Composable
     override fun Content() {
+        val viewModel: MainViewModel = koinInject()
         val navigator = LocalNavigator.current
-        var producstItems by remember { mutableStateOf(1) }
+        var productItems by remember { mutableStateOf(1) }
+        var cartItem by remember { mutableStateOf<CartItem?>(null) }
         val colorOptions = listOf(
             Color.Blue,
             Color.Black,
@@ -94,12 +103,26 @@ class DetailScreen(
 
         var totalPrice by remember { mutableStateOf(products.price) }
 
-        LaunchedEffect(producstItems) {
-            if (producstItems > 1) {
-                totalPrice = products.price * producstItems
+        LaunchedEffect(productItems) {
+            if (productItems > 1) {
+                totalPrice = products.price * productItems
             } else {
-                producstItems = 1
+                productItems = 1
                 totalPrice = products.price
+            }
+        }
+        val state by viewModel.addToCart.collectAsState()
+        when(state){
+            is ResultState.Error -> {
+                val error = (state as ResultState.Error).error
+                ErrorBox(error)
+            }
+            ResultState.Loading -> {
+                LoadingBox()
+            }
+            is ResultState.Success -> {
+                val response = (state as ResultState.Success).response
+                cartItem = response
             }
         }
 
@@ -360,7 +383,7 @@ class DetailScreen(
                                 enabled = true,
                                 shape = RoundedCornerShape(24.dp),
                                 colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor =Color(0xFF5821c4),
+                                    containerColor = Color(0xFF5821c4),
                                     contentColor = Color.White
                                 )
                             ) {
@@ -401,13 +424,13 @@ class DetailScreen(
                                         .clip(CircleShape)
                                         .background(Color.White)
                                         .clickable {
-                                            if (producstItems >= 1) {
-                                                producstItems--
+                                            if (productItems >= 1) {
+                                                productItems--
                                             }
                                         }
                                 )
                                 Text(
-                                    text = producstItems.toString(),
+                                    text = productItems.toString(),
                                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp)
@@ -420,7 +443,7 @@ class DetailScreen(
                                         .clip(CircleShape)
                                         .background(Color.White)
                                         .clickable {
-                                            producstItems++
+                                            productItems++
                                         }
                                 )
                             }
@@ -474,7 +497,13 @@ class DetailScreen(
 
                             Spacer(modifier = Modifier.weight(1f))
                             FilledIconButton(
-                                onClick = {},
+                                onClick = {
+                                    viewModel.addToCartItem(
+                                        productId = products.id.toLong(),
+                                        quantity = productItems,
+                                        userId = 1
+                                    )
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth(.5f)
                                     .height(55.dp)
