@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import org.flexi.app.domain.model.books.BooksItem
+import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
@@ -75,6 +76,7 @@ class HomeScreen : Screen {
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
+        var CartsList by remember { mutableStateOf<List<CartItem>?>(null) }
         val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
         var selectedCategoryIndex by remember { mutableStateOf(0) }
@@ -84,6 +86,7 @@ class HomeScreen : Screen {
             viewModel.getPromotionsItems()
             viewModel.getCategoriesList()
             viewModel.getBooksList()
+            viewModel.getCartsList(1)
         }
         val state by viewModel.products.collectAsState()
         when (state) {
@@ -147,6 +150,22 @@ class HomeScreen : Screen {
             is ResultState.Success -> {
                 val response = (booksState as ResultState.Success).response
                 booksList = response
+            }
+        }
+        val cartState by viewModel.carts.collectAsState()
+        when (cartState) {
+            is ResultState.Error -> {
+                val error = (cartState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (cartState as ResultState.Success).response
+                CartsList = response
             }
         }
         var isDark by LocalThemeIsDark.current
