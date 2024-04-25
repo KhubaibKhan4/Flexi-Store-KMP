@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.cart
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,6 +62,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import flexi_store.composeapp.generated.resources.Res
+import flexi_store.composeapp.generated.resources.no_item_found
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -71,6 +75,7 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class CartList(
@@ -315,12 +320,23 @@ class CartList(
                                 sheetState = sheetState
                             ) {
                                 if (checkedItems.isEmpty()) {
-                                    Text(
-                                        text = "No items selected",
-                                        modifier = Modifier.padding(12.dp),
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Red
-                                    )
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Image(
+                                            painter = painterResource(Res.drawable.no_item_found),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(250.dp)
+                                        )
+                                        Text(
+                                            text = "No items selected",
+                                            modifier = Modifier.padding(12.dp),
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Red
+                                        )
+                                    }
                                 } else {
                                     Column(
                                         modifier = Modifier.fillMaxWidth()
@@ -340,9 +356,7 @@ class CartList(
                                                 )
                                                 .border(
                                                     width = 2.dp,
-                                                    color = if (isPromo.isEmpty()) Color.LightGray else Color(
-                                                        0xFF5821c4
-                                                    ), // Change border color based on input
+                                                    color = if (isPromo.isEmpty()) Color.LightGray else Color.Gray,
                                                     shape = RoundedCornerShape(12.dp)
                                                 ),
                                             singleLine = true,
