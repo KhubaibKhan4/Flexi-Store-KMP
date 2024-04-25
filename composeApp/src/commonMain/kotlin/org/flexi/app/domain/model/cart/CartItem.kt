@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CartItem(
+    @SerialName("cartId")
+    val cartId: Int,
     @SerialName("productId")
     val productId: Int = 0,
     @SerialName("quantity")

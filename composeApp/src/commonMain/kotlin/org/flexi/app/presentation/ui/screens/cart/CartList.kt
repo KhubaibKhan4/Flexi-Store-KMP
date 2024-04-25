@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.cart
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Discount
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material3.Checkbox
@@ -192,7 +194,8 @@ class CartList(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Column(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth()
+                                        .weight(1f),
                                     verticalArrangement = Arrangement.SpaceBetween,
                                     horizontalAlignment = Alignment.Start
                                 ) {
@@ -299,6 +302,15 @@ class CartList(
                                     }
 
 
+                                }
+                                AnimatedVisibility(isCheck) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Delete,
+                                        contentDescription = null,
+                                        modifier = Modifier.clickable {
+
+                                        }
+                                    )
                                 }
                             }
                             HorizontalDivider(
