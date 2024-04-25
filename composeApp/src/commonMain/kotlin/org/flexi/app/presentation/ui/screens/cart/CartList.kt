@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.screens.cart
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,33 +17,37 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.filled.ShoppingBag
+import androidx.compose.material.icons.outlined.Discount
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -57,6 +62,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
@@ -69,14 +75,18 @@ import org.koin.compose.koinInject
 class CartList(
     private val cartItem: List<CartItem>,
 ) : Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
         val viewModel: MainViewModel = koinInject()
         var product by remember { mutableStateOf<List<Products>?>(null) }
-
         val ids = cartItem.map { it.productId.toLong() }
         val quantityMap = cartItem.associate { it.productId to it.quantity }
+        var isCheckout by remember { mutableStateOf(false) }
+        var isBottomSheetVisible by remember { mutableStateOf(false) }
+        val sheetState = rememberModalBottomSheetState()
+        val scope = rememberCoroutineScope()
 
         LaunchedEffect(Unit) {
             viewModel.getProductById(ids)
@@ -109,7 +119,7 @@ class CartList(
                         imageVector = Icons.Default.ArrowBackIosNew,
                         contentDescription = null,
                         modifier = Modifier.clickable {
-                           navigator?.pop()
+                            navigator?.pop()
                         }
                     )
                     Text(
@@ -119,39 +129,385 @@ class CartList(
                     )
                     Icon(
                         imageVector = Icons.Outlined.ShoppingBag,
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            scope.launch {
+                                isBottomSheetVisible = !isBottomSheetVisible
+                            }
+                        }
                     )
                 }
             }
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = it.calculateTopPadding())
+                    .padding(top = it.calculateTopPadding(), bottom = 34.dp)
             ) {
                 product?.let { list ->
                     items(list) { pro ->
                         val quantity = quantityMap[pro.id] ?: 0
-                        CartItem(
-                            pro,
-                            quantity
-                        )
+                        var isCheck by remember { mutableStateOf(false) }
+                        var productsItems by remember { mutableStateOf(quantity) }
+                        var totalPrice by remember { mutableStateOf(pro.price * quantity) }
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(all = 10.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Checkbox(
+                                    checked = isCheck,
+                                    onCheckedChange = {
+                                        isCheck = it
+                                    },
+                                    modifier = Modifier.size(30.dp),
+                                    enabled = true,
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                val image: Resource<Painter> =
+                                    asyncPainterResource(BASE_URL + pro?.imageUrl.toString())
+                                KamelImage(
+                                    resource = image,
+                                    contentDescription = null,
+                                    modifier = Modifier.width(125.dp)
+                                        .height(75.dp)
+                                        .clip(RoundedCornerShape(6.dp))
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalArrangement = Arrangement.SpaceBetween,
+                                    horizontalAlignment = Alignment.Start
+                                ) {
+                                    Text(
+                                        text = pro?.name.toString(),
+                                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                        fontWeight = FontWeight.Bold,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                    val color = buildAnnotatedString {
+                                        withStyle(
+                                            SpanStyle(
+                                                color = Color.LightGray,
+                                                fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                                            )
+                                        ) {
+                                            append("Color:")
+                                        }
+                                        withStyle(
+                                            SpanStyle(
+                                                color = Color.Black,
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                                            )
+                                        ) {
+                                            append(pro?.colors)
+                                        }
+                                    }
+                                    Text(color)
+                                    Spacer(modifier = Modifier.height(5.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(2.dp)
+                                                .width(84.dp)
+                                                .height(34.dp)
+                                                .clip(RoundedCornerShape(12.dp))
+                                                .background(color = Color.LightGray.copy(alpha = 0.45f)),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Remove,
+                                                contentDescription = "Decrease",
+                                                modifier = Modifier.size(25.dp)
+                                                    .clip(CircleShape)
+                                                    .background(Color.White)
+                                                    .clickable {
+                                                        if (productsItems > 1) {
+                                                            productsItems--
+                                                            totalPrice = pro.price * productsItems
+                                                        }
+                                                    }
+                                            )
+                                            Text(
+                                                text = productsItems.toString(),
+                                                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                                fontWeight = FontWeight.Bold,
+                                                modifier = Modifier.padding(horizontal = 8.dp)
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Default.Add,
+                                                contentDescription = "Increase",
+                                                modifier = Modifier
+                                                    .size(25.dp)
+                                                    .clip(CircleShape)
+                                                    .background(Color.White)
+                                                    .clickable {
+                                                        productsItems++
+                                                        totalPrice = pro.price * productsItems
+                                                    }
+                                            )
+                                        }
+                                        val price = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color(0xFF5821c4),
+                                                    fontSize = 13.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    baselineShift = BaselineShift.Superscript
+                                                )
+                                            ) {
+                                                append("\$")
+                                            }
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = 18.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            ) {
+                                                append("${totalPrice}.00")
+                                            }
+                                        }
+                                        Text(
+                                            text = price,
+
+                                            )
+                                    }
+
+
+                                }
+                            }
+                            HorizontalDivider(
+                                modifier = Modifier.padding(top = 12.dp).fillMaxWidth(.85f),
+                                color = Color.LightGray
+                            )
+                        }
+                        if (isBottomSheetVisible) {
+                            var isPromo by remember { mutableStateOf("") }
+                            ModalBottomSheet(
+                                onDismissRequest = {
+                                    scope.launch {
+                                        sheetState.hide()
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                sheetState = sheetState
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(all = 12.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    TextField(
+                                        value = isPromo,
+                                        onValueChange = { value ->
+                                            isPromo = value
+                                        },
+                                        modifier = Modifier.fillMaxWidth(0.80f)
+                                            .clip(
+                                                RoundedCornerShape(12.dp)
+                                            )
+                                            .border(width = 1.dp, color = Color.LightGray),
+                                        singleLine = true,
+                                        leadingIcon = {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Discount,
+                                                contentDescription = null,
+                                                tint = Color.Gray
+                                            )
+                                        },
+                                        trailingIcon = {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                                                contentDescription = null,
+                                                tint = Color.Gray
+                                            )
+                                        },
+                                        colors = TextFieldDefaults.colors(
+                                            focusedTextColor = Color.Gray,
+                                            unfocusedPlaceholderColor = Color.Gray,
+                                            focusedPlaceholderColor = Color.Gray,
+                                            unfocusedLeadingIconColor = Color.Gray,
+                                            focusedLeadingIconColor = Color.Gray,
+                                        )
+                                    )
+                                    Spacer(Modifier.height(12.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(12.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Subtotal",
+                                            color = Color.Gray,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = MaterialTheme.typography.titleMedium.fontSize
+                                        )
+                                        val price = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = 13.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    baselineShift = BaselineShift.Superscript
+                                                )
+                                            ) {
+                                                append("\$")
+                                            }
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = 18.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            ) {
+                                                append(totalPrice.toString() + ".00")
+                                            }
+                                        }
+                                        Text(
+                                            text = price
+                                        )
+                                    }
+                                    Spacer(Modifier.height(12.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(12.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Shipping",
+                                            color = Color.Gray,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize =MaterialTheme.typography.titleMedium.fontSize
+                                        )
+                                        val price = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = 13.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    baselineShift = BaselineShift.Superscript
+                                                )
+                                            ) {
+                                                append("\$")
+                                            }
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            ) {
+                                                append(totalPrice.toString() + ".00")
+                                            }
+                                        }
+                                        Text(
+                                            text = price
+                                        )
+                                    }
+                                    Spacer(Modifier.height(8.dp))
+                                    HorizontalDivider(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        color = Color.LightGray,
+                                        thickness = 2.dp
+                                    )
+                                    Spacer(Modifier.height(12.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(12.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Total amount",
+                                            color = Color.Gray,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = MaterialTheme.typography.titleMedium.fontSize
+                                        )
+                                        val price = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = 13.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    baselineShift = BaselineShift.Superscript
+                                                )
+                                            ) {
+                                                append("\$")
+                                            }
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = Color.Black,
+                                                    fontSize = 18.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            ) {
+                                                append(totalPrice.toString())
+                                            }
+                                        }
+                                        Text(
+                                            text = price
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    FilledIconButton(
+                                        onClick = {
+
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth(.5f)
+                                            .height(55.dp)
+                                            .padding(top = 4.dp),
+                                        enabled = true,
+                                        shape = RoundedCornerShape(24.dp),
+                                        colors = IconButtonDefaults.iconButtonColors(
+                                            containerColor = Color(0xFF5821c4),
+                                            contentColor = Color.White
+                                        )
+                                    ) {
+                                        Text(
+                                            text = "Checkout",
+                                            color = Color.White
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
             }
         }
-
     }
-
 }
 
+/*
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartItem(
     product: Products,
-    quantity: Int
+    quantity: Int,
+    isBottomSheetVisible: Boolean,
+    onDismissBottomSheet: () -> Unit,
 ) {
+    println(isBottomSheetVisible)
     var isCheck by remember { mutableStateOf(false) }
-    var producstItems by remember { mutableStateOf(quantity) }
+    var productsItems by remember { mutableStateOf(quantity) }
     var totalPrice by remember { mutableStateOf(product.price * quantity) }
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -167,7 +523,7 @@ fun CartItem(
             Checkbox(
                 checked = isCheck,
                 onCheckedChange = {
-                     isCheck = it
+                    isCheck = it
                 },
                 modifier = Modifier.size(30.dp),
                 enabled = true,
@@ -238,14 +594,14 @@ fun CartItem(
                                 .clip(CircleShape)
                                 .background(Color.White)
                                 .clickable {
-                                    if (producstItems > 1) {
-                                        producstItems--
-                                        totalPrice = product.price * producstItems
+                                    if (productsItems > 1) {
+                                        productsItems--
+                                        totalPrice = product.price * productsItems
                                     }
                                 }
                         )
                         Text(
-                            text = producstItems.toString(),
+                            text = productsItems.toString(),
                             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(horizontal = 8.dp)
@@ -258,8 +614,8 @@ fun CartItem(
                                 .clip(CircleShape)
                                 .background(Color.White)
                                 .clickable {
-                                    producstItems++
-                                    totalPrice = product.price * producstItems
+                                    productsItems++
+                                    totalPrice = product.price * productsItems
                                 }
                         )
                     }
@@ -298,4 +654,195 @@ fun CartItem(
             color = Color.LightGray
         )
     }
-}
+    if (isBottomSheetVisible) {
+        var isPromo by remember { mutableStateOf("") }
+        ModalBottomSheet(
+            onDismissRequest = {
+                onDismissBottomSheet()
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(all = 12.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                TextField(
+                    value = isPromo,
+                    onValueChange = {
+                        isPromo = it
+                    },
+                    modifier = Modifier.fillMaxWidth(0.80f)
+                        .clip(
+                            RoundedCornerShape(12.dp)
+                        )
+                        .border(width = 1.dp, color = Color.LightGray),
+                    singleLine = true,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Discount,
+                            contentDescription = null,
+                            tint = Color.Gray
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                            contentDescription = null,
+                            tint = Color.Gray
+                        )
+                    },
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = Color.Gray,
+                        unfocusedPlaceholderColor = Color.Gray,
+                        focusedPlaceholderColor = Color.Gray,
+                        unfocusedLeadingIconColor = Color.Gray,
+                        focusedLeadingIconColor = Color.Gray,
+                    )
+                )
+                Spacer(Modifier.height(12.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Subtotal",
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize
+                    )
+                    val price = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                baselineShift = BaselineShift.Superscript
+                            )
+                        ) {
+                            append("\$")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append(totalPrice.toString() + ".00")
+                        }
+                    }
+                    Text(
+                        text = price
+                    )
+                }
+                Spacer(Modifier.height(12.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Shipping",
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize
+                    )
+                    val price = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                baselineShift = BaselineShift.Superscript
+                            )
+                        ) {
+                            append("\$")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append(totalPrice.toString() + ".00")
+                        }
+                    }
+                    Text(
+                        text = price
+                    )
+                }
+                Spacer(Modifier.height(8.dp))
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(0.80f),
+                    color = Color.LightGray,
+                    thickness = 2.dp
+                )
+                Spacer(Modifier.height(12.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Total amount",
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize
+                    )
+                    val price = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                baselineShift = BaselineShift.Superscript
+                            )
+                        ) {
+                            append("\$")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Black,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append(totalPrice.toString())
+                        }
+                    }
+                    Text(
+                        text = price
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                FilledIconButton(
+                    onClick = {
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(.5f)
+                        .height(55.dp)
+                        .padding(top = 4.dp),
+                    enabled = true,
+                    shape = RoundedCornerShape(24.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color(0xFF5821c4),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(
+                        text = "Checkout",
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}*/
