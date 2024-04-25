@@ -177,7 +177,8 @@ class HomeScreen : Screen {
                         name = "Jonathan",
                         onCartClicked = {
                             CartsList?.let {carts->
-                                navigator?.push(CartList(carts))
+                                val mutableCartsList = carts.toMutableList()
+                                navigator?.push(CartList(mutableCartsList))
                             }
                         },
                         profileImageUrl = null,
