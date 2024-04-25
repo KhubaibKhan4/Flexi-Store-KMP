@@ -152,6 +152,7 @@ fun CartItem(
 ) {
     var isCheck by remember { mutableStateOf(false) }
     var producstItems by remember { mutableStateOf(quantity) }
+    var totalPrice by remember { mutableStateOf(product.price * quantity) }
     Column(
         modifier = Modifier.fillMaxWidth()
             .padding(all = 10.dp),
@@ -237,8 +238,9 @@ fun CartItem(
                                 .clip(CircleShape)
                                 .background(Color.White)
                                 .clickable {
-                                    if (producstItems >= 1) {
+                                    if (producstItems > 1) {
                                         producstItems--
+                                        totalPrice = product.price * producstItems
                                     }
                                 }
                         )
@@ -257,6 +259,7 @@ fun CartItem(
                                 .background(Color.White)
                                 .clickable {
                                     producstItems++
+                                    totalPrice = product.price * producstItems
                                 }
                         )
                     }
@@ -278,7 +281,7 @@ fun CartItem(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("${product?.price}.00")
+                            append("${totalPrice}.00")
                         }
                     }
                     Text(
