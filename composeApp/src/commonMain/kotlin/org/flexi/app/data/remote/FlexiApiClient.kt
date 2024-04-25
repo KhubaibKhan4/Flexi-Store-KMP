@@ -117,5 +117,8 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
+    suspend fun getCartItem(cartId: Long): CartItem{
+        return client.get(BASE_URL+"v1/cart/cartId/$cartId").body()
+    }
 
 }

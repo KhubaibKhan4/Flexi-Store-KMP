@@ -46,6 +46,21 @@ class MainViewModel(
 
     private val _addToCart = MutableStateFlow<ResultState<CartItem>>(ResultState.Loading)
     val addToCart: StateFlow<ResultState<CartItem>> = _addToCart.asStateFlow()
+
+    private val _cartItem = MutableStateFlow<ResultState<CartItem>>(ResultState.Loading)
+    val cartItem: StateFlow<ResultState<CartItem>> = _cartItem.asStateFlow()
+    fun getCartItemById(cartId: Long) {
+        viewModelScope.launch {
+            _cartItem.value = ResultState.Loading
+            try {
+                val response = repository.getCartItem(cartId)
+                _cartItem.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _cartItem.value = ResultState.Error(e)
+            }
+        }
+    }
+
     fun addToCartItem(productId: Long, quantity: Int, userId: Long) {
         viewModelScope.launch {
             _addToCart.value = ResultState.Loading
@@ -69,6 +84,7 @@ class MainViewModel(
             }
         }
     }
+
     fun getCartsList(userId: Long) {
         viewModelScope.launch {
             _carts.value = ResultState.Loading

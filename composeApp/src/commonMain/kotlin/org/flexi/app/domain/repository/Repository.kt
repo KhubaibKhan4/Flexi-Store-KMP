@@ -46,4 +46,8 @@ class Repository : FlexiApi {
     override suspend fun addToCart(productId: Long, quantity: Int, userId: Long): CartItem {
         return FlexiApiClient.addToCart(productId, quantity, userId)
     }
+
+    override suspend fun getCartItem(cartId: Long): CartItem {
+        return FlexiApiClient.getCartItem(cartId)
+    }
 }

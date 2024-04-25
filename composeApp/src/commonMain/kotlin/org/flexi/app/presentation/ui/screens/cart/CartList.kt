@@ -295,10 +295,7 @@ class CartList(
                                                 append("${totalPrice}.00")
                                             }
                                         }
-                                        Text(
-                                            text = price,
-
-                                            )
+                                        Text(text = price)
                                     }
 
 
