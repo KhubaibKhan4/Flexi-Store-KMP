@@ -7,6 +7,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.delete
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.post
@@ -119,6 +120,9 @@ object FlexiApiClient {
     }
     suspend fun getCartItem(cartId: Long): CartItem{
         return client.get(BASE_URL+"v1/cart/cartId/$cartId").body()
+    }
+    suspend fun deleteCartItemByItem(cartId: Int): Int{
+        return client.delete(BASE_URL+"v1/cart/item/$cartId").body()
     }
 
 }

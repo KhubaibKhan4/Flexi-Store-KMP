@@ -77,11 +77,12 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
+import org.flexi.app.utils.extractItemId
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class CartList(
-    private val cartItem: List<CartItem>,
+    private var cartItem: List<CartItem>,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -96,15 +97,46 @@ class CartList(
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
         val checkedItems = remember { mutableStateListOf<Products>() }
+        var deleteItem by remember { mutableStateOf<Int?>(null) }
 
-        LaunchedEffect(Unit) {
-            viewModel.getProductById(ids)
+        val deleteState by viewModel.deleteCartItem.collectAsState()
+        LaunchedEffect(cartItem.isEmpty()) {
+           viewModel.getProductById(ids)
+        }
+        when (deleteState) {
+            is ResultState.Error -> {
+                val error = (deleteState as ResultState.Error).error
+                val errorMessage = error.message ?: ""
+                if (errorMessage.contains("Deleted 1 items from cart")) {
+                    val itemId = extractItemId(errorMessage)
+                    if (itemId != null) {
+                        deleteItem = itemId
+                        println("Product with ID $itemId deleted Successfully....")
+                        cartItem = cartItem.filter { it.productId != itemId }
+                    } else {
+                        println("Error: Invalid response format")
+                    }
+                } else {
+                    ErrorBox(error)
+                }
+            }
+
+            is ResultState.Loading -> {
+                // LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (deleteState as ResultState.Success).response
+                deleteItem = response
+                println("Product with  $response deleted Successfully....")
+                cartItem = cartItem.filter { it.productId != response }
+            }
         }
         val productState by viewModel.productItem.collectAsState()
         when (productState) {
             is ResultState.Error -> {
                 val error = (productState as ResultState.Error).error
-                ErrorBox(error)
+                //ErrorBox(error)
             }
 
             is ResultState.Loading -> {
@@ -148,6 +180,32 @@ class CartList(
                 }
             }
         ) {
+            if (cartItem.isEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = it.calculateTopPadding(), bottom = 34.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.no_item_found),
+                            contentDescription = null,
+                            modifier = Modifier.size(250.dp)
+                        )
+                        Text(
+                            text = "No Product available",
+                            modifier = Modifier.padding(12.dp),
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Red
+                        )
+                    }
+                }
+            }
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
                     .padding(top = it.calculateTopPadding(), bottom = 34.dp)
@@ -158,6 +216,7 @@ class CartList(
                         var isCheck by remember { mutableStateOf(false) }
                         var productsItems by remember { mutableStateOf(quantity) }
                         var totalPrice by remember { mutableStateOf(pro.price * quantity) }
+                        val cartItem = cartItem.find { it.productId == pro.id }
                         Column(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(all = 10.dp),
@@ -305,7 +364,9 @@ class CartList(
                                         imageVector = Icons.Outlined.Delete,
                                         contentDescription = null,
                                         modifier = Modifier.clickable {
-
+                                            cartItem?.let { cartId ->
+                                                viewModel.deleteCartItemById(cartId.cartId)
+                                            }
                                         }
                                     )
                                 }
