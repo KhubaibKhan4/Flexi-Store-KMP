@@ -298,9 +298,7 @@ class CartList(
                             var isPromo by remember { mutableStateOf("") }
                             ModalBottomSheet(
                                 onDismissRequest = {
-                                    scope.launch {
-                                        sheetState.hide()
-                                    }
+                                   isBottomSheetVisible = !isBottomSheetVisible
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 sheetState = sheetState
@@ -316,11 +314,16 @@ class CartList(
                                         onValueChange = { value ->
                                             isPromo = value
                                         },
-                                        modifier = Modifier.fillMaxWidth(0.80f)
+                                        modifier = Modifier
+                                            .fillMaxWidth(0.88f)
                                             .clip(
                                                 RoundedCornerShape(12.dp)
                                             )
-                                            .border(width = 1.dp, color = Color.LightGray),
+                                            .border(
+                                                width = 2.dp,
+                                                color = if (isPromo.isEmpty()) Color.LightGray else Color(0xFF5821c4), // Change border color based on input
+                                                shape = RoundedCornerShape(12.dp)
+                                            ),
                                         singleLine = true,
                                         leadingIcon = {
                                             Icon(
@@ -336,12 +339,17 @@ class CartList(
                                                 tint = Color.Gray
                                             )
                                         },
+                                        placeholder = {
+                                            Text("Enter your promo code")
+                                        },
                                         colors = TextFieldDefaults.colors(
                                             focusedTextColor = Color.Gray,
                                             unfocusedPlaceholderColor = Color.Gray,
                                             focusedPlaceholderColor = Color.Gray,
                                             unfocusedLeadingIconColor = Color.Gray,
                                             focusedLeadingIconColor = Color.Gray,
+                                            unfocusedIndicatorColor = Color.Transparent,
+                                            focusedIndicatorColor = Color.Transparent
                                         )
                                     )
                                     Spacer(Modifier.height(12.dp))
@@ -413,7 +421,7 @@ class CartList(
                                                     fontWeight = FontWeight.Bold
                                                 )
                                             ) {
-                                                append(totalPrice.toString() + ".00")
+                                                append("7.00")
                                             }
                                         }
                                         Text(
@@ -453,7 +461,7 @@ class CartList(
                                             withStyle(
                                                 style = SpanStyle(
                                                     color = Color.Black,
-                                                    fontSize = 18.sp,
+                                                    fontSize = 21.sp,
                                                     fontWeight = FontWeight.Bold
                                                 )
                                             ) {
@@ -464,7 +472,7 @@ class CartList(
                                             text = price
                                         )
                                     }
-                                    Spacer(modifier = Modifier.weight(1f))
+                                    Spacer(modifier = Modifier.height(12.dp))
                                     FilledIconButton(
                                         onClick = {
 
