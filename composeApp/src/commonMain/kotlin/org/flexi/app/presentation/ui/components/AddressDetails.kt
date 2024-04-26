@@ -37,9 +37,7 @@ fun AddressDetails(
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 8.dp),
-        elevation =CardDefaults.cardElevation( 4.dp),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(Color.White)
     ) {
@@ -71,11 +69,10 @@ fun AddressDetails(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 8.dp),
+                    .padding(vertical = 8.dp, horizontal = 0.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Spacer(modifier = Modifier.width(4.dp))
                 Image(
                     painter = painterResource(Res.drawable.maps),
                     contentDescription = null,
@@ -86,7 +83,7 @@ fun AddressDetails(
                         .clip(RoundedCornerShape(14.dp))
 
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(8.dp))
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
