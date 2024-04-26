@@ -95,8 +95,9 @@ class CartList(
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
         val checkedItems = remember { mutableStateListOf<Products>() }
+        var deleteResponse by remember { mutableStateOf<Boolean?>(null) }
 
-        LaunchedEffect(product) {
+        LaunchedEffect(Unit) {
             viewModel.getProductById(ids)
         }
 
@@ -113,7 +114,23 @@ class CartList(
 
             is ResultState.Success -> {
                 val response = (productState as ResultState.Success).response
-                product = response.toMutableList()
+                product = response
+            }
+        }
+        val deleteState by viewModel.deleteItem.collectAsState()
+        when (deleteState) {
+            is ResultState.Error -> {
+                val error = (deleteState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                // LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (deleteState as ResultState.Success).response
+                deleteResponse = response
             }
         }
         Scaffold(
@@ -333,11 +350,21 @@ class CartList(
                                             imageVector = Icons.Outlined.Delete,
                                             contentDescription = null,
                                             modifier = Modifier.clickable {
-
+                                                cartItem?.let { id ->
+                                                    viewModel.deleteCartItem(id.cartId.toLong())
+                                                }
                                             }
                                         )
                                     }
                                 }
+                                if (deleteResponse == true){
+                                    Text(
+                                        text = "Item Deleted Successfully.",
+                                        color = Color.Red,
+                                        fontSize = MaterialTheme.typography.labelMedium.fontSize
+                                    )
+                                }
+
                                 HorizontalDivider(
                                     modifier = Modifier.padding(top = 12.dp).fillMaxWidth(.85f),
                                     color = Color.LightGray

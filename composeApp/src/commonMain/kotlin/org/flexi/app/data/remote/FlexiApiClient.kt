@@ -123,7 +123,7 @@ object FlexiApiClient {
         return client.get(BASE_URL+"v1/cart/cartId/$cartId").body()
     }
     suspend fun deleteCartItemById(cartId: Long): Boolean {
-        val url = "$BASE_URL/v1/cart/item/$cartId"
+        val url =BASE_URL+ "v1/cart/item/$cartId"
         return try {
             val response = client.delete(url)
             response.status.isSuccess()
