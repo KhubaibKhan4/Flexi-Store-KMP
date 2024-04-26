@@ -20,9 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.components.AddressDetails
+import org.flexi.app.presentation.ui.components.PaymentProductList
 
-class PaymentScreen : Screen {
+class PaymentScreen
+    (
+    private val products: List<Products>,
+) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -71,6 +76,7 @@ class PaymentScreen : Screen {
                         address = "1234 Elm Street, Apt 5A",
                         onEditClicked = {}
                     )
+                    PaymentProductList(products)
                 }
 
             }
