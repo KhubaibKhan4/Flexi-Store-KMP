@@ -4,7 +4,6 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.cache
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.cart.CartItem
@@ -50,6 +49,21 @@ class MainViewModel(
 
     private val _cartItem = MutableStateFlow<ResultState<CartItem>>(ResultState.Loading)
     val cartItem: StateFlow<ResultState<CartItem>> = _cartItem.asStateFlow()
+
+    private val _deleteItem = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
+    val deleteItem: StateFlow<ResultState<Boolean>> = _deleteItem.asStateFlow()
+
+    fun deleteCartItem(id: Long) {
+        viewModelScope.launch {
+            _deleteItem.value = ResultState.Loading
+            try {
+                val response = repository.deleteCartItemById(id)
+                _deleteItem.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _deleteItem.value = ResultState.Error(e)
+            }
+        }
+    }
 
     fun getCartItemById(cartId: Long) {
         viewModelScope.launch {
