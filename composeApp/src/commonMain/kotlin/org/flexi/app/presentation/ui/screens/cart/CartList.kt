@@ -1,6 +1,5 @@
 package org.flexi.app.presentation.ui.screens.cart
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,7 +23,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Discount
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material3.Checkbox
@@ -69,13 +67,13 @@ import flexi_store.composeapp.generated.resources.no_item_found
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
+import org.flexi.app.presentation.ui.screens.payment.PaymentScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.painterResource
@@ -97,7 +95,6 @@ class CartList(
         val scope = rememberCoroutineScope()
         val checkedItems = remember { mutableStateListOf<Products>() }
         var deleteResponse by remember { mutableStateOf<Boolean?>(null) }
-        var deletedProductId by remember { mutableStateOf<Int?>(null) }
         LaunchedEffect(Unit) {
             if (ids.isNotEmpty()) {
                 viewModel.getProductById(ids)
@@ -563,7 +560,7 @@ class CartList(
                                             Spacer(modifier = Modifier.height(12.dp))
                                             FilledIconButton(
                                                 onClick = {
-
+                                                   navigator?.push(PaymentScreen())
                                                 },
                                                 modifier = Modifier
                                                     .fillMaxWidth(.5f)
