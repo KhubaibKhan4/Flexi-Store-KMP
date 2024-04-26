@@ -79,7 +79,7 @@ fun AddressDetails(
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .width(140.dp)
-                        .height(140.dp)
+                        .height(120.dp)
                         .clip(RoundedCornerShape(14.dp))
 
                 )
