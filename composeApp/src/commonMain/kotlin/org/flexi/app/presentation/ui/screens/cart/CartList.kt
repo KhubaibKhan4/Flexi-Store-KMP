@@ -52,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -236,9 +237,10 @@ class CartList(
                                     KamelImage(
                                         resource = image,
                                         contentDescription = null,
-                                        modifier = Modifier.width(125.dp)
-                                            .height(75.dp)
-                                            .clip(RoundedCornerShape(6.dp))
+                                        modifier = Modifier.width(100.dp)
+                                            .height(85.dp)
+                                            .clip(RoundedCornerShape(6.dp)),
+                                        contentScale = ContentScale.FillBounds
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Column(
@@ -560,7 +562,7 @@ class CartList(
                                             Spacer(modifier = Modifier.height(12.dp))
                                             FilledIconButton(
                                                 onClick = {
-                                                   navigator?.push(PaymentScreen())
+                                                   navigator?.push(PaymentScreen(product!!))
                                                 },
                                                 modifier = Modifier
                                                     .fillMaxWidth(.5f)
