@@ -51,7 +51,5 @@ class Repository : FlexiApi {
         return FlexiApiClient.getCartItem(cartId)
     }
 
-    override suspend fun deleteCartItemByItem(cartId: Int): Int {
-        return FlexiApiClient.deleteCartItemByItem(cartId)
-    }
+
 }

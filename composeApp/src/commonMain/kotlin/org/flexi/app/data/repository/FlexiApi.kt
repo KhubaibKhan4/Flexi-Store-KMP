@@ -19,5 +19,4 @@ interface FlexiApi {
     suspend fun getProductById(id: List<Long>): List<Products>
     suspend fun addToCart(productId: Long, quantity: Int, userId: Long): CartItem
     suspend fun getCartItem(cartId: Long): CartItem
-    suspend fun deleteCartItemByItem(cartId: Int): Int
 }

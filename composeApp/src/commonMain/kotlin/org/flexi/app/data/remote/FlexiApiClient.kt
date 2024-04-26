@@ -121,8 +121,5 @@ object FlexiApiClient {
     suspend fun getCartItem(cartId: Long): CartItem{
         return client.get(BASE_URL+"v1/cart/cartId/$cartId").body()
     }
-    suspend fun deleteCartItemByItem(cartId: Int): Int{
-        return client.delete(BASE_URL+"v1/cart/item/$cartId").body()
-    }
 
 }
