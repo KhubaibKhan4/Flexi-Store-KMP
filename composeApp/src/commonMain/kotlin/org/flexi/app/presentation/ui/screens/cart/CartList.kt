@@ -81,7 +81,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class CartList(
-    private var cartItem: MutableList<CartItem>,
+    private var cartItem: List<CartItem>,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -91,57 +91,20 @@ class CartList(
         var product by remember { mutableStateOf<List<Products>?>(null) }
         val ids by remember { mutableStateOf(cartItem.map { it.productId.toLong() }) }
         val quantityMap = cartItem.associate { it.productId to it.quantity }
-        var isCheckout by remember { mutableStateOf(false) }
         var isBottomSheetVisible by remember { mutableStateOf(false) }
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
         val checkedItems = remember { mutableStateListOf<Products>() }
-        var deleteItem by remember { mutableStateOf<Int?>(null) }
-        var cartItems by remember { mutableStateOf(cartItem) }
 
         LaunchedEffect(product) {
             viewModel.getProductById(ids)
-        }
-        val deleteState by viewModel.deleteCartItem.collectAsState()
-        when (deleteState) {
-            is ResultState.Error -> {
-                val error = (deleteState as ResultState.Error).error
-                val errorMessage = error.message ?: ""
-                val regex = Regex("Deleted 1 items from cart with ID: (\\d+)")
-                val matchResult = regex.find(errorMessage)
-                if (matchResult != null) {
-                    val itemIdString = matchResult.groupValues[1]
-                    val itemId = itemIdString.toIntOrNull()
-                    if (itemId != null) {
-                        deleteItem = itemId
-                        println("Product with ID $itemId deleted Successfully....")
-                        cartItem = cartItem.filter { it.productId != itemId }.toMutableList()
-                        product = product?.filter { it.id != itemId }
-                    } else {
-                        println("Error: Invalid item ID format")
-                    }
-                } else {
-                    ErrorBox(error)
-                }
-            }
-
-            is ResultState.Success -> {
-                val response = (deleteState as ResultState.Success).response
-                println("Product with ID $response deleted Successfully....")
-                cartItem = cartItem.filter { it.productId != response }.toMutableList()
-                product = product?.toMutableList()?.filter { it.id != response }
-            }
-
-            is ResultState.Loading -> {
-                // LoadingBox()
-            }
         }
 
         val productState by viewModel.productItem.collectAsState()
         when (productState) {
             is ResultState.Error -> {
                 val error = (productState as ResultState.Error).error
-                //ErrorBox(error)
+                ErrorBox(error)
             }
 
             is ResultState.Loading -> {
@@ -370,9 +333,7 @@ class CartList(
                                             imageVector = Icons.Outlined.Delete,
                                             contentDescription = null,
                                             modifier = Modifier.clickable {
-                                                cartItem?.let { cartId ->
-                                                    viewModel.deleteCartItemById(cartId.cartId)
-                                                }
+
                                             }
                                         )
                                     }
