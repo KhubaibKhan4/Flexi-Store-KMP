@@ -13,6 +13,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
@@ -120,6 +121,15 @@ object FlexiApiClient {
     }
     suspend fun getCartItem(cartId: Long): CartItem{
         return client.get(BASE_URL+"v1/cart/cartId/$cartId").body()
+    }
+    suspend fun deleteCartItemById(cartId: Long): Boolean {
+        val url = "$BASE_URL/v1/cart/item/$cartId"
+        return try {
+            val response = client.delete(url)
+            response.status.isSuccess()
+        } catch (e: Exception) {
+            false
+        }
     }
 
 }
