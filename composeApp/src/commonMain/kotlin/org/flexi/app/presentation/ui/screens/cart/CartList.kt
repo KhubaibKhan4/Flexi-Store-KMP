@@ -97,8 +97,11 @@ class CartList(
         val scope = rememberCoroutineScope()
         val checkedItems = remember { mutableStateListOf<Products>() }
         var deleteResponse by remember { mutableStateOf<Boolean?>(null) }
+        var deletedProductId by remember { mutableStateOf<Int?>(null) }
         LaunchedEffect(Unit) {
-            viewModel.getProductById(ids)
+            if (ids.isNotEmpty()) {
+                viewModel.getProductById(ids)
+            }
         }
 
         val productState by viewModel.productItem.collectAsState()
@@ -109,7 +112,9 @@ class CartList(
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                if (ids.isNotEmpty()) {
+                    LoadingBox()
+                }
             }
 
             is ResultState.Success -> {
@@ -164,8 +169,8 @@ class CartList(
                     )
                 }
             }
-        ) {
-            if (cartItem.isEmpty()) {
+        ) { it ->
+            if (cartItem.isEmpty() || ids.isEmpty() || product?.isEmpty() == true) {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = it.calculateTopPadding(), bottom = 34.dp),
@@ -201,7 +206,9 @@ class CartList(
                             var isCheck by remember { mutableStateOf(false) }
                             var productsItems by remember { mutableStateOf(quantity) }
                             var totalPrice by remember { mutableStateOf(pro.price * quantity) }
-                            val cartItem = cartItem.find { it.productId == pro.id }
+                            val cartItem = cartItem.find { cart ->
+                                cart.productId == pro.id
+                            }
                             Column(
                                 modifier = Modifier.fillMaxWidth()
                                     .padding(all = 10.dp),
@@ -344,28 +351,6 @@ class CartList(
                                         }
 
 
-                                    }
-                                    AnimatedVisibility(isCheck) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Delete,
-                                            contentDescription = null,
-                                            modifier = Modifier.clickable {
-                                                cartItem?.let { id ->
-                                                    viewModel.deleteCartItem(id.cartId.toLong())
-                                                }
-                                            }
-                                        )
-                                    }
-                                }
-                                if (deleteResponse == true) {
-                                    Text(
-                                        text = "Item Deleted Successfully.",
-                                        color = Color.Red,
-                                        fontSize = MaterialTheme.typography.labelMedium.fontSize
-                                    )
-                                    scope.launch {
-                                        delay(500)
-                                        deleteResponse = null
                                     }
                                 }
 
