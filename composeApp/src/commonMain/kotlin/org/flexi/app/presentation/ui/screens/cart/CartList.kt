@@ -69,6 +69,7 @@ import flexi_store.composeapp.generated.resources.no_item_found
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.products.Products
@@ -96,7 +97,6 @@ class CartList(
         val scope = rememberCoroutineScope()
         val checkedItems = remember { mutableStateListOf<Products>() }
         var deleteResponse by remember { mutableStateOf<Boolean?>(null) }
-
         LaunchedEffect(Unit) {
             viewModel.getProductById(ids)
         }
@@ -357,12 +357,16 @@ class CartList(
                                         )
                                     }
                                 }
-                                if (deleteResponse == true){
+                                if (deleteResponse == true) {
                                     Text(
                                         text = "Item Deleted Successfully.",
                                         color = Color.Red,
                                         fontSize = MaterialTheme.typography.labelMedium.fontSize
                                     )
+                                    scope.launch {
+                                        delay(500)
+                                        deleteResponse = null
+                                    }
                                 }
 
                                 HorizontalDivider(
