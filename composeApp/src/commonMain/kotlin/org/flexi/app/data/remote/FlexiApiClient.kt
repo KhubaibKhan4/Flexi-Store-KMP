@@ -22,6 +22,7 @@ import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
+import org.flexi.app.domain.model.user.User
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
@@ -103,10 +104,12 @@ object FlexiApiClient {
     suspend fun getCartListByUserId(id: Long): List<CartItem> {
         return client.get(BASE_URL + "v1/cart/user/1").body()
     }
+
     suspend fun getProductById(id: List<Long>): List<Products> {
         val idString = id.joinToString(",")
-        return client.get(BASE_URL+"v1/products/userId/$idString").body()
+        return client.get(BASE_URL + "v1/products/userId/$idString").body()
     }
+
     @OptIn(InternalAPI::class)
     suspend fun addToCart(productId: Long, quantity: Int, userId: Long): CartItem {
         val url = BASE_URL + "v1/cart"
@@ -119,17 +122,23 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
-    suspend fun getCartItem(cartId: Long): CartItem{
-        return client.get(BASE_URL+"v1/cart/cartId/$cartId").body()
+
+    suspend fun getCartItem(cartId: Long): CartItem {
+        return client.get(BASE_URL + "v1/cart/cartId/$cartId").body()
     }
+
     suspend fun deleteCartItemById(cartId: Long): Boolean {
-        val url =BASE_URL+ "v1/cart/item/$cartId"
+        val url = BASE_URL + "v1/cart/item/$cartId"
         return try {
             val response = client.delete(url)
             response.status.isSuccess()
         } catch (e: Exception) {
             false
         }
+    }
+
+    suspend fun getUserData(id: Int): User {
+        return client.get(BASE_URL + "v1/users/$id").body()
     }
 
 }
