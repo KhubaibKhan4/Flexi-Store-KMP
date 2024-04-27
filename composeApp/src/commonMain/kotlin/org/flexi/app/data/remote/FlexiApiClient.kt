@@ -11,6 +11,7 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
 import io.ktor.http.isSuccess
@@ -149,7 +150,7 @@ object FlexiApiClient {
             append("country", country)
             append("postalCode", postalCode.toString())
         }
-        return client.post(url) {
+        return client.put(url) {
             body = FormDataContent(formData)
         }.body()
     }
