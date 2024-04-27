@@ -71,6 +71,7 @@ class PaymentScreen
         var street by remember { mutableStateOf("") }
         var city by remember { mutableStateOf("") }
         var postalCode by remember { mutableStateOf("") }
+        var country by remember { mutableStateOf("") }
         Scaffold(
             topBar = {
                 Row(
@@ -312,6 +313,28 @@ class PaymentScreen
                                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                             )
                         }
+                        TextField(
+                            value = country,
+                            onValueChange = { country = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .height(56.dp)
+                                .align(Alignment.CenterHorizontally),
+                            placeholder = { Text("Country") },
+                            singleLine = true,
+                            shape = RoundedCornerShape(8.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = Color.Black,
+                                unfocusedPlaceholderColor = Color.Gray,
+                                focusedPlaceholderColor = Color.Gray,
+                                focusedContainerColor = Color.LightGray,
+                                unfocusedContainerColor = Color.LightGray,
+                                unfocusedTextColor = Color.White,
+                                unfocusedIndicatorColor = Color.Transparent
+                            ),
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                         FilledIconButton(
                             onClick = {
