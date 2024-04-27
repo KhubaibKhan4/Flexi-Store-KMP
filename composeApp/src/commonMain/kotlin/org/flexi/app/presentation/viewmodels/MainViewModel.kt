@@ -10,6 +10,7 @@ import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
+import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.repository.Repository
 import org.flexi.app.domain.usecase.ResultState
 import org.koin.android.annotation.KoinViewModel
@@ -53,6 +54,19 @@ class MainViewModel(
     private val _deleteItem = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val deleteItem: StateFlow<ResultState<Boolean>> = _deleteItem.asStateFlow()
 
+    private val _userData = MutableStateFlow<ResultState<User>>(ResultState.Loading)
+    val userData: StateFlow<ResultState<User>> = _userData.asStateFlow()
+    fun getUserData(id: Int){
+        viewModelScope.launch {
+            _userData.value = ResultState.Loading
+            try {
+                val response = repository.getUserData(id)
+                _userData.value = ResultState.Success(response)
+            }catch (e: Exception){
+                _userData.value = ResultState.Error(e)
+            }
+        }
+    }
     fun deleteCartItem(id: Long) {
         viewModelScope.launch {
             _deleteItem.value = ResultState.Loading
