@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.payment
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,26 +12,42 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -46,9 +63,14 @@ class PaymentScreen
     (
     private val products: List<Products>,
 ) : Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+        var isEditAddress by remember { mutableStateOf(false) }
+        var street by remember { mutableStateOf("") }
+        var city by remember { mutableStateOf("") }
+        var postalCode by remember { mutableStateOf("") }
         Scaffold(
             topBar = {
                 Row(
@@ -92,7 +114,9 @@ class PaymentScreen
                         cityName = "New York",
                         postalCode = "10001",
                         address = "1234 Elm Street, Apt 5A",
-                        onEditClicked = {}
+                        onEditClicked = {
+                            isEditAddress = !isEditAddress
+                        }
                     )
                     PaymentProductList(products)
                     Column(
@@ -118,7 +142,7 @@ class PaymentScreen
                                 containerColor = Color.White,
                                 contentColor = Color.Black
                             ),
-                            elevation = CardDefaults.cardElevation(4.dp)
+                            border = BorderStroke(1.dp, color = Color.Gray)
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth()
@@ -127,7 +151,7 @@ class PaymentScreen
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.AddCircle,
+                                    imageVector = Icons.Default.AddCircleOutline,
                                     contentDescription = null,
                                     modifier = Modifier.size(30.dp)
                                 )
@@ -201,6 +225,117 @@ class PaymentScreen
                     }
                 }
 
+            }
+            if (isEditAddress){
+                val sheetState= rememberModalBottomSheetState()
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        isEditAddress = !isEditAddress
+                    },
+                    sheetState = sheetState
+                ){
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(all = 12.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        TextField(
+                            value = street,
+                            onValueChange = { street = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .height(56.dp),
+                            placeholder = { Text("Street #1 South East") },
+                            singleLine = true,
+                            shape = RoundedCornerShape(8.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = Color.Black,
+                                unfocusedPlaceholderColor = Color.Gray,
+                                focusedPlaceholderColor = Color.Gray,
+                                focusedContainerColor = Color.LightGray,
+                                unfocusedContainerColor = Color.LightGray,
+                                unfocusedTextColor = Color.White,
+                                unfocusedIndicatorColor = Color.Transparent
+                            )
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            TextField(
+                                value = city,
+                                onValueChange = { city = it },
+                                modifier = Modifier
+                                    .fillMaxWidth(0.65f)
+                                    .padding(vertical = 8.dp)
+                                    .height(56.dp),
+                                placeholder = { Text("City") },
+                                singleLine = true,
+                                shape = RoundedCornerShape(8.dp),
+                                colors = TextFieldDefaults.colors(
+                                    focusedIndicatorColor = Color.Transparent,
+                                    focusedTextColor = Color.Black,
+                                    unfocusedPlaceholderColor = Color.Gray,
+                                    focusedPlaceholderColor = Color.Gray,
+                                    focusedContainerColor = Color.LightGray,
+                                    unfocusedContainerColor = Color.LightGray,
+                                    unfocusedTextColor = Color.White,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                )
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            TextField(
+                                value = postalCode,
+                                onValueChange = { postalCode = it },
+                                modifier = Modifier
+                                    .fillMaxWidth(0.35f)
+                                    .weight(1f)
+                                    .padding(vertical = 8.dp)
+                                    .height(56.dp),
+                                placeholder = { Text("Postal Code") },
+                                singleLine = true,
+                                shape = RoundedCornerShape(8.dp),
+                                colors = TextFieldDefaults.colors(
+                                    focusedIndicatorColor = Color.Transparent,
+                                    focusedTextColor = Color.Black,
+                                    unfocusedPlaceholderColor = Color.Gray,
+                                    focusedPlaceholderColor = Color.Gray,
+                                    focusedContainerColor = Color.LightGray,
+                                    unfocusedContainerColor = Color.LightGray,
+                                    unfocusedTextColor = Color.White,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                ),
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        FilledIconButton(
+                            onClick = {
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth(.5f)
+                                .height(55.dp)
+                                .padding(top = 4.dp)
+                                .align(Alignment.CenterHorizontally)
+                            ,
+                            enabled = true,
+                            shape = RoundedCornerShape(24.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = Color(0xFF5821c4),
+                                contentColor = Color.White
+                            )
+                        ) {
+                            Text(
+                                text = "Save Now",
+                                color = Color.White
+                            )
+                        }
+                    }
+                }
             }
         }
     }
