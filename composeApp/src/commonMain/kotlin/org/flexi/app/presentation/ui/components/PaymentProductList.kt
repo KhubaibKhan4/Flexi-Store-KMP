@@ -32,11 +32,12 @@ import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.utils.Constant.BASE_URL
 
 @Composable
 fun PaymentProductList(
-    products: List<Products>,
+    products: List<ProductDetails>,
 ) {
     Column(
         modifier = Modifier
@@ -70,7 +71,7 @@ fun PaymentProductList(
 
 @Composable
 fun PaymentProductItems(
-    products: Products,
+    products: ProductDetails,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -96,7 +97,7 @@ fun PaymentProductItems(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = products.name,
+                text = products.title,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1
@@ -144,7 +145,7 @@ fun PaymentProductItems(
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append("${products.price}.00")
+                        append("${products.itemCount}.00")
                     }
                 }
                 Text(

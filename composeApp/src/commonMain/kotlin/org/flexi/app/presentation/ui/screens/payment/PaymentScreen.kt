@@ -59,19 +59,18 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.AddressDetails
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
+import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 
-class PaymentScreen
-    (
-    private val products: List<Products>,
+class PaymentScreen(
+    private val productsDetailsList: List<ProductDetails>,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -87,6 +86,7 @@ class PaymentScreen
         var country by remember { mutableStateOf("") }
         var userData by remember { mutableStateOf<User?>(null) }
         var updateAddress by remember { mutableStateOf<Boolean?>(null) }
+        var totalPrice by remember { mutableStateOf(0.0) }
         var selectedPaymentMethod by remember { mutableStateOf(PaymentMethodType.NONE) }
 
         LaunchedEffect(updateAddress) {
@@ -171,7 +171,7 @@ class PaymentScreen
                             isEditAddress = !isEditAddress
                         }
                     )
-                    PaymentProductList(products)
+                    PaymentProductList(productsDetailsList)
                     Column(
                         modifier = Modifier.fillMaxWidth()
                             .padding(all = 6.dp),
@@ -294,7 +294,10 @@ class PaymentScreen
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
-                                append("${1400}.00")
+                                productsDetailsList.map {
+                                    totalPrice = it.totalPrice
+                                }
+                                append("${totalPrice}.00")
                             }
                         }
                         Text(

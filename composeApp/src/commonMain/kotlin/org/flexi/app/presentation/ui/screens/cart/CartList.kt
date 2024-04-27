@@ -43,7 +43,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -74,6 +73,7 @@ import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.presentation.ui.screens.payment.PaymentScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
@@ -361,7 +361,7 @@ class CartList(
                             }
                             if (isBottomSheetVisible) {
                                 val subtotal by remember { mutableStateOf(totalAmount) }
-                                val shipping: Double = 7.0
+                                val shipping = 7
                                 val latestAmount by remember { mutableStateOf(subtotal + shipping) }
 
                                 var isPromo by remember { mutableStateOf("") }
@@ -534,7 +534,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append(latestAmount.toString())
+                                                    append("$latestAmount.00")
                                                 }
                                             }
                                             Text(
@@ -544,7 +544,17 @@ class CartList(
                                         Spacer(modifier = Modifier.height(12.dp))
                                         FilledIconButton(
                                             onClick = {
-                                                navigator?.push(PaymentScreen(product!!))
+                                                val productsDetailsList = product?.map { pro ->
+                                                    ProductDetails(
+                                                        imageUrl = pro.imageUrl,
+                                                        itemCount = quantityMap[pro.id] ?: 0,
+                                                        itemPrice = pro.price.toDouble(),
+                                                        totalPrice = totalAmount.toDouble(),
+                                                        colors = pro.colors,
+                                                        title = pro.name
+                                                    )
+                                                }
+                                                navigator?.push(PaymentScreen(productsDetailsList!!))
                                             },
                                             modifier = Modifier
                                                 .fillMaxWidth(.5f)
