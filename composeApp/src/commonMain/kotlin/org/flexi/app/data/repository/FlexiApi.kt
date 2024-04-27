@@ -5,6 +5,7 @@ import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
+import org.flexi.app.domain.model.user.User
 import org.koin.core.annotation.Single
 
 @Single
@@ -20,4 +21,5 @@ interface FlexiApi {
     suspend fun addToCart(productId: Long, quantity: Int, userId: Long): CartItem
     suspend fun getCartItem(cartId: Long): CartItem
     suspend fun deleteCartItemById(cartId: Long): Boolean
+    suspend fun getUserData(id: Int): User
 }
