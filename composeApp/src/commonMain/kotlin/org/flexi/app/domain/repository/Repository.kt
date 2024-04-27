@@ -60,5 +60,14 @@ class Repository : FlexiApi {
         return FlexiApiClient.getUserData(id)
     }
 
+    override suspend fun updateUsersAddress(
+        address: String,
+        city: String,
+        country: String,
+        postalCode: Long,
+    ): Boolean {
+        return FlexiApiClient.updateUsersAddress(address, city, country, postalCode)
+    }
+
 
 }

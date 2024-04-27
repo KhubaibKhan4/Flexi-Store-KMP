@@ -22,4 +22,5 @@ interface FlexiApi {
     suspend fun getCartItem(cartId: Long): CartItem
     suspend fun deleteCartItemById(cartId: Long): Boolean
     suspend fun getUserData(id: Int): User
+    suspend fun updateUsersAddress(address: String, city: String, country: String, postalCode: Long): Boolean
 }

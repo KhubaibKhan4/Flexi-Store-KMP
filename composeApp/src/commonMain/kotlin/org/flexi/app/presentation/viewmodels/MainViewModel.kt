@@ -56,6 +56,20 @@ class MainViewModel(
 
     private val _userData = MutableStateFlow<ResultState<User>>(ResultState.Loading)
     val userData: StateFlow<ResultState<User>> = _userData.asStateFlow()
+
+    private val _updateAddress = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
+    val updateAddress: StateFlow<ResultState<Boolean>> = _updateAddress.asStateFlow()
+    fun updateAddress(address: String, city: String, country: String, postalCode: Long){
+        viewModelScope.launch {
+            _updateAddress.value = ResultState.Loading
+            try {
+                val response = repository.updateUsersAddress(address, city, country, postalCode)
+                _updateAddress.value = ResultState.Success(response)
+            }catch (e: Exception){
+                _updateAddress.value = ResultState.Error(e)
+            }
+        }
+    }
     fun getUserData(id: Int){
         viewModelScope.launch {
             _userData.value = ResultState.Loading
