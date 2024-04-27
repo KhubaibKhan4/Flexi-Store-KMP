@@ -143,7 +143,7 @@ object FlexiApiClient {
     }
     @OptIn(InternalAPI::class)
     suspend fun updateUsersAddress(address: String, city: String, country: String, postalCode: Long): Boolean {
-        val url = BASE_URL + "v1/users/address/{id}"
+        val url = BASE_URL + "v1/users/address/1"
         val formData = Parameters.build {
             append("address", address)
             append("city", city)

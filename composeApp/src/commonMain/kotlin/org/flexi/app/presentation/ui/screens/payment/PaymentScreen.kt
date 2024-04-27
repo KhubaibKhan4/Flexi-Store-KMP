@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.payment
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
@@ -69,13 +73,15 @@ class PaymentScreen
     override fun Content() {
         val viewModel: MainViewModel = koinInject()
         val navigator = LocalNavigator.current
+        val scope = rememberCoroutineScope()
         var isEditAddress by remember { mutableStateOf(false) }
         var street by remember { mutableStateOf("") }
         var city by remember { mutableStateOf("") }
         var postalCode by remember { mutableStateOf("") }
         var country by remember { mutableStateOf("") }
         var userData by remember { mutableStateOf<User?>(null) }
-        LaunchedEffect(Unit) {
+        var updateAddress by remember { mutableStateOf<Boolean?>(null) }
+        LaunchedEffect(updateAddress) {
             viewModel.getUserData(1)
         }
         val userState by viewModel.userData.collectAsState()
@@ -84,12 +90,30 @@ class PaymentScreen
                 val error = (userState as ResultState.Error).error
                 ErrorBox(error)
             }
+
             is ResultState.Loading -> {
-                LoadingBox()
+                //LoadingBox()
             }
+
             is ResultState.Success -> {
                 val response = (userState as ResultState.Success).response
                 userData = response
+            }
+        }
+        val updateAddressState by viewModel.updateAddress.collectAsState()
+        when (updateAddressState) {
+            is ResultState.Error -> {
+                val error = (updateAddressState as ResultState.Error).error
+                //ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (updateAddressState as ResultState.Success).response
+                updateAddress = response
             }
         }
         Scaffold(
@@ -278,7 +302,7 @@ class PaymentScreen
                                 focusedPlaceholderColor = Color.Gray,
                                 focusedContainerColor = Color.LightGray,
                                 unfocusedContainerColor = Color.LightGray,
-                                unfocusedTextColor = Color.White,
+                                unfocusedTextColor = Color.Black,
                                 unfocusedIndicatorColor = Color.Transparent
                             )
                         )
@@ -304,7 +328,7 @@ class PaymentScreen
                                     focusedPlaceholderColor = Color.Gray,
                                     focusedContainerColor = Color.LightGray,
                                     unfocusedContainerColor = Color.LightGray,
-                                    unfocusedTextColor = Color.White,
+                                    unfocusedTextColor = Color.Black,
                                     unfocusedIndicatorColor = Color.Transparent
                                 )
                             )
@@ -327,7 +351,7 @@ class PaymentScreen
                                     focusedPlaceholderColor = Color.Gray,
                                     focusedContainerColor = Color.LightGray,
                                     unfocusedContainerColor = Color.LightGray,
-                                    unfocusedTextColor = Color.White,
+                                    unfocusedTextColor = Color.Black,
                                     unfocusedIndicatorColor = Color.Transparent
                                 ),
                                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
@@ -351,13 +375,27 @@ class PaymentScreen
                                 focusedPlaceholderColor = Color.Gray,
                                 focusedContainerColor = Color.LightGray,
                                 unfocusedContainerColor = Color.LightGray,
-                                unfocusedTextColor = Color.White,
+                                unfocusedTextColor = Color.Black,
                                 unfocusedIndicatorColor = Color.Transparent
                             ),
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         FilledIconButton(
                             onClick = {
+                                if (street.isNotEmpty() && city.isNotEmpty() && country.isNotEmpty() && postalCode.isNotEmpty()) {
+                                    scope.launch {
+                                        viewModel.updateAddress(
+                                            address = street,
+                                            city = city,
+                                            country = country,
+                                            postalCode = postalCode.toLong()
+                                        )
+                                        delay(200)
+                                        viewModel.getUserData(1)
+                                        isEditAddress = !isEditAddress
+                                    }
+
+                                }
                             },
                             modifier = Modifier
                                 .fillMaxWidth(.5f)
