@@ -1,6 +1,5 @@
 package org.flexi.app.presentation.ui.screens.payment
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +16,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.CommentBank
+import androidx.compose.material.icons.filled.CreditCard
+import androidx.compose.material.icons.filled.LocalShipping
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -41,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -59,8 +64,8 @@ import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.AddressDetails
 import org.flexi.app.presentation.ui.components.ErrorBox
-import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
+import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 
@@ -75,12 +80,15 @@ class PaymentScreen
         val navigator = LocalNavigator.current
         val scope = rememberCoroutineScope()
         var isEditAddress by remember { mutableStateOf(false) }
+        var isPaymentMethods by remember { mutableStateOf(false) }
         var street by remember { mutableStateOf("") }
         var city by remember { mutableStateOf("") }
         var postalCode by remember { mutableStateOf("") }
         var country by remember { mutableStateOf("") }
         var userData by remember { mutableStateOf<User?>(null) }
         var updateAddress by remember { mutableStateOf<Boolean?>(null) }
+        var selectedPaymentMethod by remember { mutableStateOf(PaymentMethodType.NONE) }
+
         LaunchedEffect(updateAddress) {
             viewModel.getUserData(1)
         }
@@ -179,34 +187,80 @@ class PaymentScreen
                         Spacer(modifier = Modifier.height(8.dp))
                         Card(
                             modifier = Modifier
-                                .padding(6.dp)
                                 .fillMaxWidth()
-                                .height(50.dp),
+                                .height(75.dp)
+                                .padding(6.dp)
+                                .clickable {
+                                    isPaymentMethods = !isPaymentMethods
+                                },
                             shape = RoundedCornerShape(8.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = Color.White,
                                 contentColor = Color.Black
                             ),
-                            border = BorderStroke(1.dp, color = Color.Gray)
+                            border = BorderStroke(1.dp, color = Color.LightGray)
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth()
-                                    .padding(12.dp),
-                                horizontalArrangement = Arrangement.Start,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.AddCircleOutline,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(30.dp)
-                                )
-                                Spacer(modifier = Modifier.width(14.dp))
-                                Text(
-                                    text = "Add Payment Method",
-                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Start
-                                )
+
+                            when (selectedPaymentMethod) {
+                                PaymentMethodType.CREDIT_CARD -> {
+                                    PaymentMethod(
+                                        icon = Icons.Default.CreditCard,
+                                        name = "Credit Card",
+                                        details = "xxxx xxxx xxxx 1234",
+                                        isSelected = selectedPaymentMethod == PaymentMethodType.CREDIT_CARD,
+                                        onSelected = {
+                                            selectedPaymentMethod = PaymentMethodType.CREDIT_CARD
+                                        }
+                                    )
+
+                                }
+
+                                PaymentMethodType.PAYPAL -> {
+                                    PaymentMethod(
+                                        icon = Icons.Default.CommentBank,
+                                        name = "PayPal",
+                                        details = "example@gmail.com",
+                                        isSelected = selectedPaymentMethod == PaymentMethodType.PAYPAL,
+                                        onSelected = {
+                                            selectedPaymentMethod = PaymentMethodType.PAYPAL
+                                        }
+                                    )
+
+                                }
+
+                                PaymentMethodType.ON_DELIVERY -> {
+                                    PaymentMethod(
+                                        icon = Icons.Default.LocalShipping,
+                                        name = "On Delivery",
+                                        details = "Cash on delivery",
+                                        isSelected = selectedPaymentMethod == PaymentMethodType.ON_DELIVERY,
+                                        onSelected = {
+                                            selectedPaymentMethod = PaymentMethodType.ON_DELIVERY
+                                        }
+                                    )
+                                }
+
+                                PaymentMethodType.NONE -> {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(14.dp),
+                                        horizontalArrangement = Arrangement.Start,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.AddCircleOutline,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(30.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(14.dp))
+                                        Text(
+                                            text = "Add Payment Method",
+                                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                            fontWeight = FontWeight.Bold,
+                                            textAlign = TextAlign.Start
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -251,6 +305,11 @@ class PaymentScreen
                     Spacer(modifier = Modifier.height(14.dp))
                     FilledIconButton(
                         onClick = {
+                            if (selectedPaymentMethod == PaymentMethodType.NONE) {
+
+                            } else {
+
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth(.5f)
@@ -264,7 +323,7 @@ class PaymentScreen
                         )
                     ) {
                         Text(
-                            text = "Checkout Now",
+                            text = if (selectedPaymentMethod == PaymentMethodType.NONE) "Checkout Now" else "Confirm Payment",
                             color = Color.White
                         )
                     }
@@ -417,6 +476,91 @@ class PaymentScreen
                     }
                 }
             }
+            if (isPaymentMethods) {
+                val sheetState = rememberModalBottomSheetState()
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        isPaymentMethods = !isPaymentMethods
+                    },
+                    sheetState = sheetState
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(all = 12.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Add Payment Method",
+                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Start
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        PaymentMethod(
+                            icon = Icons.Default.CreditCard,
+                            name = "Credit Card",
+                            details = "xxxx xxxx xxxx 1234",
+                            isSelected = selectedPaymentMethod == PaymentMethodType.CREDIT_CARD,
+                            onSelected = { selectedPaymentMethod = PaymentMethodType.CREDIT_CARD }
+                        )
+                        PaymentMethod(
+                            icon = Icons.Default.CommentBank,
+                            name = "PayPal",
+                            details = "example@gmail.com",
+                            isSelected = selectedPaymentMethod == PaymentMethodType.PAYPAL,
+                            onSelected = { selectedPaymentMethod = PaymentMethodType.PAYPAL }
+                        )
+                        PaymentMethod(
+                            icon = Icons.Default.LocalShipping,
+                            name = "On Delivery",
+                            details = "Cash on delivery",
+                            isSelected = selectedPaymentMethod == PaymentMethodType.ON_DELIVERY,
+                            onSelected = { selectedPaymentMethod = PaymentMethodType.ON_DELIVERY }
+                        )
+                    }
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun PaymentMethod(
+    icon: ImageVector,
+    name: String,
+    details: String,
+    isSelected: Boolean,
+    onSelected: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp, horizontal = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier
+                .size(36.dp)
+                .padding(end = 16.dp)
+        )
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = name, fontWeight = FontWeight.Bold)
+            Text(text = details, color = Color.Gray)
+        }
+
+        Checkbox(
+            checked = isSelected,
+            onCheckedChange = { onSelected() },
+            colors = CheckboxDefaults.colors(checkedColor = Color.Blue)
+        )
     }
 }
