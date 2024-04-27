@@ -13,13 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.rememberBottomSheetState
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,14 +24,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,7 +40,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -56,7 +51,11 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.model.user.User
+import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.AddressDetails
+import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
@@ -75,6 +74,24 @@ class PaymentScreen
         var city by remember { mutableStateOf("") }
         var postalCode by remember { mutableStateOf("") }
         var country by remember { mutableStateOf("") }
+        var userData by remember { mutableStateOf<User?>(null) }
+        LaunchedEffect(Unit) {
+            viewModel.getUserData(1)
+        }
+        val userState by viewModel.userData.collectAsState()
+        when (userState) {
+            is ResultState.Error -> {
+                val error = (userState as ResultState.Error).error
+                ErrorBox(error)
+            }
+            is ResultState.Loading -> {
+                LoadingBox()
+            }
+            is ResultState.Success -> {
+                val response = (userState as ResultState.Success).response
+                userData = response
+            }
+        }
         Scaffold(
             topBar = {
                 Row(
@@ -115,9 +132,9 @@ class PaymentScreen
                     verticalArrangement = Arrangement.Top
                 ) {
                     AddressDetails(
-                        cityName = "New York",
+                        cityName = userData?.city ?: "",
                         postalCode = "10001",
-                        address = "1234 Elm Street, Apt 5A",
+                        address = userData?.address ?: "",
                         onEditClicked = {
                             isEditAddress = !isEditAddress
                         }
@@ -131,7 +148,7 @@ class PaymentScreen
                     ) {
                         Text(
                             text = "Payment Method",
-                            fontSize =20.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Start
                         )
@@ -230,14 +247,14 @@ class PaymentScreen
                 }
 
             }
-            if (isEditAddress){
-                val sheetState= rememberModalBottomSheetState()
+            if (isEditAddress) {
+                val sheetState = rememberModalBottomSheetState()
                 ModalBottomSheet(
                     onDismissRequest = {
                         isEditAddress = !isEditAddress
                     },
                     sheetState = sheetState
-                ){
+                ) {
                     Column(
                         modifier = Modifier.fillMaxWidth()
                             .padding(all = 12.dp),
@@ -346,8 +363,7 @@ class PaymentScreen
                                 .fillMaxWidth(.5f)
                                 .height(55.dp)
                                 .padding(top = 4.dp)
-                                .align(Alignment.CenterHorizontally)
-                            ,
+                                .align(Alignment.CenterHorizontally),
                             enabled = true,
                             shape = RoundedCornerShape(24.dp),
                             colors = IconButtonDefaults.iconButtonColors(
