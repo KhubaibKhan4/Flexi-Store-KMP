@@ -58,6 +58,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.components.AddressDetails
 import org.flexi.app.presentation.ui.components.PaymentProductList
+import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.koin.compose.koinInject
 
 class PaymentScreen
     (
@@ -66,6 +68,7 @@ class PaymentScreen
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val viewModel: MainViewModel = koinInject()
         val navigator = LocalNavigator.current
         var isEditAddress by remember { mutableStateOf(false) }
         var street by remember { mutableStateOf("") }
