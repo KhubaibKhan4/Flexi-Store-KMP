@@ -132,9 +132,9 @@ class PaymentScreen
                     verticalArrangement = Arrangement.Top
                 ) {
                     AddressDetails(
-                        cityName = userData?.city ?: "",
-                        postalCode = "10001",
-                        address = userData?.address ?: "",
+                        cityName = "${userData?.city}, ${userData?.country}",
+                        postalCode = userData?.postalCode ?: "Not Found",
+                        address = userData?.address ?: "No Address Found",
                         onEditClicked = {
                             isEditAddress = !isEditAddress
                         }

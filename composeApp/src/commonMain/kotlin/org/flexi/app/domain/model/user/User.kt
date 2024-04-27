@@ -22,6 +22,8 @@ data class User(
     val password: String = "",
     @SerialName("phoneNumber")
     val phoneNumber: String = "",
+    @SerialName("postalCode")
+    val postalCode: String = "",
     @SerialName("userRole")
     val userRole: String = "",
     @SerialName("username")

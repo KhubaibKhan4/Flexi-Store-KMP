@@ -140,5 +140,18 @@ object FlexiApiClient {
     suspend fun getUserData(id: Int): User {
         return client.get(BASE_URL + "v1/users/$id").body()
     }
+    @OptIn(InternalAPI::class)
+    suspend fun updateUsersAddress(address: String, city: String, country: String, postalCode: Long): CartItem {
+        val url = BASE_URL + "v1/users/address/{id}"
+        val formData = Parameters.build {
+            append("address", address)
+            append("city", city)
+            append("country", country)
+            append("postalCode", postalCode.toString())
+        }
+        return client.post(url) {
+            body = FormDataContent(formData)
+        }.body()
+    }
 
 }
