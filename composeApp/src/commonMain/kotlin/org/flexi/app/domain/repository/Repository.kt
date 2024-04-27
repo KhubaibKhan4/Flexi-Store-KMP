@@ -7,6 +7,7 @@ import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
+import org.flexi.app.domain.model.user.User
 import org.koin.core.annotation.Single
 
 @Single
@@ -53,6 +54,10 @@ class Repository : FlexiApi {
 
     override suspend fun deleteCartItemById(cartId: Long): Boolean {
         return FlexiApiClient.deleteCartItemById(cartId)
+    }
+
+    override suspend fun getUserData(id: Int): User {
+        return FlexiApiClient.getUserData(id)
     }
 
 
