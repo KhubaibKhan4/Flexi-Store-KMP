@@ -203,9 +203,6 @@ class CartList(
                             val quantity = quantityMap[pro.id] ?: 0
                             var productsItems by remember { mutableStateOf(quantity) }
                             var totalPrice by remember { mutableStateOf(pro.price * quantity) }
-                            val cartItem = cartItem.find { cart ->
-                                cart.productId == pro.id
-                            }
                             Column(
                                 modifier = Modifier.fillMaxWidth()
                                     .height(220.dp),
@@ -360,10 +357,6 @@ class CartList(
                                 }
                             }
                             if (isBottomSheetVisible) {
-                                val subtotal by remember { mutableStateOf(totalAmount) }
-                                val shipping = 7
-                                val latestAmount by remember { mutableStateOf(subtotal + shipping) }
-
                                 var isPromo by remember { mutableStateOf("") }
                                 ModalBottomSheet(
                                     onDismissRequest = {
@@ -452,7 +445,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$subtotal.00")
+                                                    append("$1032.00")
                                                 }
                                             }
                                             Text(
@@ -490,7 +483,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$shipping.00")
+                                                    append("$7.00")
                                                 }
                                             }
                                             Text(
@@ -534,7 +527,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$latestAmount.00")
+                                                    append("$1039.00")
                                                 }
                                             }
                                             Text(
