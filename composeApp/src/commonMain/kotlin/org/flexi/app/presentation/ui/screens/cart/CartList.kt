@@ -549,7 +549,7 @@ class CartList(
                                                         imageUrl = pro.imageUrl,
                                                         itemCount = quantityMap[pro.id] ?: 0,
                                                         itemPrice = pro.price.toDouble(),
-                                                        totalPrice = totalAmount.toDouble(),
+                                                        totalPrice = totalAmount+shipping,
                                                         colors = pro.colors,
                                                         title = pro.name
                                                     )

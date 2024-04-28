@@ -297,7 +297,7 @@ class PaymentScreen(
                                 productsDetailsList.map {
                                     totalPrice = it.totalPrice
                                 }
-                                append("${totalPrice}.00")
+                                append("${totalPrice}")
                             }
                         }
                         Text(

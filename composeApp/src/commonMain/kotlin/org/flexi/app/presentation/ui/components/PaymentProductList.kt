@@ -145,7 +145,7 @@ fun PaymentProductItems(
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append("${products.itemCount}.00")
+                        append("${products.itemPrice}")
                     }
                 }
                 Text(
