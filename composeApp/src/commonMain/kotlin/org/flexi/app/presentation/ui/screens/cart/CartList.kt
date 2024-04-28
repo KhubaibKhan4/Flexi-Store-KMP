@@ -95,7 +95,7 @@ class CartList(
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
         var deleteResponse by remember { mutableStateOf<Boolean?>(null) }
-        var totalAmount by remember { mutableStateOf(0) }
+        var totalAmount by remember { mutableStateOf(0.0) }
         LaunchedEffect(Unit) {
             if (ids.isNotEmpty()) {
                 viewModel.getProductById(ids)
@@ -203,6 +203,12 @@ class CartList(
                             val quantity = quantityMap[pro.id] ?: 0
                             var productsItems by remember { mutableStateOf(quantity) }
                             var totalPrice by remember { mutableStateOf(pro.price * quantity) }
+                            LaunchedEffect(productsItems) {
+                                totalAmount = cartItem.sumByDouble { cartItem ->
+                                    val product = product?.find { it.id == cartItem.productId }
+                                    product?.price?.times(cartItem.quantity)?.toDouble() ?: 0.0
+                                }
+                            }
                             Column(
                                 modifier = Modifier.fillMaxWidth()
                                     .height(220.dp),
@@ -247,9 +253,7 @@ class CartList(
                                                 .clickable {
                                                     if (productsItems > 1) {
                                                         productsItems--
-                                                        totalPrice =
-                                                            pro.price * productsItems
-                                                        totalAmount = totalPrice
+                                                        totalPrice = pro.price * productsItems
                                                     }
                                                 }
                                         )
@@ -268,9 +272,7 @@ class CartList(
                                                 .background(Color.White)
                                                 .clickable {
                                                     productsItems++
-                                                    totalPrice =
-                                                        pro.price * productsItems
-                                                    totalAmount = totalPrice
+                                                    totalPrice = pro.price * productsItems
                                                 }
                                         )
                                     }
@@ -527,7 +529,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$1039.00")
+                                                    append("$totalAmount.00")
                                                 }
                                             }
                                             Text(
