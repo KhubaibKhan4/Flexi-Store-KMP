@@ -24,6 +24,7 @@ import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.user.User
+import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
@@ -155,7 +156,7 @@ object FlexiApiClient {
         }.body()
     }
     @OptIn(InternalAPI::class)
-    suspend fun placeOrder(userId: Long, productIds: String, totalQuantity: String,totalPrice: Long,paymentType: String): CartItem {
+    suspend fun placeOrder(userId: Long, productIds: String, totalQuantity: String,totalPrice: Long,paymentType: String): Order {
         val url = BASE_URL + "v1/cart"
         val formData = Parameters.build {
             append("userId", userId.toString())

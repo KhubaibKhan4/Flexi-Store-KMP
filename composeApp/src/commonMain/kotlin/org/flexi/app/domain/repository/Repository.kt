@@ -8,6 +8,7 @@ import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.user.User
+import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.koin.core.annotation.Single
 
 @Single
@@ -67,6 +68,16 @@ class Repository : FlexiApi {
         postalCode: Long,
     ): Boolean {
         return FlexiApiClient.updateUsersAddress(address, city, country, postalCode)
+    }
+
+    override suspend fun placeOrder(
+        userId: Long,
+        productIds: String,
+        totalQuantity: String,
+        totalPrice: Long,
+        paymentType: String,
+    ): Order {
+        return FlexiApiClient.placeOrder(userId, productIds, totalQuantity, totalPrice, paymentType)
     }
 
 

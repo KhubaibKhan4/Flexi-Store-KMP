@@ -6,6 +6,7 @@ import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.user.User
+import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.koin.core.annotation.Single
 
 @Single
@@ -23,4 +24,5 @@ interface FlexiApi {
     suspend fun deleteCartItemById(cartId: Long): Boolean
     suspend fun getUserData(id: Int): User
     suspend fun updateUsersAddress(address: String, city: String, country: String, postalCode: Long): Boolean
+    suspend fun placeOrder(userId: Long, productIds: String, totalQuantity: String,totalPrice: Long,paymentType: String): Order
 }

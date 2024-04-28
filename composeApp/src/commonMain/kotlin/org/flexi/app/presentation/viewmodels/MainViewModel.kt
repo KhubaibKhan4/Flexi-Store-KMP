@@ -13,6 +13,7 @@ import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.repository.Repository
 import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
@@ -59,28 +60,58 @@ class MainViewModel(
 
     private val _updateAddress = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val updateAddress: StateFlow<ResultState<Boolean>> = _updateAddress.asStateFlow()
-    fun updateAddress(address: String, city: String, country: String, postalCode: Long){
+
+    private val _placeOrder = MutableStateFlow<ResultState<Order>>(ResultState.Loading)
+    val placeOrder: StateFlow<ResultState<Order>> = _placeOrder.asStateFlow()
+
+    fun placeOrderNow(
+        userId: Long,
+        productIds: String,
+        totalQuantity: String,
+        totalPrice: Long,
+        paymentType: String,
+    ) {
+        viewModelScope.launch {
+            _placeOrder.value = ResultState.Loading
+            try {
+                val response = repository.placeOrder(
+                    userId,
+                    productIds,
+                    totalQuantity,
+                    totalPrice,
+                    paymentType
+                )
+                _placeOrder.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _placeOrder.value = ResultState.Error(e)
+            }
+        }
+    }
+
+    fun updateAddress(address: String, city: String, country: String, postalCode: Long) {
         viewModelScope.launch {
             _updateAddress.value = ResultState.Loading
             try {
                 val response = repository.updateUsersAddress(address, city, country, postalCode)
                 _updateAddress.value = ResultState.Success(response)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 _updateAddress.value = ResultState.Error(e)
             }
         }
     }
-    fun getUserData(id: Int){
+
+    fun getUserData(id: Int) {
         viewModelScope.launch {
             _userData.value = ResultState.Loading
             try {
                 val response = repository.getUserData(id)
                 _userData.value = ResultState.Success(response)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 _userData.value = ResultState.Error(e)
             }
         }
     }
+
     fun deleteCartItem(id: Long) {
         viewModelScope.launch {
             _deleteItem.value = ResultState.Loading
