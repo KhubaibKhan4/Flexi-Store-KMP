@@ -77,7 +77,7 @@ class Repository : FlexiApi {
         totalPrice: Int,
         selectedColor: String,
         paymentType: String,
-    ): String {
+    ): Order {
         return FlexiApiClient.placeOrder(userId, productIds, totalQuantity, totalPrice, paymentType, selectedColor)
     }
 

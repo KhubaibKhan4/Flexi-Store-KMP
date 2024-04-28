@@ -1,11 +1,13 @@
 package org.flexi.app.presentation.ui.screens.payment
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,6 +59,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import flexi_store.composeapp.generated.resources.Res
+import flexi_store.composeapp.generated.resources.order_placed_successfully
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.user.User
@@ -68,6 +72,7 @@ import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class PaymentScreen(
@@ -87,7 +92,7 @@ class PaymentScreen(
         var country by remember { mutableStateOf("") }
         var userData by remember { mutableStateOf<User?>(null) }
         var updateAddress by remember { mutableStateOf<Boolean?>(null) }
-        var orderPlacement by remember { mutableStateOf<String?>(null) }
+        var orderPlacement by remember { mutableStateOf<Order?>(null) }
         var totalPrice by remember { mutableStateOf(0.0) }
         var selectedPaymentMethod by remember { mutableStateOf(PaymentMethodType.NONE) }
 
@@ -329,7 +334,7 @@ class PaymentScreen(
                             if (selectedPaymentMethod == PaymentMethodType.NONE) {
 
                             } else {
-                                productsDetailsList.forEach {product ->
+                                productsDetailsList.forEach { product ->
                                     val productId = product.productId
                                     val itemCount = product.itemCount.toString()
                                     val total_Price = product.itemPrice * product.itemCount
@@ -506,6 +511,65 @@ class PaymentScreen(
                         ) {
                             Text(
                                 text = "Save Now",
+                                color = Color.White
+                            )
+                        }
+                    }
+                }
+            }
+            if (orderPlacement != null) {
+                val sheetState = rememberModalBottomSheetState()
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        orderPlacement == null
+                    },
+                    sheetState = sheetState,
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+
+                        Image(
+                            painter = painterResource(Res.drawable.order_placed_successfully),
+                            contentDescription = null,
+                            modifier = Modifier.size(200.dp)
+                        )
+                        Text(
+                            text = "Order Placed Successfully",
+                            modifier = Modifier.padding(12.dp),
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontSize = MaterialTheme.typography.titleMedium.fontSize
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        Text(
+                            text = "Your order will be packed by the cart, will\n arrive at your home in 3-7 working days.",
+                            modifier = Modifier.padding(12.dp),
+                            color = Color.Gray,
+                            textAlign = TextAlign.Center
+                        )
+                        FilledIconButton(
+                            onClick = {
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth(.5f)
+                                .height(55.dp)
+                                .padding(top = 4.dp)
+                                .align(Alignment.CenterHorizontally),
+                            enabled = true,
+                            shape = RoundedCornerShape(24.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = Color(0xFF5821c4),
+                                contentColor = Color.White
+                            )
+                        ) {
+                            Text(
+                                text = "Order Tracking",
                                 color = Color.White
                             )
                         }

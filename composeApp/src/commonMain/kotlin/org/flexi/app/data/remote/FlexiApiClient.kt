@@ -170,8 +170,8 @@ object FlexiApiClient {
         totalPrice: Int,
         paymentType: String,
         selectedColor: String,
-    ): String {
-        val url = BASE_URL + "v1/cart"
+    ): Order {
+        val url = BASE_URL + "v1/order"
         val formData = Parameters.build {
             append("userId", userId.toString())
             append("productIds", productIds.toString())

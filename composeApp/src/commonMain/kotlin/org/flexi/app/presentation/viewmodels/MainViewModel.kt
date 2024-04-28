@@ -61,8 +61,8 @@ class MainViewModel(
     private val _updateAddress = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val updateAddress: StateFlow<ResultState<Boolean>> = _updateAddress.asStateFlow()
 
-    private val _placeOrder = MutableStateFlow<ResultState<String>>(ResultState.Loading)
-    val placeOrder: StateFlow<ResultState<String>> = _placeOrder.asStateFlow()
+    private val _placeOrder = MutableStateFlow<ResultState<Order>>(ResultState.Loading)
+    val placeOrder: StateFlow<ResultState<Order>> = _placeOrder.asStateFlow()
 
     fun placeOrderNow(
         userId: Int,
