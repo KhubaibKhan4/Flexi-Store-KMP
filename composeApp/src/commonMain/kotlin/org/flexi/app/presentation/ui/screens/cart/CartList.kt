@@ -90,7 +90,7 @@ class CartList(
         val viewModel: MainViewModel = koinInject()
         var product by remember { mutableStateOf<List<Products>?>(null) }
         val ids by remember { mutableStateOf(cartItem.map { it.productId.toLong() }) }
-        val quantityMap = cartItem.associate { it.productId to it.quantity }
+        val quantityMap = cartItem.associate { it.productId to it.quantity }.toMutableMap()
         var isBottomSheetVisible by remember { mutableStateOf(false) }
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
@@ -201,12 +201,14 @@ class CartList(
                     product?.let { list ->
                         items(list) { pro ->
                             val quantity = quantityMap[pro.id] ?: 0
-                            var productsItems by remember { mutableStateOf(quantity) }
+                            var productQuantity by remember { mutableStateOf(quantity) }
                             var totalPrice by remember { mutableStateOf(pro.price * quantity) }
-                            LaunchedEffect(productsItems) {
-                                totalAmount = cartItem.sumByDouble { cartItem ->
+
+                            LaunchedEffect(productQuantity) {
+                                totalAmount = cartItem.sumOf { cartItem ->
                                     val product = product?.find { it.id == cartItem.productId }
-                                    product?.price?.times(cartItem.quantity)?.toDouble() ?: 0.0
+                                    product?.price?.times(quantityMap[cartItem.productId] ?: 0)
+                                        ?.toDouble() ?: 0.0
                                 }
                             }
                             Column(
@@ -251,14 +253,15 @@ class CartList(
                                                 .clip(CircleShape)
                                                 .background(Color.White)
                                                 .clickable {
-                                                    if (productsItems > 1) {
-                                                        productsItems--
-                                                        totalPrice = pro.price * productsItems
+                                                    if (productQuantity > 1) {
+                                                        productQuantity--
+                                                        totalPrice = pro.price * productQuantity
+                                                        quantityMap[pro.id] = productQuantity
                                                     }
                                                 }
                                         )
                                         Text(
-                                            text = productsItems.toString(),
+                                            text = productQuantity.toString(),
                                             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                                             fontWeight = FontWeight.Bold,
                                             modifier = Modifier.padding(horizontal = 8.dp)
@@ -271,8 +274,9 @@ class CartList(
                                                 .clip(CircleShape)
                                                 .background(Color.White)
                                                 .clickable {
-                                                    productsItems++
-                                                    totalPrice = pro.price * productsItems
+                                                    productQuantity++
+                                                    totalPrice = pro.price * productQuantity
+                                                    quantityMap[pro.id] = productQuantity
                                                 }
                                         )
                                     }
@@ -359,6 +363,7 @@ class CartList(
                                 }
                             }
                             if (isBottomSheetVisible) {
+                                val shipping by remember { mutableStateOf(7.0) }
                                 var isPromo by remember { mutableStateOf("") }
                                 ModalBottomSheet(
                                     onDismissRequest = {
@@ -447,7 +452,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$1032.00")
+                                                    append("$totalAmount")
                                                 }
                                             }
                                             Text(
@@ -485,7 +490,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$7.00")
+                                                    append("$shipping")
                                                 }
                                             }
                                             Text(
@@ -529,7 +534,7 @@ class CartList(
                                                         fontWeight = FontWeight.Bold
                                                     )
                                                 ) {
-                                                    append("$totalAmount.00")
+                                                    append("${totalAmount + shipping}")
                                                 }
                                             }
                                             Text(
