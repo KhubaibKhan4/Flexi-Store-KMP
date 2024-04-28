@@ -61,15 +61,16 @@ class MainViewModel(
     private val _updateAddress = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val updateAddress: StateFlow<ResultState<Boolean>> = _updateAddress.asStateFlow()
 
-    private val _placeOrder = MutableStateFlow<ResultState<Order>>(ResultState.Loading)
-    val placeOrder: StateFlow<ResultState<Order>> = _placeOrder.asStateFlow()
+    private val _placeOrder = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val placeOrder: StateFlow<ResultState<String>> = _placeOrder.asStateFlow()
 
     fun placeOrderNow(
-        userId: Long,
-        productIds: String,
+        userId: Int,
+        productIds: Int,
         totalQuantity: String,
-        totalPrice: Long,
+        totalPrice: Int,
         paymentType: String,
+        selectedColor: String
     ) {
         viewModelScope.launch {
             _placeOrder.value = ResultState.Loading
@@ -79,7 +80,8 @@ class MainViewModel(
                     productIds,
                     totalQuantity,
                     totalPrice,
-                    paymentType
+                    paymentType,
+                    selectedColor
                 )
                 _placeOrder.value = ResultState.Success(response)
             } catch (e: Exception) {

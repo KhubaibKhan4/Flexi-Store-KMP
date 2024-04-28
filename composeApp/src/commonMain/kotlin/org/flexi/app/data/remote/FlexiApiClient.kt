@@ -142,8 +142,14 @@ object FlexiApiClient {
     suspend fun getUserData(id: Int): User {
         return client.get(BASE_URL + "v1/users/$id").body()
     }
+
     @OptIn(InternalAPI::class)
-    suspend fun updateUsersAddress(address: String, city: String, country: String, postalCode: Long): Boolean {
+    suspend fun updateUsersAddress(
+        address: String,
+        city: String,
+        country: String,
+        postalCode: Long,
+    ): Boolean {
         val url = BASE_URL + "v1/users/address/1"
         val formData = Parameters.build {
             append("address", address)
@@ -155,19 +161,27 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
+
     @OptIn(InternalAPI::class)
-    suspend fun placeOrder(userId: Long, productIds: String, totalQuantity: String,totalPrice: Long,paymentType: String): Order {
+    suspend fun placeOrder(
+        userId: Int,
+        productIds: Int,
+        totalQuantity: String,
+        totalPrice: Int,
+        paymentType: String,
+        selectedColor: String,
+    ): String {
         val url = BASE_URL + "v1/cart"
         val formData = Parameters.build {
             append("userId", userId.toString())
-            append("productIds", productIds)
+            append("productIds", productIds.toString())
             append("totalQuantity", totalQuantity)
             append("totalPrice", totalPrice.toString())
+            append("selectedColor", selectedColor)
             append("paymentType", paymentType)
         }
         return client.post(url) {
             body = FormDataContent(formData)
         }.body()
     }
-
 }

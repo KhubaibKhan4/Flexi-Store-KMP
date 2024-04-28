@@ -65,6 +65,7 @@ import org.flexi.app.presentation.ui.components.AddressDetails
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
 import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
+import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
@@ -86,6 +87,7 @@ class PaymentScreen(
         var country by remember { mutableStateOf("") }
         var userData by remember { mutableStateOf<User?>(null) }
         var updateAddress by remember { mutableStateOf<Boolean?>(null) }
+        var orderPlacement by remember { mutableStateOf<String?>(null) }
         var totalPrice by remember { mutableStateOf(0.0) }
         var selectedPaymentMethod by remember { mutableStateOf(PaymentMethodType.NONE) }
 
@@ -122,6 +124,22 @@ class PaymentScreen(
             is ResultState.Success -> {
                 val response = (updateAddressState as ResultState.Success).response
                 updateAddress = response
+            }
+        }
+        val orderState by viewModel.placeOrder.collectAsState()
+        when (orderState) {
+            is ResultState.Error -> {
+                val error = (orderState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (orderState as ResultState.Success).response
+                orderPlacement = response
             }
         }
         Scaffold(
@@ -311,7 +329,22 @@ class PaymentScreen(
                             if (selectedPaymentMethod == PaymentMethodType.NONE) {
 
                             } else {
+                                productsDetailsList.forEach {product ->
+                                    val productId = product.productId
+                                    val itemCount = product.itemCount.toString()
+                                    val total_Price = product.itemPrice * product.itemCount
+                                    val paymentType = "ON_DELIVERY"
+                                    val selectedColor = "None"
 
+                                    viewModel.placeOrderNow(
+                                        userId = 1,
+                                        productIds = productId.toInt(),
+                                        totalQuantity = itemCount,
+                                        totalPrice = total_Price.toInt(),
+                                        paymentType = paymentType,
+                                        selectedColor = selectedColor
+                                    )
+                                }
                             }
                         },
                         modifier = Modifier

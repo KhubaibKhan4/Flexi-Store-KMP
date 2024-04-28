@@ -71,13 +71,14 @@ class Repository : FlexiApi {
     }
 
     override suspend fun placeOrder(
-        userId: Long,
-        productIds: String,
+        userId: Int,
+        productIds: Int,
         totalQuantity: String,
-        totalPrice: Long,
+        totalPrice: Int,
+        selectedColor: String,
         paymentType: String,
-    ): Order {
-        return FlexiApiClient.placeOrder(userId, productIds, totalQuantity, totalPrice, paymentType)
+    ): String {
+        return FlexiApiClient.placeOrder(userId, productIds, totalQuantity, totalPrice, paymentType, selectedColor)
     }
 
 

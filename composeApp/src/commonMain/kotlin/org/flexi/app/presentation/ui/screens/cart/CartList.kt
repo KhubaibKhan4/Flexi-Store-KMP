@@ -551,9 +551,11 @@ class CartList(
                                                         itemPrice = pro.price.toDouble(),
                                                         totalPrice = totalAmount+shipping,
                                                         colors = pro.colors,
-                                                        title = pro.name
+                                                        title = pro.name,
+                                                        productId = pro.id.toString()
                                                     )
                                                 }
+                                                println("Product ID: $productsDetailsList")
                                                 navigator?.push(PaymentScreen(productsDetailsList!!))
                                             },
                                             modifier = Modifier

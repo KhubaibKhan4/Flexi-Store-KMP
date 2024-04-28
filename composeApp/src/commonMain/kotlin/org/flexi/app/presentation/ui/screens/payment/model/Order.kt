@@ -10,6 +10,7 @@ data class Order(
     val totalQuantity: String,
     val totalPrice: Double,
     val orderProgress: String,
+    val selectedColor: String,
     val paymentType: String,
     val trackingId: String,
 )
