@@ -42,6 +42,7 @@ fun PaymentProductList(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .height(900.dp)
             .padding(vertical = 8.dp)
     ) {
         Row(
@@ -58,6 +59,7 @@ fun PaymentProductList(
             )
         }
         LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(start = 8.dp, end = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -88,7 +90,7 @@ fun PaymentProductItems(
                 .clip(
                     RoundedCornerShape(6.dp)
                 ),
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.width(6.dp))
         Column(
@@ -120,13 +122,16 @@ fun PaymentProductItems(
                     withStyle(
                         SpanStyle(
                             color = Color.Black,
-                            fontSize = 14.sp
+                            fontSize = 14.sp,
                         )
                     ) {
                         append(products.colors)
                     }
                 }
-                Text(colors)
+                Text(
+                    colors,
+                    modifier = Modifier.weight(1f)
+                )
                 val price = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(

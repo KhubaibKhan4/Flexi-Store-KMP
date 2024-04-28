@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.viewmodels
 
+import androidx.compose.runtime.collectAsState
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -64,24 +65,51 @@ class MainViewModel(
     private val _placeOrder = MutableStateFlow<ResultState<Order>>(ResultState.Loading)
     val placeOrder: StateFlow<ResultState<Order>> = _placeOrder.asStateFlow()
 
+    private val _deleteCart = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val deleteCart: StateFlow<ResultState<String>> = _deleteCart.asStateFlow()
+
+    private val _myOrders = MutableStateFlow<ResultState<List<Order>>>(ResultState.Loading)
+    val myOrders: StateFlow<ResultState<List<Order>>> = _myOrders.asStateFlow()
+
+    fun getMyOrders(userId: Int){
+        viewModelScope.launch {
+            _myOrders.value = ResultState.Loading
+            try {
+                val response = repository.getMyOrders(userId)
+                _myOrders.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _myOrders.value = ResultState.Error(e)
+            }
+        }    }
+    fun deleteCart(id: Int){
+        viewModelScope.launch {
+            _deleteCart.value = ResultState.Loading
+            try {
+                val response = repository.deleteUserCart(id)
+                _deleteCart.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _deleteCart.value = ResultState.Error(e)
+            }
+        }
+    }
     fun placeOrderNow(
         userId: Int,
         productIds: Int,
         totalQuantity: String,
         totalPrice: Int,
+        selectedColor: String,
         paymentType: String,
-        selectedColor: String
     ) {
         viewModelScope.launch {
             _placeOrder.value = ResultState.Loading
             try {
                 val response = repository.placeOrder(
-                    userId,
-                    productIds,
-                    totalQuantity,
-                    totalPrice,
-                    paymentType,
-                    selectedColor
+                   userId = userId,
+                    productIds = productIds,
+                    totalQuantity = totalQuantity,
+                    totalPrice = totalPrice,
+                    selectedColor = selectedColor,
+                    paymentType = paymentType
                 )
                 _placeOrder.value = ResultState.Success(response)
             } catch (e: Exception) {

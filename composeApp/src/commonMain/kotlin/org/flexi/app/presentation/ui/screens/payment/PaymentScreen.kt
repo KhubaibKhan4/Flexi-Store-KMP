@@ -7,14 +7,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -69,6 +70,7 @@ import org.flexi.app.presentation.ui.components.AddressDetails
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
 import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
+import org.flexi.app.presentation.ui.screens.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel
@@ -76,7 +78,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class PaymentScreen(
-    private val productsDetailsList: List<ProductDetails>,
+    private var productsDetailsList: List<ProductDetails>,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -93,6 +95,7 @@ class PaymentScreen(
         var userData by remember { mutableStateOf<User?>(null) }
         var updateAddress by remember { mutableStateOf<Boolean?>(null) }
         var orderPlacement by remember { mutableStateOf<Order?>(null) }
+        var deleteCartItem by remember { mutableStateOf<String?>(null) }
         var totalPrice by remember { mutableStateOf(0.0) }
         var selectedPaymentMethod by remember { mutableStateOf(PaymentMethodType.NONE) }
 
@@ -147,6 +150,22 @@ class PaymentScreen(
                 orderPlacement = response
             }
         }
+        val deleteState by viewModel.deleteCart.collectAsState()
+        when (deleteState) {
+            is ResultState.Error -> {
+                val error = (deleteState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (deleteState as ResultState.Success).response
+                deleteCartItem = response
+            }
+        }
         Scaffold(
             topBar = {
                 Row(
@@ -174,7 +193,8 @@ class PaymentScreen(
         ) { paddingValue ->
             Column(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = paddingValue.calculateTopPadding(), bottom = 34.dp),
+                    .padding(top = paddingValue.calculateTopPadding(), bottom = 34.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -518,6 +538,10 @@ class PaymentScreen(
                 }
             }
             if (orderPlacement != null) {
+                LaunchedEffect(Unit) {
+                    viewModel.deleteCart(1)
+                    productsDetailsList = emptyList()
+                }
                 val sheetState = rememberModalBottomSheetState()
                 ModalBottomSheet(
                     onDismissRequest = {
@@ -555,6 +579,7 @@ class PaymentScreen(
                         )
                         FilledIconButton(
                             onClick = {
+                               navigator?.push(MyOrders)
                             },
                             modifier = Modifier
                                 .fillMaxWidth(.5f)

@@ -168,8 +168,8 @@ object FlexiApiClient {
         productIds: Int,
         totalQuantity: String,
         totalPrice: Int,
-        paymentType: String,
         selectedColor: String,
+        paymentType: String,
     ): Order {
         val url = BASE_URL + "v1/order"
         val formData = Parameters.build {
@@ -183,5 +183,11 @@ object FlexiApiClient {
         return client.post(url) {
             body = FormDataContent(formData)
         }.body()
+    }
+    suspend fun deleteUserCart(id: Int):String{
+        return client.delete(BASE_URL+"v1/cart/$id").body()
+    }
+    suspend fun getMyOrders(userId: Int):List<Order> {
+        return client.get(BASE_URL+"v1/order/userId/$userId").body()
     }
 }

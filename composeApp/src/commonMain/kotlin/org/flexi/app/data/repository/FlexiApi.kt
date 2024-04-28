@@ -23,6 +23,22 @@ interface FlexiApi {
     suspend fun getCartItem(cartId: Long): CartItem
     suspend fun deleteCartItemById(cartId: Long): Boolean
     suspend fun getUserData(id: Int): User
-    suspend fun updateUsersAddress(address: String, city: String, country: String, postalCode: Long): Boolean
-    suspend fun placeOrder(userId: Int, productIds: Int, totalQuantity: String,totalPrice: Int,paymentType: String,selectedColor: String): Order
+    suspend fun updateUsersAddress(
+        address: String,
+        city: String,
+        country: String,
+        postalCode: Long,
+    ): Boolean
+
+    suspend fun placeOrder(
+        userId: Int,
+        productIds: Int,
+        totalQuantity: String,
+        totalPrice: Int,
+        selectedColor: String,
+        paymentType: String,
+    ): Order
+
+    suspend fun deleteUserCart(id: Int): String
+    suspend fun getMyOrders(userId: Int): List<Order>
 }

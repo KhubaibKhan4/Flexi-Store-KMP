@@ -78,7 +78,15 @@ class Repository : FlexiApi {
         selectedColor: String,
         paymentType: String,
     ): Order {
-        return FlexiApiClient.placeOrder(userId, productIds, totalQuantity, totalPrice, paymentType, selectedColor)
+        return FlexiApiClient.placeOrder(userId, productIds, totalQuantity, totalPrice, selectedColor, paymentType)
+    }
+
+    override suspend fun deleteUserCart(id: Int): String {
+        return FlexiApiClient.deleteUserCart(id)
+    }
+
+    override suspend fun getMyOrders(userId: Int): List<Order> {
+        return FlexiApiClient.getMyOrders(userId)
     }
 
 
