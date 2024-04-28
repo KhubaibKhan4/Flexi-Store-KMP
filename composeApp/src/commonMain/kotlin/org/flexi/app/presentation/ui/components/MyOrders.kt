@@ -123,7 +123,7 @@ class MyOrdersContent : Screen {
                     Spacer(modifier = Modifier.width(20.dp))
                     Text(
                         text = "My Order",
-                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
