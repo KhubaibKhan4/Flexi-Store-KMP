@@ -154,5 +154,19 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
+    @OptIn(InternalAPI::class)
+    suspend fun placeOrder(userId: Long, productIds: String, totalQuantity: String,totalPrice: Long,paymentType: String): CartItem {
+        val url = BASE_URL + "v1/cart"
+        val formData = Parameters.build {
+            append("userId", userId.toString())
+            append("productIds", productIds)
+            append("totalQuantity", totalQuantity)
+            append("totalPrice", totalPrice.toString())
+            append("paymentType", paymentType)
+        }
+        return client.post(url) {
+            body = FormDataContent(formData)
+        }.body()
+    }
 
 }

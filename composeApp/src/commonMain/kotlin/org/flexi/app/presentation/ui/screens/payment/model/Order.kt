@@ -7,7 +7,7 @@ data class Order(
     val id: Long,
     val userId : Long,
     val productIds: String,
-    val totalQuantity: Int,
+    val totalQuantity: String,
     val totalPrice: Double,
     val orderProgress: String,
     val paymentType: String,
