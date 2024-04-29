@@ -551,9 +551,9 @@ class PaymentScreen(
                 ) {
                     Column(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = 16.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top
+                        verticalArrangement = Arrangement.Center
                     ) {
 
                         Image(
@@ -584,7 +584,6 @@ class PaymentScreen(
                             modifier = Modifier
                                 .fillMaxWidth(.5f)
                                 .height(55.dp)
-                                .padding(top = 4.dp)
                                 .align(Alignment.CenterHorizontally),
                             enabled = true,
                             shape = RoundedCornerShape(24.dp),
