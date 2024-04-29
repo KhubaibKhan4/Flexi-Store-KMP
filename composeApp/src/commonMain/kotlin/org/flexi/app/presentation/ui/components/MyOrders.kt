@@ -31,6 +31,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -152,12 +154,28 @@ class MyOrdersContent : Screen {
                 verticalArrangement = Arrangement.Center
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    TabRow(selectedTabIndex) {
+                    TabRow(
+                        selectedTabIndex = selectedTabIndex,
+                        contentColor = Color.Black,
+                        indicator = { tabPositions ->
+                            TabRowDefaults.Indicator(
+                                color = Color.Black,
+                                height = 2.dp,
+                                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
+                            )
+                        }
+                    ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
                                 selected = selectedTabIndex == index,
                                 onClick = { selectedTabIndex = index },
-                                text = { Text(title) }
+                                text = {
+                                    Text(
+                                        text = title,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 16.sp
+                                    )
+                                }
                             )
                         }
                     }
