@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ShoppingBag
@@ -31,6 +29,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -76,6 +76,8 @@ class MyOrdersContent : Screen {
         var myOrderData by remember { mutableStateOf<List<Order>?>(null) }
         var productIdsList by remember { mutableStateOf<List<Long>?>(null) }
         var productList by remember { mutableStateOf<List<Products>?>(null) }
+        val tabs = listOf("My Orders", "Order History")
+        var selectedTabIndex by remember { mutableStateOf(0) }
         LaunchedEffect(Unit) {
             viewModel.getMyOrders(1)
         }
@@ -86,7 +88,7 @@ class MyOrdersContent : Screen {
         when (myOrderState) {
             is ResultState.Error -> {
                 val error = (myOrderState as ResultState.Error).error
-               // ErrorBox(error)
+                // ErrorBox(error)
             }
 
             ResultState.Loading -> {
@@ -103,7 +105,7 @@ class MyOrdersContent : Screen {
         when (productState) {
             is ResultState.Error -> {
                 val error = (productState as ResultState.Error).error
-               // ErrorBox(error)
+                // ErrorBox(error)
             }
 
             ResultState.Loading -> {
@@ -149,51 +151,104 @@ class MyOrdersContent : Screen {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                if (myOrderData?.isEmpty()==true){
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(top = it.calculateTopPadding(), bottom = 34.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Image(
-                                painter = painterResource(Res.drawable.no_item_found),
-                                contentDescription = null,
-                                modifier = Modifier.size(250.dp)
-                            )
-                            Text(
-                                text = "No Active Order available",
-                                modifier = Modifier.padding(12.dp),
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Red
+                Column(modifier = Modifier.fillMaxSize()) {
+                    TabRow(selectedTabIndex) {
+                        tabs.forEachIndexed { index, title ->
+                            Tab(
+                                selected = selectedTabIndex == index,
+                                onClick = { selectedTabIndex = index },
+                                text = { Text(title) }
                             )
                         }
                     }
-                }else{
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(300.dp),
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalArrangement = Arrangement.Center,
-                        contentPadding = PaddingValues(6.dp)
-                    ) {
-                        productList?.let { list ->
-                            items(list) { product ->
-                                val order = myOrderData?.find { order ->
-                                    order.productIds.toInt() == product.id
+                    when (selectedTabIndex) {
+                        0 -> {
+                            if (myOrderData?.isEmpty() == true) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = it.calculateTopPadding(), bottom = 34.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Image(
+                                            painter = painterResource(Res.drawable.no_item_found),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(250.dp)
+                                        )
+                                        Text(
+                                            text = "No Active Order available",
+                                            modifier = Modifier.padding(12.dp),
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Red
+                                        )
+                                    }
                                 }
-                                order?.let { orderItem ->
-                                    MyOrderItems(product, orderItem)
+                            } else {
+                                LazyVerticalGrid(
+                                    columns = GridCells.Adaptive(300.dp),
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalArrangement = Arrangement.Center,
+                                    contentPadding = PaddingValues(6.dp)
+                                ) {
+                                    productList?.let { list ->
+                                        items(list) { product ->
+                                            val order = myOrderData?.find { order ->
+                                                order.productIds.toInt() == product.id
+                                            }
+                                            order?.let { orderItem ->
+                                                MyOrderItems(product, orderItem)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        1 -> {
+                            val completedOrders =
+                                myOrderData?.filter { it.orderProgress == "Completed" }
+                            if (completedOrders.isNullOrEmpty()) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Image(
+                                        painterResource(Res.drawable.no_item_found),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(250.dp)
+                                    )
+                                    Text(
+                                        text = "No Previous Order Found",
+                                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            } else {
+                                LazyVerticalGrid(
+                                    columns = GridCells.Adaptive(300.dp),
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalArrangement = Arrangement.Center,
+                                    contentPadding = PaddingValues(6.dp)
+                                ) {
+                                    items(completedOrders) { order ->
+                                        val product =
+                                            productList?.find { it.id.toString() == order.productIds }
+                                        product?.let { MyOrderItems(it, order) }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
             }
         }
     }
@@ -259,14 +314,18 @@ fun MyOrderItems(
                                 .padding(top = 4.dp, start = 4.dp)
                                 .wrapContentWidth()
                                 .padding(4.dp)
-                                .border(1.dp, Color.Red.copy(alpha = 0.65f), RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp))
+                                .border(
+                                    1.dp,
+                                    Color.Green.copy(alpha = 0.65f),
+                                    RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp)
+                                )
                         ) {
                             Text(
                                 text = order.orderProgress,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color =Color.Red.copy(alpha = 0.65f),
+                                color = Color.Green.copy(alpha = 0.65f),
                                 modifier = Modifier.padding(4.dp)
                             )
                         }
