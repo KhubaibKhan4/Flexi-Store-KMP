@@ -17,6 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -47,6 +50,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -171,9 +175,10 @@ class MyOrdersContent : Screen {
                         }
                     }
                 }else{
-                    LazyColumn(
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(300.dp),
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalArrangement = Arrangement.Center,
                         verticalArrangement = Arrangement.Center,
                         contentPadding = PaddingValues(6.dp)
                     ) {
@@ -244,7 +249,8 @@ fun MyOrderItems(
                             text = products.name,
                             fontSize = MaterialTheme.typography.titleMedium.fontSize,
                             fontWeight = FontWeight.Bold,
-                            maxLines = 1,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.weight(1f)
                         )
 
@@ -253,14 +259,14 @@ fun MyOrderItems(
                                 .padding(top = 4.dp, start = 4.dp)
                                 .wrapContentWidth()
                                 .padding(4.dp)
-                                .border(1.dp, Color(0xFF87CEEB), RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp))
+                                .border(1.dp, Color.Red.copy(alpha = 0.65f), RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp))
                         ) {
                             Text(
                                 text = order.orderProgress,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color =Color(0xFF87CEEB),
+                                color =Color.Red.copy(alpha = 0.65f),
                                 modifier = Modifier.padding(4.dp)
                             )
                         }
