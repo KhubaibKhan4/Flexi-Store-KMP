@@ -334,7 +334,7 @@ fun MyOrderItems(
                                 .padding(4.dp)
                                 .border(
                                     1.dp,
-                                    Color.Green.copy(alpha = 0.65f),
+                                   if (order.orderProgress == "On Progress")  Color.Red.copy(alpha = 0.65f) else Color.Green.copy(alpha = 0.65f),
                                     RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp)
                                 )
                         ) {
@@ -343,7 +343,7 @@ fun MyOrderItems(
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = Color.Green.copy(alpha = 0.65f),
+                                color = if (order.orderProgress == "On Progress")  Color.Red.copy(alpha = 0.65f) else Color.Green.copy(alpha = 0.65f),
                                 modifier = Modifier.padding(4.dp)
                             )
                         }
