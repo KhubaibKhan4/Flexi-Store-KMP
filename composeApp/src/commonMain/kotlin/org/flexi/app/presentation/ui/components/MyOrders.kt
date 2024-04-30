@@ -3,6 +3,7 @@ package org.flexi.app.presentation.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.DeliveryDining
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.MapsHomeWork
@@ -346,7 +348,9 @@ fun MyOrderItems(
                                 .padding(4.dp)
                                 .border(
                                     1.dp,
-                                    if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else if (order.orderProgress == "On The Way") Color.Blue.copy(alpha = 0.65f) else Color.Green.copy(
+                                    if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else if (order.orderProgress == "On The Way") Color.Blue.copy(
+                                        alpha = 0.65f
+                                    ) else Color.Green.copy(
                                         alpha = 0.65f
                                     ),
                                     RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp)
@@ -357,7 +361,11 @@ fun MyOrderItems(
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else if (order.orderProgress == "On The Way") Color.Blue.copy(alpha = 0.65f) else Color.Green.copy(
+                                color = if (order.orderProgress == "On Progress") Color.Red.copy(
+                                    alpha = 0.65f
+                                ) else if (order.orderProgress == "On The Way") Color.Blue.copy(
+                                    alpha = 0.65f
+                                ) else Color.Green.copy(
                                     alpha = 0.65f
                                 ),
                                 modifier = Modifier.padding(4.dp)
@@ -503,7 +511,7 @@ fun MyOrderItems(
             onDismissRequest = {
                 trackOrder = !trackOrder
             },
-            sheetState = sheetState,
+            sheetState = sheetState
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -511,12 +519,27 @@ fun MyOrderItems(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Progress of Your Order",
-                    textAlign = TextAlign.Start,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (order.orderProgress == "Completed") "Order Delivered" else "Track Your Order Progress",
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = if (order.orderProgress == "Completed") Color(0xFF5821c4) else Color.Black
+                    )
+                    Icon(
+                        modifier = Modifier.clickable {
+                            trackOrder = !trackOrder
+                        },
+                        imageVector = Icons.Default.Close,
+                        contentDescription = null
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
                 OrderStatusItem(
                     icon = Icons.Outlined.MapsHomeWork,
