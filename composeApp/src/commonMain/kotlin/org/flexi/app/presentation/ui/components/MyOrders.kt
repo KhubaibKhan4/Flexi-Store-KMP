@@ -26,11 +26,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeliveryDining
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.MapsHomeWork
-import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -193,7 +191,8 @@ class MyOrdersContent : Screen {
                     }
                     when (selectedTabIndex) {
                         0 -> {
-                            val activeOrders = myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" }
+                            val activeOrders =
+                                myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" }
                             if (activeOrders?.isEmpty() == true) {
                                 Column(
                                     modifier = Modifier.fillMaxWidth()
@@ -229,7 +228,8 @@ class MyOrdersContent : Screen {
                                 ) {
                                     activeOrders?.let { orders ->
                                         items(orders) { order ->
-                                            val product = productList?.find { it.id.toString() == order.productIds }
+                                            val product =
+                                                productList?.find { it.id.toString() == order.productIds }
                                             product?.let { MyOrderItems(it, order) }
                                         }
                                     }
@@ -346,7 +346,7 @@ fun MyOrderItems(
                                 .padding(4.dp)
                                 .border(
                                     1.dp,
-                                    if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else Color.Green.copy(
+                                    if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else if (order.orderProgress == "On The Way") Color.Blue.copy(alpha = 0.65f) else Color.Green.copy(
                                         alpha = 0.65f
                                     ),
                                     RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp)
@@ -357,9 +357,9 @@ fun MyOrderItems(
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = if (order.orderProgress == "On Progress") Color.Red.copy(
+                                color = if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else if (order.orderProgress == "On The Way") Color.Blue.copy(alpha = 0.65f) else Color.Green.copy(
                                     alpha = 0.65f
-                                ) else Color.Green.copy(alpha = 0.65f),
+                                ),
                                 modifier = Modifier.padding(4.dp)
                             )
                         }
@@ -455,7 +455,7 @@ fun MyOrderItems(
                     },
                     modifier = Modifier
                         .weight(1f)
-                        .height(55.dp)
+                        .height(50.dp)
                         .padding(top = 4.dp)
                         .background(Color.White)
                         .border(1.dp, Color.LightGray, shape = RoundedCornerShape(24.dp))
@@ -474,10 +474,12 @@ fun MyOrderItems(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 FilledIconButton(
-                    onClick = { },
+                    onClick = {
+                        trackOrder = !trackOrder
+                    },
                     modifier = Modifier
                         .weight(1f)
-                        .height(55.dp)
+                        .height(50.dp)
                         .padding(top = 4.dp)
                         .clip(RoundedCornerShape(24.dp)),
                     enabled = true,
@@ -487,19 +489,19 @@ fun MyOrderItems(
                     )
                 ) {
                     Text(
-                        text = "Tracking",
+                        text = if (order.orderProgress == "Completed") "Received Order" else "Tracking",
                         color = Color.White
                     )
                 }
             }
         }
     }
-    if (orderDetails) {
+    if (trackOrder) {
         val sheetState = rememberModalBottomSheetState()
         val progressStatus = order.orderProgress
         ModalBottomSheet(
             onDismissRequest = {
-                orderDetails = !orderDetails
+                trackOrder = !trackOrder
             },
             sheetState = sheetState,
         ) {
@@ -541,33 +543,36 @@ fun MyOrderItems(
         }
     }
 }
+
 enum class ProgressStatus {
     ON_PROGRESS,
-    ON_WAY,
+    ON_THE_WAY,
     COMPLETED
 }
+
 @Composable
 fun OrderStatusItem(
     icon: ImageVector,
     text: String,
     status: String,
     time: String,
-    orderProgress: String
+    orderProgress: String,
 ) {
     val progressStatus = when (orderProgress) {
         "On Progress" -> ProgressStatus.ON_PROGRESS
-        "On the way" -> ProgressStatus.ON_WAY
+        "On The Way" -> ProgressStatus.ON_THE_WAY
         "Completed" -> ProgressStatus.COMPLETED
-        else -> ProgressStatus.COMPLETED // Default to completed if status is unknown
+        else -> ProgressStatus.ON_PROGRESS
     }
 
     val backgroundColor = when (progressStatus) {
         ProgressStatus.ON_PROGRESS -> if (status == "Shop") Color(0xFF5821c4) else Color.LightGray
-        ProgressStatus.ON_WAY -> if (status == "Shop" || status == "Delivery") Color(0xFF5821c4) else Color.LightGray
+        ProgressStatus.ON_THE_WAY -> if (status == "Shop" || status == "Delivery") Color(0xFF5821c4) else Color.LightGray
         ProgressStatus.COMPLETED -> Color(0xFF5821c4)
     }
 
-    val textColor = if (progressStatus == ProgressStatus.COMPLETED) Color(0xFF5821c4) else Color.Black
+    val textColor =
+        if (progressStatus == ProgressStatus.COMPLETED) Color(0xFF5821c4) else Color.Black
 
     Row(
         modifier = Modifier.fillMaxWidth(),
