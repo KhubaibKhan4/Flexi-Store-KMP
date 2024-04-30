@@ -69,6 +69,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.no_item_found
 import io.kamel.core.Resource
@@ -76,6 +77,7 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.screens.order.OrderDetail
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
@@ -290,8 +292,8 @@ fun MyOrderItems(
     products: Products,
     order: Order,
 ) {
+    val navigator = LocalNavigator.current
     var trackOrder by remember { mutableStateOf(false) }
-    var orderDetails by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier.fillMaxWidth()
             .height(190.dp)
@@ -459,7 +461,7 @@ fun MyOrderItems(
             ) {
                 FilledIconButton(
                     onClick = {
-                        orderDetails = !orderDetails
+                       navigator?.push(OrderDetail(products,order))
                     },
                     modifier = Modifier
                         .weight(1f)
@@ -562,24 +564,6 @@ fun MyOrderItems(
                     time = "03:45 PM",
                     orderProgress = progressStatus
                 )
-            }
-        }
-    }
-    if (orderDetails) {
-        val sheetState = rememberModalBottomSheetState()
-        ModalBottomSheet(
-            onDismissRequest = {
-                trackOrder = !trackOrder
-            },
-            sheetState = sheetState
-        ) {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 0.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Center
-            ) {
-
             }
         }
     }
