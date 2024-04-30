@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,21 +20,30 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DeliveryDining
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.MapsHomeWork
+import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -273,11 +284,14 @@ class MyOrdersContent : Screen {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyOrderItems(
     products: Products,
     order: Order,
 ) {
+    var trackOrder by remember { mutableStateOf(false) }
+    var orderDetails by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier.fillMaxWidth()
             .height(190.dp)
@@ -334,7 +348,9 @@ fun MyOrderItems(
                                 .padding(4.dp)
                                 .border(
                                     1.dp,
-                                   if (order.orderProgress == "On Progress")  Color.Red.copy(alpha = 0.65f) else Color.Green.copy(alpha = 0.65f),
+                                    if (order.orderProgress == "On Progress") Color.Red.copy(alpha = 0.65f) else Color.Green.copy(
+                                        alpha = 0.65f
+                                    ),
                                     RoundedCornerShape(topEnd = 14.dp, bottomStart = 14.dp)
                                 )
                         ) {
@@ -343,7 +359,9 @@ fun MyOrderItems(
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = if (order.orderProgress == "On Progress")  Color.Red.copy(alpha = 0.65f) else Color.Green.copy(alpha = 0.65f),
+                                color = if (order.orderProgress == "On Progress") Color.Red.copy(
+                                    alpha = 0.65f
+                                ) else Color.Green.copy(alpha = 0.65f),
                                 modifier = Modifier.padding(4.dp)
                             )
                         }
@@ -434,7 +452,9 @@ fun MyOrderItems(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 FilledIconButton(
-                    onClick = { },
+                    onClick = {
+                        orderDetails = !orderDetails
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .height(55.dp)
@@ -473,6 +493,123 @@ fun MyOrderItems(
                         color = Color.White
                     )
                 }
+            }
+        }
+    }
+    if (orderDetails) {
+        val sheetState = rememberModalBottomSheetState()
+        ModalBottomSheet(
+            onDismissRequest = {
+                orderDetails = !orderDetails
+            },
+            sheetState = sheetState,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 0.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Progress of Your Order",
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OrderStatusItem(
+                    icon = Icons.Outlined.MapsHomeWork,
+                    text = "UpBox Bag",
+                    status = "Shop",
+                    time = "02:50 PM"
+                )
+                VerticalDivider(
+                    thickness = 3.dp,
+                    color = Color(0xFF5821c4),
+                    modifier = Modifier.fillMaxHeight(0.08f)
+                        .padding(start = 17.dp)
+                )
+                OrderStatusItem(
+                    icon = Icons.Outlined.DeliveryDining,
+                    text = "On the way",
+                    status = "Delivery",
+                    time = "03:20 PM"
+                )
+                VerticalDivider(
+                    thickness = 3.dp,
+                    color = Color.LightGray,
+                    modifier = Modifier.fillMaxHeight(0.08f)
+                        .padding(start = 17.dp)
+                )
+                OrderStatusItem(
+                    icon = Icons.Outlined.LocationOn,
+                    text = "5482 Adobe Falls Rd #15San Diego",
+                    status = "House",
+                    time = "03:45 PM"
+                )
+            }
+        }
+    }
+}
+@Composable
+fun OrderStatusItem(
+    icon: ImageVector,
+    text: String,
+    status: String,
+    time: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier.size(40.dp)
+                .background(Color(0xFF5821c4), shape = CircleShape)
+                .padding(2.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(30.dp)
+                    .padding(4.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = text,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = MaterialTheme.typography.titleSmall.fontSize
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = status,
+                    fontSize = 13.sp,
+                    color = Color.Gray
+                )
+                Text(
+                    text = ".",
+                    fontSize = 13.sp,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.ExtraBold
+                )
+                Text(
+                    text = time,
+                    fontSize = 13.sp,
+                    color = Color.Gray
+                )
             }
         }
     }
