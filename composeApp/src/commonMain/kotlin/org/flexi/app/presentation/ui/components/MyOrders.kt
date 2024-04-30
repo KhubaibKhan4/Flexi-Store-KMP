@@ -499,7 +499,7 @@ fun MyOrderItems(
     }
     if (orderDetails) {
         val sheetState = rememberModalBottomSheetState()
-        val progressStatus = ProgressStatus.COMPLETED
+        val progressStatus = order.orderProgress
         ModalBottomSheet(
             onDismissRequest = {
                 orderDetails = !orderDetails
@@ -524,21 +524,21 @@ fun MyOrderItems(
                     text = "UpBox Bag",
                     status = "Shop",
                     time = "02:50 PM",
-                    progressStatus = progressStatus
+                    orderProgress = progressStatus
                 )
                 OrderStatusItem(
                     icon = Icons.Outlined.DeliveryDining,
                     text = "On the way",
                     status = "Delivery",
                     time = "03:20 PM",
-                    progressStatus = progressStatus
+                    orderProgress = progressStatus
                 )
                 OrderStatusItem(
                     icon = Icons.Outlined.LocationOn,
                     text = "5482 Adobe Falls Rd #15San Diego",
                     status = "House",
                     time = "03:45 PM",
-                    progressStatus = progressStatus
+                    orderProgress = progressStatus
                 )
             }
         }
@@ -555,8 +555,15 @@ fun OrderStatusItem(
     text: String,
     status: String,
     time: String,
-    progressStatus: ProgressStatus
+    orderProgress: String
 ) {
+    val progressStatus = when (orderProgress) {
+        "On Progress" -> ProgressStatus.ON_PROGRESS
+        "On the way" -> ProgressStatus.ON_WAY
+        "Completed" -> ProgressStatus.COMPLETED
+        else -> ProgressStatus.COMPLETED // Default to completed if status is unknown
+    }
+
     val backgroundColor = when (progressStatus) {
         ProgressStatus.ON_PROGRESS -> if (status == "Shop") Color(0xFF5821c4) else Color.LightGray
         ProgressStatus.ON_WAY -> if (status == "Shop" || status == "Delivery") Color(0xFF5821c4) else Color.LightGray
