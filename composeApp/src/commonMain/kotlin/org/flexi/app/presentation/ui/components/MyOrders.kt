@@ -231,7 +231,7 @@ class MyOrdersContent : Screen {
                                     activeOrders?.let { orders ->
                                         items(orders) { order ->
                                             val product =
-                                                productList?.find { it.id.toString() == order.productIds }
+                                                productList?.find { it.id == order.productIds }
                                             product?.let { MyOrderItems(it, order) }
                                         }
                                     }
@@ -269,7 +269,7 @@ class MyOrdersContent : Screen {
                                 ) {
                                     items(completedOrders) { order ->
                                         val product =
-                                            productList?.find { it.id.toString() == order.productIds }
+                                            productList?.find { it.id == order.productIds }
                                         product?.let { MyOrderItems(it, order) }
                                     }
                                 }
@@ -562,6 +562,24 @@ fun MyOrderItems(
                     time = "03:45 PM",
                     orderProgress = progressStatus
                 )
+            }
+        }
+    }
+    if (orderDetails) {
+        val sheetState = rememberModalBottomSheetState()
+        ModalBottomSheet(
+            onDismissRequest = {
+                trackOrder = !trackOrder
+            },
+            sheetState = sheetState
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 0.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+
             }
         }
     }
