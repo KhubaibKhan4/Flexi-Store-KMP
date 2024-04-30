@@ -193,7 +193,8 @@ class MyOrdersContent : Screen {
                     }
                     when (selectedTabIndex) {
                         0 -> {
-                            if (myOrderData?.isEmpty() == true) {
+                            val activeOrders = myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" }
+                            if (activeOrders?.isEmpty() == true) {
                                 Column(
                                     modifier = Modifier.fillMaxWidth()
                                         .padding(top = it.calculateTopPadding(), bottom = 34.dp),
@@ -226,14 +227,10 @@ class MyOrdersContent : Screen {
                                     verticalArrangement = Arrangement.Center,
                                     contentPadding = PaddingValues(6.dp)
                                 ) {
-                                    productList?.let { list ->
-                                        items(list) { product ->
-                                            val order = myOrderData?.find { order ->
-                                                order.productIds.toInt() == product.id
-                                            }
-                                            order?.let { orderItem ->
-                                                MyOrderItems(product, orderItem)
-                                            }
+                                    activeOrders?.let { orders ->
+                                        items(orders) { order ->
+                                            val product = productList?.find { it.id.toString() == order.productIds }
+                                            product?.let { MyOrderItems(it, order) }
                                         }
                                     }
                                 }
