@@ -30,6 +30,7 @@ import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -498,6 +499,7 @@ fun MyOrderItems(
     }
     if (orderDetails) {
         val sheetState = rememberModalBottomSheetState()
+        val progressStatus = ProgressStatus.COMPLETED
         ModalBottomSheet(
             onDismissRequest = {
                 orderDetails = !orderDetails
@@ -521,43 +523,48 @@ fun MyOrderItems(
                     icon = Icons.Outlined.MapsHomeWork,
                     text = "UpBox Bag",
                     status = "Shop",
-                    time = "02:50 PM"
-                )
-                VerticalDivider(
-                    thickness = 3.dp,
-                    color = Color(0xFF5821c4),
-                    modifier = Modifier.fillMaxHeight(0.08f)
-                        .padding(start = 17.dp)
+                    time = "02:50 PM",
+                    progressStatus = progressStatus
                 )
                 OrderStatusItem(
                     icon = Icons.Outlined.DeliveryDining,
                     text = "On the way",
                     status = "Delivery",
-                    time = "03:20 PM"
-                )
-                VerticalDivider(
-                    thickness = 3.dp,
-                    color = Color.LightGray,
-                    modifier = Modifier.fillMaxHeight(0.08f)
-                        .padding(start = 17.dp)
+                    time = "03:20 PM",
+                    progressStatus = progressStatus
                 )
                 OrderStatusItem(
                     icon = Icons.Outlined.LocationOn,
                     text = "5482 Adobe Falls Rd #15San Diego",
                     status = "House",
-                    time = "03:45 PM"
+                    time = "03:45 PM",
+                    progressStatus = progressStatus
                 )
             }
         }
     }
+}
+enum class ProgressStatus {
+    ON_PROGRESS,
+    ON_WAY,
+    COMPLETED
 }
 @Composable
 fun OrderStatusItem(
     icon: ImageVector,
     text: String,
     status: String,
-    time: String
+    time: String,
+    progressStatus: ProgressStatus
 ) {
+    val backgroundColor = when (progressStatus) {
+        ProgressStatus.ON_PROGRESS -> if (status == "Shop") Color(0xFF5821c4) else Color.LightGray
+        ProgressStatus.ON_WAY -> if (status == "Shop" || status == "Delivery") Color(0xFF5821c4) else Color.LightGray
+        ProgressStatus.COMPLETED -> Color(0xFF5821c4)
+    }
+
+    val textColor = if (progressStatus == ProgressStatus.COMPLETED) Color(0xFF5821c4) else Color.Black
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -565,7 +572,7 @@ fun OrderStatusItem(
     ) {
         Box(
             modifier = Modifier.size(40.dp)
-                .background(Color(0xFF5821c4), shape = CircleShape)
+                .background(backgroundColor, shape = CircleShape)
                 .padding(2.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -587,7 +594,8 @@ fun OrderStatusItem(
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                fontSize = MaterialTheme.typography.titleSmall.fontSize
+                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                color = textColor
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -597,20 +605,29 @@ fun OrderStatusItem(
                 Text(
                     text = status,
                     fontSize = 13.sp,
-                    color = Color.Gray
+                    color = textColor
                 )
                 Text(
                     text = ".",
                     fontSize = 13.sp,
-                    color = Color.Gray,
+                    color = textColor,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
                     text = time,
                     fontSize = 13.sp,
-                    color = Color.Gray
+                    color = textColor
                 )
             }
         }
+    }
+
+    if (status != "House") {
+        VerticalDivider(
+            color = backgroundColor,
+            thickness = 3.dp,
+            modifier = Modifier.fillMaxHeight(0.08f)
+                .padding(horizontal = 16.dp)
+        )
     }
 }
