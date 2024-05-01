@@ -43,7 +43,6 @@ class SettingScreen : Screen {
         val navigator = LocalNavigator.current
 
         Scaffold(
-            modifier = Modifier.offset(y = (-34).dp),
             topBar = {
                 TopAppBar(
                     title = {

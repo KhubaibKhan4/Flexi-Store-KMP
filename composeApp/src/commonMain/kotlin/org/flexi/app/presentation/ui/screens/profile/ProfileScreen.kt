@@ -92,8 +92,6 @@ class ProfileScreen : Screen {
             }
         }
         Scaffold(
-            modifier = Modifier.fillMaxWidth()
-                .offset(y = (-34).dp),
             topBar = {
                 TopAppBar(
                     title = {
