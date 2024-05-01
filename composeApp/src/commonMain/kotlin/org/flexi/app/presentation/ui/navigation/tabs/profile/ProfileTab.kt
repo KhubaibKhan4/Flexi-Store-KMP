@@ -9,13 +9,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import org.flexi.app.presentation.ui.screens.profile.ProfileScreen
 
 object ProfileTab : Tab {
     @Composable
     override fun Content() {
-        Text("Profile Tab")
+        Navigator(ProfileScreen())
     }
 
     override val options: TabOptions
