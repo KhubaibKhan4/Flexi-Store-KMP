@@ -2,6 +2,7 @@ package org.flexi.app.presentation.ui.screens.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.avatar
 import org.flexi.app.domain.model.products.Products
@@ -57,6 +59,7 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HotSaleItem
 import org.flexi.app.presentation.ui.components.ProductItem
+import org.flexi.app.presentation.ui.screens.setting.SettingScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -67,6 +70,7 @@ class ProfileScreen : Screen {
     override fun Content() {
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
+        val navigator = LocalNavigator.current
         var productList by remember { mutableStateOf<List<Products>?>(null) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
@@ -102,7 +106,10 @@ class ProfileScreen : Screen {
                     actions = {
                         Icon(
                             imageVector = Icons.Outlined.MoreVert,
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = Modifier.clickable {
+                                navigator?.push(SettingScreen())
+                            }
                         )
                     }
                 )
