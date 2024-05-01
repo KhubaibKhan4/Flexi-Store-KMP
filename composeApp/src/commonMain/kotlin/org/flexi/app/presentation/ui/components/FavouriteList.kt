@@ -193,7 +193,7 @@ fun FavouriteItem(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
                 color = Color.Black,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = 3.dp, end = 3.dp)

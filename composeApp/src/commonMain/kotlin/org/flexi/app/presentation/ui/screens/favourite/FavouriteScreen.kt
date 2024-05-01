@@ -19,7 +19,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddRoad
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ButtonDefaults
@@ -46,9 +45,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
-import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.FavouriteList
-import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 
@@ -62,6 +59,7 @@ class FavouriteScreen : Screen {
         var filteredProductList by remember { mutableStateOf<List<Products>>(emptyList()) }
         var searchQuery by remember { mutableStateOf("") }
         var selectedOption by remember { mutableStateOf("Latest") }
+
         val state = rememberLazyGridState()
         val options = listOf(
             "Latest",
@@ -135,12 +133,6 @@ class FavouriteScreen : Screen {
                     placeholder = {
                         Text("Search Something")
                     },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.AddRoad,
-                            contentDescription = null
-                        )
-                    },
                     modifier = Modifier.fillMaxWidth()
                         .padding(8.dp)
                         .border(
@@ -163,10 +155,10 @@ class FavouriteScreen : Screen {
                     ),
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
-                        filteredProductList = filterProductList(productList, selectedOption, searchQuery)
+                        filteredProductList =
+                            filterProductList(productList, selectedOption, searchQuery)
                     })
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
@@ -175,7 +167,8 @@ class FavouriteScreen : Screen {
                     items(options) { op ->
                         OptionText(text = op, isSelected = op == selectedOption) {
                             selectedOption = op
-                            filteredProductList = filterProductList(productList, selectedOption, searchQuery)
+                            filteredProductList =
+                                filterProductList(productList, selectedOption, searchQuery)
                         }
                     }
                 }
@@ -185,9 +178,14 @@ class FavouriteScreen : Screen {
         }
     }
 
-    private fun filterProductList(products: List<Products>, selectedOption: String, searchQuery: String): List<Products> {
+    private fun filterProductList(
+        products: List<Products>,
+        selectedOption: String,
+        searchQuery: String,
+    ): List<Products> {
         val filteredByName = products.filter { it.name.contains(searchQuery, ignoreCase = true) }
-        val filteredByCategory = products.filter { it.categoryTitle.contains(searchQuery, ignoreCase = true) }
+        val filteredByCategory =
+            products.filter { it.categoryTitle.contains(searchQuery, ignoreCase = true) }
         val filteredList = (filteredByName + filteredByCategory).distinct()
 
         return when (selectedOption) {
@@ -197,7 +195,9 @@ class FavouriteScreen : Screen {
             "Most Expensive" -> filteredList.sortedByDescending { it.price }
             "Top Rated" -> filteredList.sortedByDescending { it.averageRating }
             "Trending" -> filteredList.sortedByDescending { it.isFeatured }
-            "Limited Edition" -> filteredList.filter { it.isAvailable }.sortedByDescending { it.totalStack }
+            "Limited Edition" -> filteredList.filter { it.isAvailable }
+                .sortedByDescending { it.totalStack }
+
             "Best Sellers" -> filteredList.sortedWith(compareByDescending<Products> { it.averageRating }.thenBy { it.discountPrice })
             "Exclusive Deals" -> filteredList.filter { it.isFeatured }.sortedBy { it.discountPrice }
             else -> filteredList
