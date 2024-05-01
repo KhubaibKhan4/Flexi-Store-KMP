@@ -79,22 +79,16 @@ class FavouriteScreen : Screen {
             viewModel.getProducts()
         }
         val productState by viewModel.products.collectAsState()
-        when (productState) {
-            is ResultState.Error -> {
-                val error = (productState as ResultState.Error).error
-                ErrorBox(error)
-            }
 
-            is ResultState.Loading -> {
-                LoadingBox()
+        LaunchedEffect(productState, searchQuery) {
+            val response = when (val state = productState) {
+                is ResultState.Success -> state.response
+                else -> emptyList()
             }
-
-            is ResultState.Success -> {
-                val response = (productState as ResultState.Success).response
-                productList = response
-                filteredProductList = filterProductList(productList, selectedOption, searchQuery)
-            }
+            productList = response
+            filteredProductList = filterProductList(productList, selectedOption, searchQuery)
         }
+
         Scaffold(
             modifier = Modifier.fillMaxWidth()
                 .offset(y = (-34).dp),
@@ -192,19 +186,21 @@ class FavouriteScreen : Screen {
     }
 
     private fun filterProductList(products: List<Products>, selectedOption: String, searchQuery: String): List<Products> {
+        val filteredByName = products.filter { it.name.contains(searchQuery, ignoreCase = true) }
+        val filteredByCategory = products.filter { it.categoryTitle.contains(searchQuery, ignoreCase = true) }
+        val filteredList = (filteredByName + filteredByCategory).distinct()
+
         return when (selectedOption) {
-            "Latest" -> products.sortedByDescending { it.createdAt }
-            "Most Popular" -> products.sortedByDescending { it.averageRating }
-            "Cheap" -> products.sortedBy { it.price }
-            "Most Expensive" -> products.sortedByDescending { it.price }
-            "Top Rated" -> products.sortedByDescending { it.averageRating }
-            "Trending" -> products.sortedByDescending { it.isFeatured }
-            "Limited Edition" -> products.filter { it.isAvailable }.sortedByDescending { it.totalStack }
-            "Best Sellers" -> products.sortedWith(compareByDescending<Products> { it.averageRating }.thenBy { it.discountPrice })
-            "Exclusive Deals" -> products.filter { it.isFeatured }.sortedBy { it.discountPrice }
-            "Name" -> products.filter { it.name.contains(searchQuery, ignoreCase = true) || it.categoryTitle.contains(searchQuery, ignoreCase = true) }
-            "Category" -> products.filter { it.categoryTitle.contains(searchQuery, ignoreCase = true) || it.name.contains(searchQuery, ignoreCase = true) }
-            else -> products
+            "Latest" -> filteredList.sortedByDescending { it.createdAt }
+            "Most Popular" -> filteredList.sortedByDescending { it.averageRating }
+            "Cheap" -> filteredList.sortedBy { it.price }
+            "Most Expensive" -> filteredList.sortedByDescending { it.price }
+            "Top Rated" -> filteredList.sortedByDescending { it.averageRating }
+            "Trending" -> filteredList.sortedByDescending { it.isFeatured }
+            "Limited Edition" -> filteredList.filter { it.isAvailable }.sortedByDescending { it.totalStack }
+            "Best Sellers" -> filteredList.sortedWith(compareByDescending<Products> { it.averageRating }.thenBy { it.discountPrice })
+            "Exclusive Deals" -> filteredList.filter { it.isFeatured }.sortedBy { it.discountPrice }
+            else -> filteredList
         }
     }
 }
