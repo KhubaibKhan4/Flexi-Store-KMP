@@ -14,6 +14,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -39,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.flexi.app.domain.model.products.Products
@@ -89,7 +92,7 @@ class FavouriteScreen : Screen {
             is ResultState.Success -> {
                 val response = (productState as ResultState.Success).response
                 productList = response
-                filteredProductList = filterProductList(productList, selectedOption)
+                filteredProductList = filterProductList(productList, selectedOption, searchQuery)
             }
         }
         Scaffold(
@@ -127,12 +130,12 @@ class FavouriteScreen : Screen {
                     value = searchQuery,
                     onValueChange = { search ->
                         searchQuery = search
-                        filteredProductList = filterProductList(productList, selectedOption)
                     },
+                    singleLine = true,
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.Search,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     },
                     placeholder = {
@@ -163,8 +166,13 @@ class FavouriteScreen : Screen {
                         unfocusedTrailingIconColor = Color.Black,
                         focusedPlaceholderColor = Color.Gray,
                         focusedTrailingIconColor = Color.Black
-                    )
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = {
+                        filteredProductList = filterProductList(productList, selectedOption, searchQuery)
+                    })
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
@@ -173,7 +181,7 @@ class FavouriteScreen : Screen {
                     items(options) { op ->
                         OptionText(text = op, isSelected = op == selectedOption) {
                             selectedOption = op
-                            filteredProductList = filterProductList(productList, selectedOption)
+                            filteredProductList = filterProductList(productList, selectedOption, searchQuery)
                         }
                     }
                 }
@@ -183,7 +191,7 @@ class FavouriteScreen : Screen {
         }
     }
 
-    private fun filterProductList(products: List<Products>, selectedOption: String): List<Products> {
+    private fun filterProductList(products: List<Products>, selectedOption: String, searchQuery: String): List<Products> {
         return when (selectedOption) {
             "Latest" -> products.sortedByDescending { it.createdAt }
             "Most Popular" -> products.sortedByDescending { it.averageRating }
@@ -194,6 +202,8 @@ class FavouriteScreen : Screen {
             "Limited Edition" -> products.filter { it.isAvailable }.sortedByDescending { it.totalStack }
             "Best Sellers" -> products.sortedWith(compareByDescending<Products> { it.averageRating }.thenBy { it.discountPrice })
             "Exclusive Deals" -> products.filter { it.isFeatured }.sortedBy { it.discountPrice }
+            "Name" -> products.filter { it.name.contains(searchQuery, ignoreCase = true) || it.categoryTitle.contains(searchQuery, ignoreCase = true) }
+            "Category" -> products.filter { it.categoryTitle.contains(searchQuery, ignoreCase = true) || it.name.contains(searchQuery, ignoreCase = true) }
             else -> products
         }
     }
