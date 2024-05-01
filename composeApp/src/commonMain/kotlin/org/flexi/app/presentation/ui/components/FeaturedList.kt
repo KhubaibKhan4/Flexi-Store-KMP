@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -149,10 +150,11 @@ fun FeaturedItems(
                     .height(140.dp)
                     .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)),
                 contentScale = ContentScale.Crop,
-                animationSpec = tween(),
-                onLoading = {
-                    CircularProgressIndicator()
-                },
+                animationSpec = tween(
+                    durationMillis = 200,
+                    delayMillis = 100,
+                    easing = LinearOutSlowInEasing
+                ),
                 onFailure = {
                     Text("Failed to Load")
                 }
