@@ -56,11 +56,11 @@ class FavouriteScreen : Screen {
     override fun Content() {
         val viewModel: MainViewModel = koinInject()
         var productList by remember { mutableStateOf<List<Products>>(emptyList()) }
+        var filteredProductList by remember { mutableStateOf<List<Products>>(emptyList()) }
         var searchQuery by remember { mutableStateOf("") }
+        var selectedOption by remember { mutableStateOf("Latest") }
         val state = rememberLazyGridState()
-        var selectedOption by remember { mutableStateOf("All") }
         val options = listOf(
-            "All",
             "Latest",
             "Most Popular",
             "Cheap",
@@ -89,6 +89,7 @@ class FavouriteScreen : Screen {
             is ResultState.Success -> {
                 val response = (productState as ResultState.Success).response
                 productList = response
+                filteredProductList = filterProductList(productList, selectedOption)
             }
         }
         Scaffold(
@@ -126,6 +127,7 @@ class FavouriteScreen : Screen {
                     value = searchQuery,
                     onValueChange = { search ->
                         searchQuery = search
+                        filteredProductList = filterProductList(productList, selectedOption)
                     },
                     leadingIcon = {
                         Icon(
@@ -171,16 +173,30 @@ class FavouriteScreen : Screen {
                     items(options) { op ->
                         OptionText(text = op, isSelected = op == selectedOption) {
                             selectedOption = op
+                            filteredProductList = filterProductList(productList, selectedOption)
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(6.dp))
-                FavouriteList(products =productList, state = state)
+                FavouriteList(products = filteredProductList, state = state)
             }
-
         }
     }
 
+    private fun filterProductList(products: List<Products>, selectedOption: String): List<Products> {
+        return when (selectedOption) {
+            "Latest" -> products.sortedByDescending { it.createdAt }
+            "Most Popular" -> products.sortedByDescending { it.averageRating }
+            "Cheap" -> products.sortedBy { it.price }
+            "Most Expensive" -> products.sortedByDescending { it.price }
+            "Top Rated" -> products.sortedByDescending { it.averageRating }
+            "Trending" -> products.sortedByDescending { it.isFeatured }
+            "Limited Edition" -> products.filter { it.isAvailable }.sortedByDescending { it.totalStack }
+            "Best Sellers" -> products.sortedWith(compareByDescending<Products> { it.averageRating }.thenBy { it.discountPrice })
+            "Exclusive Deals" -> products.filter { it.isFeatured }.sortedBy { it.discountPrice }
+            else -> products
+        }
+    }
 }
 
 @Composable
