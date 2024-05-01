@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.screens.navigation.rails.items
+package org.flexi.app.presentation.ui.navigation.rails.items
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

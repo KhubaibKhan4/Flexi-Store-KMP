@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.screens.navigation.rails.navbar
+package org.flexi.app.presentation.ui.navigation.rails.navbar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.flexi.app.presentation.ui.screens.navigation.rails.items.NavigationItem
+import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
 
 @Composable
 fun NavigationSideBar(

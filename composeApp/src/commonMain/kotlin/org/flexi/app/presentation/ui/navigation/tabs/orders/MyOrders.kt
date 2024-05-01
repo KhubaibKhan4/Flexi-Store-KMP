@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.screens.navigation.tabs.orders
+package org.flexi.app.presentation.ui.navigation.tabs.orders
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeliveryDining
