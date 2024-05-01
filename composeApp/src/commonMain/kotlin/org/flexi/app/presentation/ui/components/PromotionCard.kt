@@ -21,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -107,6 +108,9 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                                 delayMillis = 100,
                                 easing = FastOutSlowInEasing
                             ),
+                            onLoading = {
+                                CircularProgressIndicator(progress = it)
+                            }
                         )
                     } else {
                         Box(
