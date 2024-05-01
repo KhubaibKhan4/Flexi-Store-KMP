@@ -112,7 +112,7 @@ class HomeScreen : Screen {
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                // LoadingBox()
             }
 
             is ResultState.Success -> {
@@ -128,7 +128,7 @@ class HomeScreen : Screen {
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                //LoadingBox()
             }
 
             is ResultState.Success -> {
@@ -144,7 +144,7 @@ class HomeScreen : Screen {
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                // LoadingBox()
             }
 
             is ResultState.Success -> {
@@ -160,7 +160,7 @@ class HomeScreen : Screen {
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                //LoadingBox()
             }
 
             is ResultState.Success -> {
@@ -176,7 +176,7 @@ class HomeScreen : Screen {
                     TopAppBarWithProfile(
                         name = "Jonathan",
                         onCartClicked = {
-                            CartsList?.let {carts->
+                            CartsList?.let { carts ->
                                 val mutableCartsList = carts.toMutableList()
                                 navigator?.push(CartList(mutableCartsList))
                             }

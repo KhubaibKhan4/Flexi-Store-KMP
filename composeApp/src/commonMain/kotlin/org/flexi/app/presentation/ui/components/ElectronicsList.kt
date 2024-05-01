@@ -1,5 +1,7 @@
 package org.flexi.app.presentation.ui.components
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -136,7 +138,12 @@ fun ElectronicsItems(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
                     .height(150.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                animationSpec = tween(
+                    durationMillis = 200,
+                    delayMillis = 100,
+                    easing = LinearOutSlowInEasing
+                )
             )
             Card(
                 modifier = Modifier
