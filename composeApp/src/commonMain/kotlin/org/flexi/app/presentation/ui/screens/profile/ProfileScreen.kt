@@ -62,6 +62,8 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HotSaleItem
+import org.flexi.app.presentation.ui.components.MyOrdersContent
+import org.flexi.app.presentation.ui.components.MyProfileOrders
 import org.flexi.app.presentation.ui.components.ProductItem
 import org.flexi.app.presentation.ui.screens.setting.SettingScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
@@ -213,18 +215,27 @@ class ProfileScreen : Screen {
                         ) {
                             OrderItem(
                                 Icons.Outlined.DeliveryDining,
-                                text = "Delivered",
-                                color = Color.Green
+                                text = "Orders",
+                                color = Color.Green,
+                                onClick = {
+                                    navigator?.push(MyProfileOrders(orderType = "Orders"))
+                                }
                             )
                             OrderItem(
                                 Icons.Outlined.Autorenew,
                                 text = "Processing",
-                                color = Color.Blue
+                                color = Color.Blue,
+                                onClick = {
+                                    navigator?.push(MyProfileOrders(orderType = "Processing"))
+                                }
                             )
                             OrderItem(
                                 Icons.Outlined.LocalShipping,
                                 text = "Shipped",
-                                color = Color.Magenta
+                                color = Color.Magenta,
+                                onClick = {
+                                    navigator?.push(MyProfileOrders(orderType = "Completed"))
+                                }
                             )
                         }
                         Spacer(modifier = Modifier.height(10.dp))
@@ -233,16 +244,25 @@ class ProfileScreen : Screen {
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            OrderItem(Icons.Outlined.Cancel, text = "Cancelled", color = Color.Red)
+                            OrderItem(
+                                Icons.Outlined.Cancel,
+                                text = "Cancelled",
+                                color = Color.Red,
+                                onClick = {
+                                    navigator?.push(MyProfileOrders(orderType = "Cancelled"))
+                                }
+                            )
                             OrderItem(
                                 Icons.Outlined.Favorite,
                                 text = "Wishlist",
-                                color = Color.Magenta
+                                color = Color.Magenta,
+                                onClick = {}
                             )
                             OrderItem(
                                 Icons.Outlined.SupportAgent,
                                 text = "Support",
-                                color = Color.Blue
+                                color = Color.Blue,
+                                onClick = {}
                             )
                         }
 
@@ -280,10 +300,13 @@ class ProfileScreen : Screen {
     }
 
     @Composable
-    fun OrderItem(icon: ImageVector, text: String, color: Color) {
+    fun OrderItem(icon: ImageVector, text: String, color: Color, onClick: ()-> Unit) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(8.dp)
+                .clickable {
+                    onClick()
+                }
         ) {
             Icon(
                 imageVector = icon,
