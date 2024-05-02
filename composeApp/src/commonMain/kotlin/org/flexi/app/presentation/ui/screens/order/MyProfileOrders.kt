@@ -103,7 +103,7 @@ class MyProfileOrders(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            text =if (orderType=="Orders") "My All Orders" else if (orderType=="Processing") "My Processing Orders" else "My Completed Orders",
+                            text =if (orderType=="Orders") "My All Orders" else if (orderType=="Processing") "My Processing Orders" else if(orderType=="Cancelled") "My Cancelled Orders" else "My Completed Orders",
                             fontSize = MaterialTheme.typography.titleMedium.fontSize,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
@@ -288,7 +288,7 @@ class MyProfileOrders(
                                            modifier = Modifier.size(250.dp)
                                        )
                                        Text(
-                                           text = "No Active Order available",
+                                           text = "No Cancelled Order available",
                                            modifier = Modifier.padding(12.dp),
                                            fontWeight = FontWeight.Bold,
                                            color = Color.Red
