@@ -72,6 +72,7 @@ import org.flexi.app.presentation.ui.components.HotSaleItem
 import org.flexi.app.presentation.ui.screens.order.MyProfileOrders
 import org.flexi.app.presentation.ui.screens.order.MyProfileWishList
 import org.flexi.app.presentation.ui.screens.setting.SettingScreen
+import org.flexi.app.presentation.ui.screens.setting.support.SupportScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.painterResource
@@ -316,7 +317,9 @@ class ProfileScreen : Screen {
                                 Icons.Outlined.SupportAgent,
                                 text = "Support",
                                 color = Color.Blue,
-                                onClick = {}
+                                onClick = {
+                                    navigator?.push(SupportScreen())
+                                }
                             )
                         }
 
