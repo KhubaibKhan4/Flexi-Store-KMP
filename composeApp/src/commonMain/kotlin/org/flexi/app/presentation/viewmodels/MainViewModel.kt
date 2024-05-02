@@ -73,11 +73,46 @@ class MainViewModel(
     private val _updateCountry = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val updateCountry: StateFlow<ResultState<Boolean>> = _updateCountry.asStateFlow()
 
+    private val _updateUsersDetails = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
+    val updateUsersDetails: StateFlow<ResultState<Boolean>> = _updateUsersDetails.asStateFlow()
+
+    fun updateUsersDetails(
+        usersId: Int,
+        username: String,
+        fullName: String,
+        email: String,
+        address: String,
+        city: String,
+        country: String,
+        postalCode: Long,
+        phoneNumber: String,
+    ) {
+        viewModelScope.launch {
+            _updateUsersDetails.value = ResultState.Loading
+            try {
+                val response = repository.updateUsersDetails(
+                    usersId,
+                    username,
+                    fullName,
+                    email,
+                    address,
+                    city,
+                    country,
+                    postalCode,
+                    phoneNumber
+                )
+                _updateUsersDetails.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _updateUsersDetails.value = ResultState.Error(e)
+            }
+        }
+    }
+
     fun updateCountry(userId: Int, countryName: String) {
         viewModelScope.launch {
             _updateCountry.value = ResultState.Loading
             try {
-                val response = repository.updateCountry(userId,countryName)
+                val response = repository.updateCountry(userId, countryName)
                 _updateCountry.value = ResultState.Success(response)
             } catch (e: Exception) {
                 _updateCountry.value = ResultState.Error(e)

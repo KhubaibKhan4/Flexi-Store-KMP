@@ -45,4 +45,15 @@ interface FlexiApi {
         usersId: Int,
         countryName: String,
     ): Boolean
+    suspend fun updateUsersDetails(
+        usersId: Int,
+        username: String,
+        fullName: String,
+        email: String,
+        address: String,
+        city: String,
+        country: String,
+        postalCode: Long,
+        phoneNumber: String
+    ): Boolean
 }

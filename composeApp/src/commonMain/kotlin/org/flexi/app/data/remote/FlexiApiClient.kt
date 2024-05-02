@@ -203,4 +203,31 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
+    @OptIn(InternalAPI::class)
+    suspend fun updateUsersDetails(
+        usersId: Int,
+        username: String,
+        fullName: String,
+        email: String,
+        address: String,
+        city: String,
+        country: String,
+        postalCode: Long,
+        phoneNumber: String
+    ): Boolean {
+        val url = BASE_URL + "v1/users/userDetail/$usersId"
+        val formData = Parameters.build {
+            append("username", username)
+            append("fullName", fullName)
+            append("email", email)
+            append("address", address)
+            append("city", city)
+            append("country", country)
+            append("postalCode", postalCode.toString())
+            append("phoneNumber", phoneNumber)
+        }
+        return client.put(url) {
+            body = FormDataContent(formData)
+        }.body()
+    }
 }
