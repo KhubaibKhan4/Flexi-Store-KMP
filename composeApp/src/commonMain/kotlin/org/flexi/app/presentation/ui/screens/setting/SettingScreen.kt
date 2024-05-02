@@ -56,6 +56,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.NotificationsAlertDialog
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 import org.flexi.app.presentation.ui.screens.setting.privacy.PrivacyScreen
@@ -69,6 +70,7 @@ class SettingScreen(
     override fun Content() {
         val navigator = LocalNavigator.current
         val viewMode: MainViewModel = koinInject()
+        var notificationsDialogVisible = remember { mutableStateOf(false) }
         var userData by remember { mutableStateOf<User?>(null) }
         LaunchedEffect(Unit) {
             viewMode.getUserData(1)
@@ -188,7 +190,17 @@ class SettingScreen(
                         "Notifications Settings",
                         "",
                         Icons.Outlined.Notifications,
-                        onClick = {})
+                        onClick = {
+                            notificationsDialogVisible.value = true
+                        })
+                    if (notificationsDialogVisible.value) {
+                        NotificationsAlertDialog(
+                            onDismiss = {
+                                notificationsDialogVisible.value = false
+                            },
+                            onConfirm = { /* Handle turning on notifications */ }
+                        )
+                    }
                     Spacer(modifier = Modifier.height(12.dp))
                     SettingItem("Privacy & Policy", "", Icons.Outlined.PrivacyTip, onClick = {
                         navigator?.push(
