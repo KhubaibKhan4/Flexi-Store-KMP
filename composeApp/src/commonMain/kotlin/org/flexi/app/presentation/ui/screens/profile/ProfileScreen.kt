@@ -36,6 +36,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -48,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -71,6 +75,7 @@ class ProfileScreen : Screen {
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
         val navigator = LocalNavigator.current
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
         var productList by remember { mutableStateOf<List<Products>?>(null) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
@@ -109,9 +114,11 @@ class ProfileScreen : Screen {
                                 navigator?.push(SettingScreen())
                             }
                         )
-                    }
+                    },
+                    scrollBehavior =scrollBehavior
                 )
-            }
+            },
+            modifier = Modifier.fillMaxWidth().nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
