@@ -57,6 +57,7 @@ import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.NotificationsAlertDialog
+import org.flexi.app.presentation.ui.screens.setting.account.AccountScreen
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 import org.flexi.app.presentation.ui.screens.setting.privacy.PrivacyScreen
@@ -70,7 +71,7 @@ class SettingScreen(
     override fun Content() {
         val navigator = LocalNavigator.current
         val viewMode: MainViewModel = koinInject()
-        var notificationsDialogVisible = remember { mutableStateOf(false) }
+        val notificationsDialogVisible = remember { mutableStateOf(false) }
         var userData by remember { mutableStateOf<User?>(null) }
         LaunchedEffect(Unit) {
             viewMode.getUserData(1)
@@ -156,7 +157,11 @@ class SettingScreen(
                         "Account Setting",
                         "",
                         icon = Icons.Outlined.PersonOutline,
-                        onClick = {})
+                        onClick = {
+                            userData?.let {user->
+                                navigator?.push(AccountScreen(user))
+                            }
+                        })
                     Spacer(modifier = Modifier.height(12.dp))
                     SettingItem(
                         "Address Book",
