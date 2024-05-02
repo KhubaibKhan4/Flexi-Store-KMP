@@ -1,20 +1,98 @@
 # Flexi-Store-KMP
 ![Flexi-Store-KMP](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/banner.png)
 
-## Flexi Store KMP is an Ecommerce Platform that is Developed using Compose Multiplatform.
-Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in future including the Seller Central too where users can register and sell their products to earn.
+## Overview
+Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in the future including the Seller Central too where users can register and sell their products to earn.
 
-* - User can Buy or Sell Products.
-* - User can Make their own Store.
-* - Can Review The Product Images, Videos & Old ratings.
-* - Can Chat with Seller.
+## Supported Features
+* **User Authentication**: Secure user authentication and authorization with OAuth, Firebase Authentication, or custom methods.
+* **Payment Integration**: Seamless integration with popular payment gateways like PayPal, Stripe, or Square for secure transactions.
+* **Product Recommendations**: Advanced recommendation engine suggests products based on user preferences and browsing history.
+* **Advanced Search**: Filter, sort, and search for products efficiently with advanced search options.
+* **Order Tracking**: Real-time order tracking provides updates on order processing, shipping, and delivery status.
+* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
+* **Responsive Design**: Responsive user interface optimized for various screen sizes and resolutions.
+* **Push Notifications**: Keep users informed with push notifications for order updates, new products, and promotions.
+* **Social Media Integration**: Share products, reviews, and store links on social media platforms.
+* **Wishlist and Favorites**: Create wishlists and mark products as favorites for easy access.
+* **Discounts and Coupons**: Offer discounts, coupons, and promotional offers to incentivize purchases.
+* **Customer Support**: Built-in chat or messaging system for customer support and assistance.
+* **Product Reviews and Ratings**: Leave reviews and ratings for products to help other users make informed decisions.
+* **Inventory Management**: Inventory tools for sellers to track stock levels and manage product listings.
+* **Analytics and Reporting**: Track key metrics such as sales performance and user engagement with analytics and reporting features.
 
-* (Work is still in progress with Seller Central Section)
+## Future Planning Features
+* **Seller Central**: Allow users to register as sellers and manage their own stores, including product listings, order management, and analytics.
+* **Social Media Integration**: Enable sharing products, reviews, and purchases on social media platforms for increased visibility and engagement.
+* **AI-Powered Recommendations**: Implement machine learning algorithms to improve product recommendations and personalize the shopping experience further.
+* **Voice Search**: Integrate voice search functionality for hands-free navigation and product discovery.
+* **Augmented Reality**: Utilize AR technology to enable virtual product try-on and visualization before purchase.
+* **Blockchain Integration**: Explore blockchain technology for enhanced security, transparency, and traceability in transactions and supply chain management.
+* **Subscription Services**: Introduce subscription-based services for regular product deliveries, memberships, or premium content access.
+* **Offline Mode**: Develop offline functionality to allow users to browse products and make purchases without an internet connection.
+* **Expanded Payment Options**: Add support for additional payment methods, such as cryptocurrencies, digital wallets, and installment plans.
+* **Community Forums**: Create community forums or discussion boards for users to interact, share tips, and ask questions related to products and shopping.
+* **Gamification**: Incorporate gamification elements like loyalty programs, challenges, and rewards to enhance user engagement and retention.
 
-Are you generous enought? 
-<a href="https://www.buymeacoffee.com/khubaibkhan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=khubaibkhan&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+## Technologies Used
 
-## Mobile Screen Shots
+### Jetpack Compose Dependencies
+* **androidx-activityCompose**: For integrating Compose with Android activities.
+* **androidx-testManifest**: Provides testing support for Jetpack Compose.
+* **androidx-junit4**: Integration of JUnit 4 for Compose UI testing.
+
+### Voyager Navigator
+* **voyager-navigator**: A navigation library for Jetpack Compose.
+
+### Compose Image Loader
+* **composeImageLoader**: A library for loading images in Jetpack Compose applications.
+
+### Logging
+* **napier**: A logging library for Kotlin Multiplatform projects.
+
+### Kotlin Coroutines
+* **kotlinx-coroutines-core**: Core module for Kotlin coroutines.
+* **kotlinx-coroutines-android**: Coroutines support for Android.
+* **kotlinx-coroutines-swing**: Coroutines support for Swing.
+* **kotlinx-coroutines-test**: Testing utilities for Kotlin coroutines.
+
+### MVVM Architecture
+* **moko-mvvm**: MVVM architecture library for Jetpack Compose.
+
+### Networking
+* **ktor-core**: Core module of the Ktor HTTP client.
+* **ktor-client-darwin**: Ktor client for iOS.
+* **ktor-client-okhttp**: Ktor client using OkHttp.
+* **ktor-client-js**: Ktor client for JavaScript.
+* **ktor-content-negotiation**: Content negotiation support for Ktor clients.
+* **ktor-serialization-json**: JSON serialization support for Ktor.
+* **ktor-logging**: Logging support for Ktor clients.
+* **ktor-client-curl**: Ktor client for cURL.
+* **ktor-client-winhttp**: Ktor client for Windows HTTP stack.
+
+### Serialization
+* **kotlinx-serialization-json**: JSON serialization library for Kotlin.
+
+### Date and Time
+* **kotlinx-datetime**: Date and time library for Kotlin Multiplatform.
+
+### Dependency Injection
+* **koin-core**: Core module of the Koin dependency injection framework.
+* **koin-annotations**: Annotations for Koin dependency injection.
+
+### Image Handling
+* **kamel-image**: Image library for Kotlin Multiplatform.
+
+### Material Design
+* **screen-size**: Material Design library for handling window size class in Jetpack Compose.
+
+### Database
+* **sqlDelight-driver-sqlite**: SQLite driver for SQLDelight.
+* **sqlDelight-driver-android**: Android driver for SQLDelight.
+* **sqlDelight-driver-native**: Native driver for SQLDelight.
+* **sqlDelight-driver-js**: Web worker driver for SQLDelight.
+
+These technologies are utilized to develop a robust and feature-rich Kotlin Multiplatform Ecommerce application that supports Android, iOS, Web, and Desktop platforms.
 
 ## Mobile Screen Shots
 
@@ -25,16 +103,17 @@ Are you generous enought?
 | ![Screenshot 10](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/10.png) | ![Screenshot 11](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/11.png) | ![Screenshot 12](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/12.png) |
 | ![Screenshot 13](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/13.png) | ![Screenshot 14](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/14.png) | ![Screenshot 15](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/15.png) |
 | ![Screenshot 16](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/16.png) | ![Screenshot 17](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/17.png) | ![Screenshot 18](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/18.png) |
-| ![Screenshot 19](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/19.png) | ![Screenshot 20](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/20.png) | ![Screenshot 21](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/21.png) | ![Screenshot 22](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/22.png) | ![Screenshot 23](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/23.png) | ![Screenshot 24](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/24.png) |
+| ![Screenshot 19](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/19.png) | ![Screenshot 20](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/20.png) | ![Screenshot 21](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/21.png) |
+| ![Screenshot 22](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/22.png) | ![Screenshot 23](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/23.png) | ![Screenshot 24](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/24.png) |
 | --- | --- | --- |
 | ![Screenshot 25](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/25.png) | ![Screenshot 26](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/26.png) | ![Screenshot 27](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/27.png) |
 | ![Screenshot 28](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/28.png) | ![Screenshot 29](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/29.png) | ![Screenshot 45](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/45.png) |
 | ![Screenshot 46](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/46.png) | ![Screenshot 47](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/47.png) | ![Screenshot 48](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/48.png) |
-| ![Screenshot 49](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/49.png) |
-
-
-
-
+| ![Screenshot 49](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/49.png) | ![Screenshot 62](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/62.png) | ![Screenshot 63](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/63.png) |
+| ![Screenshot 64](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/64.png) | ![Screenshot 65](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/65.png) | ![Screenshot 66](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/66.png) |
+| ![Screenshot 67](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/67.png) | ![Screenshot 68](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/68.png) | ![Screenshot 69](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/69.png) |
+| ![Screenshot 70](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/70.png) | ![Screenshot 71](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/71.png) | ![Screenshot 72](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/72.png) |
+| ![Screenshot 73](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/73.png) |
 
 
 
@@ -68,6 +147,21 @@ Are you generous enought?
 | ![Screenshot 24](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/59.png) | 
 | ![Screenshot 25](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/60.png) | 
 | ![Screenshot 26](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/61.png) | 
+| ![Screenshot 27](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/75.png) | 
+| ![Screenshot 28](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/76.png) | 
+| ![Screenshot 29](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/77.png) | 
+| ![Screenshot 30](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/78.png) | 
+| ![Screenshot 31](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/79.png) | 
+| ![Screenshot 32](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/80.png) | 
+| ![Screenshot 33](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/81.png) | 
+| ![Screenshot 34](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/82.png) | 
+| ![Screenshot 35](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/83.png) | 
+| ![Screenshot 36](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/84.png) | 
+| ![Screenshot 37](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/85.png) | 
+| ![Screenshot 38](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/86.png) | 
+| ![Screenshot 39](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/87.png) | 
+| ![Screenshot 40](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/88.png) | 
+
 
 ## Before running!
  - check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
