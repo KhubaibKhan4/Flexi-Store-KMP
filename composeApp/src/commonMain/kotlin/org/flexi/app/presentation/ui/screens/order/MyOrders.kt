@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.components
+package org.flexi.app.presentation.ui.screens.order
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -77,7 +77,6 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
-import org.flexi.app.presentation.ui.screens.order.OrderDetail
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.Constant.BASE_URL
@@ -108,7 +107,7 @@ class MyOrdersContent : Screen {
             }
 
             ResultState.Loading -> {
-                LoadingBox()
+               // LoadingBox()
             }
 
             is ResultState.Success -> {

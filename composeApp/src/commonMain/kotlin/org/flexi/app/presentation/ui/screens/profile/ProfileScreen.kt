@@ -37,7 +37,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -62,9 +61,8 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HotSaleItem
-import org.flexi.app.presentation.ui.components.MyOrdersContent
-import org.flexi.app.presentation.ui.components.MyProfileOrders
-import org.flexi.app.presentation.ui.components.ProductItem
+import org.flexi.app.presentation.ui.screens.order.MyProfileOrders
+import org.flexi.app.presentation.ui.screens.order.MyProfileWishList
 import org.flexi.app.presentation.ui.screens.setting.SettingScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.jetbrains.compose.resources.painterResource
@@ -256,7 +254,9 @@ class ProfileScreen : Screen {
                                 Icons.Outlined.Favorite,
                                 text = "Wishlist",
                                 color = Color.Magenta,
-                                onClick = {}
+                                onClick = {
+                                    navigator?.push(MyProfileWishList())
+                                }
                             )
                             OrderItem(
                                 Icons.Outlined.SupportAgent,

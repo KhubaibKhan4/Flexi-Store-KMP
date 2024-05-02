@@ -2,7 +2,6 @@ package org.flexi.app.presentation.ui.navigation.tabs.orders
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeliveryDining
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +10,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import org.flexi.app.presentation.ui.components.MyOrdersContent
+import org.flexi.app.presentation.ui.screens.order.MyOrdersContent
 
 object MyOrders: Tab {
     @Composable
