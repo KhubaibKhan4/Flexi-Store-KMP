@@ -1,5 +1,7 @@
 package org.flexi.app.presentation.ui.screens.profile
 
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,15 +51,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.avatar
+import io.kamel.core.Resource
+import io.kamel.core.isSuccess
+import io.kamel.image.KamelImage
+import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HotSaleItem
@@ -65,6 +74,7 @@ import org.flexi.app.presentation.ui.screens.order.MyProfileOrders
 import org.flexi.app.presentation.ui.screens.order.MyProfileWishList
 import org.flexi.app.presentation.ui.screens.setting.SettingScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
@@ -75,10 +85,13 @@ class ProfileScreen : Screen {
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
         val navigator = LocalNavigator.current
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+        val scrollBehavior =
+            TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
         var productList by remember { mutableStateOf<List<Products>?>(null) }
+        var userData by remember { mutableStateOf<User?>(null) }
         LaunchedEffect(Unit) {
             viewModel.getProducts()
+            viewModel.getUserData(1)
         }
         val productState by viewModel.products.collectAsState()
         when (productState) {
@@ -93,9 +106,29 @@ class ProfileScreen : Screen {
 
             is ResultState.Success -> {
                 val products = (productState as ResultState.Success).response
-                productList = products.filter { it.discountPrice > 0 }.sortedByDescending { it.discountPrice }
+                productList =
+                    products.filter { it.discountPrice > 0 }.sortedByDescending { it.discountPrice }
             }
         }
+        val userState by viewModel.userData.collectAsState()
+        when (userState) {
+            is ResultState.Error -> {
+                val error = (userState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val products = (userState as ResultState.Success).response
+                userData = products
+            }
+        }
+        val userName = userData?.username.toString() ?: "@am_pablo"
+        val fullName = userData?.fullName.toString() ?: "Pablo Valdes"
+        val profileImage :Resource<Painter> = asyncPainterResource(BASE_URL+userData?.profileImage.toString())
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -115,11 +148,11 @@ class ProfileScreen : Screen {
                             }
                         )
                     },
-                    scrollBehavior =scrollBehavior
+                    scrollBehavior = scrollBehavior
                 )
             },
             modifier = Modifier.fillMaxWidth().nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
+        ) { it ->
             Column(
                 modifier = Modifier.fillMaxWidth()
                     .padding(
@@ -136,12 +169,28 @@ class ProfileScreen : Screen {
                         .padding(top = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = painterResource(Res.drawable.avatar),
-                        contentDescription = null,
-                        modifier = Modifier.size(150.dp)
-                            .clip(CircleShape)
-                    )
+                    if (profileImage!= null){
+                        KamelImage(
+                            resource = profileImage,
+                            contentDescription = null,
+                            modifier = Modifier.size(150.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop,
+                            animationSpec = tween(
+                                durationMillis = 1000,
+                                delayMillis = 200,
+                                easing = FastOutLinearInEasing
+                            )
+                        )
+                    }else{
+                        Image(
+                            painter = painterResource(Res.drawable.avatar),
+                            contentDescription = null,
+                            modifier = Modifier.size(150.dp)
+                                .clip(CircleShape)
+                        )
+                    }
+
                     Box(
                         modifier = Modifier.size(25.dp)
                             .align(Alignment.BottomEnd)
@@ -162,16 +211,21 @@ class ProfileScreen : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top
                 ) {
-                    Text(
-                        text = "Pablo Valdes",
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "@am_pablo",
-                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                        fontWeight = FontWeight.Bold
-                    )
+                    fullName?.let {
+                        Text(
+                            text = it,
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    userName?.let {
+                        Text(
+                            text = "@$it",
+                            fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -286,7 +340,7 @@ class ProfileScreen : Screen {
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        productList?.let {list->
+                        productList?.let { list ->
                             items(list) { pro ->
                                 HotSaleItem(pro)
                             }
@@ -300,7 +354,7 @@ class ProfileScreen : Screen {
     }
 
     @Composable
-    fun OrderItem(icon: ImageVector, text: String, color: Color, onClick: ()-> Unit) {
+    fun OrderItem(icon: ImageVector, text: String, color: Color, onClick: () -> Unit) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(8.dp)
