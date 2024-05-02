@@ -34,6 +34,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +50,11 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.user.User
+import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.LoadingBox
+import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.koin.compose.koinInject
 
 class AccountScreen(
     private val user: User,
@@ -55,10 +62,34 @@ class AccountScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val viewModel: MainViewModel = koinInject()
         var editedUser by remember { mutableStateOf(user.copy()) }
         var isEditing by remember { mutableStateOf(false) }
+        var isUpdated by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.current
+        var editedUsername by remember { mutableStateOf(user.username) }
+        var editedFullName by remember { mutableStateOf(user.fullName) }
+        var editedEmail by remember { mutableStateOf(user.email) }
+        var editedAddress by remember { mutableStateOf(user.address) }
+        var editedCity by remember { mutableStateOf(user.city) }
+        var editedCountry by remember { mutableStateOf(user.country) }
+        var editedPostalCode by remember { mutableStateOf(user.postalCode) }
+        var editedPhoneNumber by remember { mutableStateOf(user.phoneNumber) }
 
+        val usersState by viewModel.updateUsersDetails.collectAsState()
+        when(usersState){
+            is ResultState.Error -> {
+                val error = (usersState as ResultState.Error).error
+                //ErrorBox(error)
+            }
+            ResultState.Loading -> {
+                //LoadingBox()
+            }
+            is ResultState.Success -> {
+                val response = (usersState as ResultState.Success).response
+                isUpdated = response
+            }
+        }
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -116,59 +147,66 @@ class AccountScreen(
             ) {
                 UserDetailsCard(
                     label = "Username",
-                    value = if (isEditing) editedUser.username else user.username,
+                    value = editedUsername,
                     icon = Icons.Outlined.Person,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(username = it) }
+                    onValueChanged = { editedUsername = it }
                 )
+
                 UserDetailsCard(
                     label = "Full Name",
-                    value = if (isEditing) editedUser.fullName else user.fullName,
+                    value = editedFullName,
                     icon = Icons.Outlined.PersonPin,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(fullName = it) }
+                    onValueChanged = { editedFullName = it }
                 )
+
                 UserDetailsCard(
                     label = "Email",
-                    value = if (isEditing) editedUser.email else user.email,
+                    value = editedEmail,
                     icon = Icons.Outlined.Email,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(email = it) }
+                    onValueChanged = { editedEmail = it }
                 )
+
                 UserDetailsCard(
                     label = "Address",
-                    value = if (isEditing) editedUser.address else user.address,
+                    value = editedAddress,
                     icon = Icons.Outlined.LocationOn,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(address = it) }
+                    onValueChanged = { editedAddress = it }
                 )
+
                 UserDetailsCard(
                     label = "City",
-                    value = if (isEditing) editedUser.city else user.city,
+                    value = editedCity,
                     icon = Icons.Outlined.LocationCity,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(city = it) }
+                    onValueChanged = { editedCity = it }
                 )
+
                 UserDetailsCard(
                     label = "Country",
-                    value = if (isEditing) editedUser.country else user.country,
+                    value = editedCountry,
                     icon = Icons.Outlined.LocationCity,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(country = it) }
+                    onValueChanged = { editedCountry = it }
                 )
+
                 UserDetailsCard(
                     label = "Postal Code",
-                    value = if (isEditing) editedUser.postalCode else user.postalCode,
+                    value = editedPostalCode,
                     icon = Icons.Outlined.LocationCity,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(postalCode = it) }
+                    onValueChanged = { editedPostalCode = it }
                 )
+
                 UserDetailsCard(
                     label = "Phone Number",
-                    value = if (isEditing) editedUser.phoneNumber else user.phoneNumber,
+                    value = editedPhoneNumber,
                     icon = Icons.Outlined.Phone,
                     isEditing = isEditing,
-                    onValueChanged = { editedUser = editedUser.copy(phoneNumber = it) }
+                    onValueChanged = { editedPhoneNumber = it }
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -185,7 +223,17 @@ class AccountScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
-                            // Save changes
+                            viewModel.updateUsersDetails(
+                                usersId = user.id,
+                                username = editedUsername,
+                                fullName = editedFullName,
+                                email = editedEmail,
+                                address = editedAddress,
+                                city = editedCity,
+                                country = editedCountry,
+                                postalCode = editedPostalCode.toLong(),
+                                phoneNumber = editedPhoneNumber
+                            )
                             isEditing = false
                         },
                         modifier = Modifier.fillMaxWidth()
