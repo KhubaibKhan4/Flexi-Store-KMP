@@ -21,8 +21,78 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Inventory Management**: Inventory tools for sellers to track stock levels and manage product listings.
 * **Analytics and Reporting**: Track key metrics such as sales performance and user engagement with analytics and reporting features.
 
+## Future Planning Features
+* **Seller Central**: Allow users to register as sellers and manage their own stores, including product listings, order management, and analytics.
+* **Social Media Integration**: Enable sharing products, reviews, and purchases on social media platforms for increased visibility and engagement.
+* **AI-Powered Recommendations**: Implement machine learning algorithms to improve product recommendations and personalize the shopping experience further.
+* **Voice Search**: Integrate voice search functionality for hands-free navigation and product discovery.
+* **Augmented Reality**: Utilize AR technology to enable virtual product try-on and visualization before purchase.
+* **Blockchain Integration**: Explore blockchain technology for enhanced security, transparency, and traceability in transactions and supply chain management.
+* **Subscription Services**: Introduce subscription-based services for regular product deliveries, memberships, or premium content access.
+* **Offline Mode**: Develop offline functionality to allow users to browse products and make purchases without an internet connection.
+* **Expanded Payment Options**: Add support for additional payment methods, such as cryptocurrencies, digital wallets, and installment plans.
+* **Community Forums**: Create community forums or discussion boards for users to interact, share tips, and ask questions related to products and shopping.
+* **Gamification**: Incorporate gamification elements like loyalty programs, challenges, and rewards to enhance user engagement and retention.
 
-## Mobile Screen Shots
+## Technologies Used
+
+### Jetpack Compose Dependencies
+* **androidx-activityCompose**: For integrating Compose with Android activities.
+* **androidx-testManifest**: Provides testing support for Jetpack Compose.
+* **androidx-junit4**: Integration of JUnit 4 for Compose UI testing.
+
+### Voyager Navigator
+* **voyager-navigator**: A navigation library for Jetpack Compose.
+
+### Compose Image Loader
+* **composeImageLoader**: A library for loading images in Jetpack Compose applications.
+
+### Logging
+* **napier**: A logging library for Kotlin Multiplatform projects.
+
+### Kotlin Coroutines
+* **kotlinx-coroutines-core**: Core module for Kotlin coroutines.
+* **kotlinx-coroutines-android**: Coroutines support for Android.
+* **kotlinx-coroutines-swing**: Coroutines support for Swing.
+* **kotlinx-coroutines-test**: Testing utilities for Kotlin coroutines.
+
+### MVVM Architecture
+* **moko-mvvm**: MVVM architecture library for Jetpack Compose.
+
+### Networking
+* **ktor-core**: Core module of the Ktor HTTP client.
+* **ktor-client-darwin**: Ktor client for iOS.
+* **ktor-client-okhttp**: Ktor client using OkHttp.
+* **ktor-client-js**: Ktor client for JavaScript.
+* **ktor-content-negotiation**: Content negotiation support for Ktor clients.
+* **ktor-serialization-json**: JSON serialization support for Ktor.
+* **ktor-logging**: Logging support for Ktor clients.
+* **ktor-client-curl**: Ktor client for cURL.
+* **ktor-client-winhttp**: Ktor client for Windows HTTP stack.
+
+### Serialization
+* **kotlinx-serialization-json**: JSON serialization library for Kotlin.
+
+### Date and Time
+* **kotlinx-datetime**: Date and time library for Kotlin Multiplatform.
+
+### Dependency Injection
+* **koin-core**: Core module of the Koin dependency injection framework.
+* **koin-annotations**: Annotations for Koin dependency injection.
+
+### Image Handling
+* **kamel-image**: Image library for Kotlin Multiplatform.
+
+### Material Design
+* **screen-size**: Material Design library for handling window size class in Jetpack Compose.
+
+### Database
+* **sqlDelight-driver-sqlite**: SQLite driver for SQLDelight.
+* **sqlDelight-driver-android**: Android driver for SQLDelight.
+* **sqlDelight-driver-native**: Native driver for SQLDelight.
+* **sqlDelight-driver-js**: Web worker driver for SQLDelight.
+
+These technologies are utilized to develop a robust and feature-rich Kotlin Multiplatform Ecommerce application that supports Android, iOS, Web, and Desktop platforms.
 
 ## Mobile Screen Shots
 
