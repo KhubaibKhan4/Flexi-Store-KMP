@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
+import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 
 class SettingScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -126,7 +127,11 @@ class SettingScreen : Screen {
                         Icons.Outlined.MapsHomeWork,
                         onClick = { navigator?.push(AddressScreen()) })
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Country", "United States", Icons.Outlined.LocationOn, onClick = {})
+                    SettingItem(
+                        "Country",
+                        "United States",
+                        Icons.Outlined.LocationOn,
+                        onClick = { navigator?.push(CountryScreen()) })
                     Spacer(modifier = Modifier.height(12.dp))
                     SettingItem("Currency", "$", Icons.Outlined.CurrencyBitcoin, onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
