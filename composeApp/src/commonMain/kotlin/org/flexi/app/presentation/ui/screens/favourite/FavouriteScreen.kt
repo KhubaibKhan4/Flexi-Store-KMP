@@ -78,6 +78,16 @@ class FavouriteScreen : Screen {
         }
         val productState by viewModel.products.collectAsState()
 
+        if (productList.isEmpty()) {
+            productState?.let {
+                productList = when (it) {
+                    is ResultState.Success -> it.response
+                    else -> emptyList()
+                }
+                filteredProductList = productList
+            }
+        }
+
         LaunchedEffect(productState, searchQuery) {
             val response = when (val state = productState) {
                 is ResultState.Success -> state.response
