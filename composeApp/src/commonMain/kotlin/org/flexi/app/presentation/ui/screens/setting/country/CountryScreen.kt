@@ -51,16 +51,27 @@ import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.getCountries
 import org.koin.compose.koinInject
 
-class CountryScreen : Screen {
+class CountryScreen(
+    private val userCountry: String,
+) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
         val viewModel: MainViewModel = koinInject()
         val scope = rememberCoroutineScope()
         var searchQuery by remember { mutableStateOf("") }
-        val countries = getCountries()
+        val countries = getCountries().toMutableList()
         var selectedCountryIndex by remember { mutableStateOf(-1) }
-        var isDoneSelected by remember { mutableStateOf(false) }
+        var isDoneSelected by remember { mutableStateOf(selectedCountryIndex !=-1) }
+
+        if (userCountry.isNotBlank()) {
+            val index = countries.indexOfFirst { it.equals(userCountry, ignoreCase = true) }
+            if (index != -1) {
+                selectedCountryIndex = index
+                val selectedCountry = countries.removeAt(index)
+                countries.add(0, selectedCountry)
+            }
+        }
 
         val state by viewModel.updateCountry.collectAsState()
         when (state) {
@@ -184,7 +195,7 @@ class CountryScreen : Screen {
                                 val index = countries.indexOf(country)
                                 if (index != -1) {
                                     selectedCountryIndex = index
-                                    isDoneSelected = !isDoneSelected
+                                    isDoneSelected = selectedCountryIndex != -1
                                 }
                             }
                         )
@@ -204,7 +215,10 @@ fun CountryListItem(country: String, isSelected: Boolean, onClick: () -> Unit) {
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(4.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) Color.LightGray else Color.White
+        )
     ) {
         Row(
             modifier = Modifier

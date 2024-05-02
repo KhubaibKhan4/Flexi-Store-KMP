@@ -56,7 +56,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
-import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
@@ -164,7 +163,7 @@ class SettingScreen(
                         "Country",
                         userCountry,
                         Icons.Outlined.LocationOn,
-                        onClick = { navigator?.push(CountryScreen()) })
+                        onClick = { navigator?.push(CountryScreen(userCountry)) })
                     Spacer(modifier = Modifier.height(12.dp))
                     SettingItem("Currency", "$", Icons.Outlined.CurrencyBitcoin, onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
