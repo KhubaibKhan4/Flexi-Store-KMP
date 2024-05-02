@@ -1,18 +1,26 @@
 # Flexi-Store-KMP
 ![Flexi-Store-KMP](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/banner.png)
 
-## Flexi Store KMP is an Ecommerce Platform that is Developed using Compose Multiplatform.
-Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in future including the Seller Central too where users can register and sell their products to earn.
+## Overview
+Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in the future including the Seller Central too where users can register and sell their products to earn.
 
-* - User can Buy or Sell Products.
-* - User can Make their own Store.
-* - Can Review The Product Images, Videos & Old ratings.
-* - Can Chat with Seller.
+## Supported Features
+* **User Authentication**: Secure user authentication and authorization with OAuth, Firebase Authentication, or custom methods.
+* **Payment Integration**: Seamless integration with popular payment gateways like PayPal, Stripe, or Square for secure transactions.
+* **Product Recommendations**: Advanced recommendation engine suggests products based on user preferences and browsing history.
+* **Advanced Search**: Filter, sort, and search for products efficiently with advanced search options.
+* **Order Tracking**: Real-time order tracking provides updates on order processing, shipping, and delivery status.
+* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
+* **Responsive Design**: Responsive user interface optimized for various screen sizes and resolutions.
+* **Push Notifications**: Keep users informed with push notifications for order updates, new products, and promotions.
+* **Social Media Integration**: Share products, reviews, and store links on social media platforms.
+* **Wishlist and Favorites**: Create wishlists and mark products as favorites for easy access.
+* **Discounts and Coupons**: Offer discounts, coupons, and promotional offers to incentivize purchases.
+* **Customer Support**: Built-in chat or messaging system for customer support and assistance.
+* **Product Reviews and Ratings**: Leave reviews and ratings for products to help other users make informed decisions.
+* **Inventory Management**: Inventory tools for sellers to track stock levels and manage product listings.
+* **Analytics and Reporting**: Track key metrics such as sales performance and user engagement with analytics and reporting features.
 
-* (Work is still in progress with Seller Central Section)
-
-Are you generous enought? 
-<a href="https://www.buymeacoffee.com/khubaibkhan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=khubaibkhan&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
 
 ## Mobile Screen Shots
 
