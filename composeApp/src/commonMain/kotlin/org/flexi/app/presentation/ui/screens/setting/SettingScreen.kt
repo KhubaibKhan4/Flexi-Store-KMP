@@ -58,6 +58,7 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
+import org.flexi.app.presentation.ui.screens.setting.privacy.PrivacyScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 
@@ -68,25 +69,27 @@ class SettingScreen(
     override fun Content() {
         val navigator = LocalNavigator.current
         val viewMode: MainViewModel = koinInject()
-        var userData by remember{ mutableStateOf<User?>(null) }
-        LaunchedEffect(Unit){
+        var userData by remember { mutableStateOf<User?>(null) }
+        LaunchedEffect(Unit) {
             viewMode.getUserData(1)
         }
         val userState by viewMode.userData.collectAsState()
-        when(userState){
+        when (userState) {
             is ResultState.Error -> {
                 val error = (userState as ResultState.Error).error
                 ErrorBox(error)
             }
+
             ResultState.Loading -> {
                 //LoadingBox()
             }
+
             is ResultState.Success -> {
                 val data = (userState as ResultState.Success).response
                 userData = data
             }
         }
-        val userCountry = userData?.country?: "United States"
+        val userCountry = userData?.country ?: "United States"
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -187,7 +190,11 @@ class SettingScreen(
                         Icons.Outlined.Notifications,
                         onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Privacy & Policy", "", Icons.Outlined.PrivacyTip, onClick = {})
+                    SettingItem("Privacy & Policy", "", Icons.Outlined.PrivacyTip, onClick = {
+                        navigator?.push(
+                            PrivacyScreen()
+                        )
+                    })
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
@@ -226,7 +233,7 @@ class SettingScreen(
             elevation = CardDefaults.cardElevation(4.dp),
             shape = RoundedCornerShape(6.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = Color.White,
                 contentColor = MaterialTheme.colorScheme.onSurface
             ),
 
