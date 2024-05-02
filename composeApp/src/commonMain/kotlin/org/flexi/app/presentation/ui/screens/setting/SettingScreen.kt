@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.setting
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,13 +47,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 
 class SettingScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -113,15 +114,23 @@ class SettingScreen : Screen {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    SettingItem("Account Setting", "", icon = Icons.Outlined.PersonOutline)
+                    SettingItem(
+                        "Account Setting",
+                        "",
+                        icon = Icons.Outlined.PersonOutline,
+                        onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Address Book", "", Icons.Outlined.MapsHomeWork)
+                    SettingItem(
+                        "Address Book",
+                        "",
+                        Icons.Outlined.MapsHomeWork,
+                        onClick = { navigator?.push(AddressScreen()) })
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Country", "United States", Icons.Outlined.LocationOn)
+                    SettingItem("Country", "United States", Icons.Outlined.LocationOn, onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Currency", "$", Icons.Outlined.CurrencyBitcoin)
+                    SettingItem("Currency", "$", Icons.Outlined.CurrencyBitcoin, onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Language", "English", Icons.Outlined.Language)
+                    SettingItem("Language", "English", Icons.Outlined.Language, onClick = {})
                 }
                 Spacer(modifier = Modifier.height(28.dp))
                 Text(
@@ -135,9 +144,13 @@ class SettingScreen : Screen {
                     modifier = Modifier.fillMaxWidth()
                 ) {
 
-                    SettingItem("Notifications Settings", "", Icons.Outlined.Notifications)
+                    SettingItem(
+                        "Notifications Settings",
+                        "",
+                        Icons.Outlined.Notifications,
+                        onClick = {})
                     Spacer(modifier = Modifier.height(12.dp))
-                    SettingItem("Privacy & Policy", "",Icons.Outlined.PrivacyTip)
+                    SettingItem("Privacy & Policy", "", Icons.Outlined.PrivacyTip, onClick = {})
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
@@ -165,10 +178,14 @@ class SettingScreen : Screen {
     fun SettingItem(
         text: String,
         forwardText: String,
-        icon: ImageVector
+        icon: ImageVector,
+        onClick: () -> Unit,
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .clickable {
+                    onClick()
+                },
             elevation = CardDefaults.cardElevation(4.dp),
             shape = RoundedCornerShape(6.dp),
             colors = CardDefaults.cardColors(
