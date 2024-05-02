@@ -19,21 +19,21 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,17 +44,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.getCountries
+import org.koin.compose.koinInject
 
 class CountryScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+        val viewModel: MainViewModel = koinInject()
+        val scope = rememberCoroutineScope()
         var searchQuery by remember { mutableStateOf("") }
         val countries = getCountries()
         var selectedCountryIndex by remember { mutableStateOf(-1) }
         var isDoneSelected by remember { mutableStateOf(false) }
 
+        val state by viewModel.updateCountry.collectAsState()
+        when (state) {
+            is ResultState.Error -> {
+                val error = (state as ResultState.Error).error
+                ///ErrorBox(error)
+            }
+
+            ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val success = (state as ResultState.Success).response
+                if (success) {
+                    navigator?.pop()
+                }
+            }
+        }
         Scaffold(
             topBar = {
                 Row(
@@ -77,10 +102,16 @@ class CountryScreen : Screen {
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(Modifier.weight(1f))
-                    AnimatedVisibility (isDoneSelected) {
+                    AnimatedVisibility(isDoneSelected) {
                         Text(
                             text = "Done",
-                            modifier = Modifier.clickable { isDoneSelected = true },
+                            modifier = Modifier.clickable {
+                                scope.launch {
+                                    viewModel.updateCountry(1, countries[selectedCountryIndex])
+                                    delay(200)
+                                    navigator?.pop()
+                                }
+                            },
                             fontWeight = FontWeight.Bold,
                             color = Color.Blue
                         )
@@ -140,7 +171,12 @@ class CountryScreen : Screen {
                     modifier = Modifier.fillMaxWidth()
                         .height(900.dp)
                 ) {
-                    items(countries.filter { it.contains(searchQuery, ignoreCase = true) }) { country ->
+                    items(countries.filter {
+                        it.contains(
+                            searchQuery,
+                            ignoreCase = true
+                        )
+                    }) { country ->
                         CountryListItem(
                             country = country,
                             isSelected = selectedCountryIndex != -1 && countries[selectedCountryIndex] == country,

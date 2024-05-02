@@ -1,6 +1,5 @@
 package org.flexi.app.presentation.viewmodels
 
-import androidx.compose.runtime.collectAsState
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -71,7 +70,22 @@ class MainViewModel(
     private val _myOrders = MutableStateFlow<ResultState<List<Order>>>(ResultState.Loading)
     val myOrders: StateFlow<ResultState<List<Order>>> = _myOrders.asStateFlow()
 
-    fun getMyOrders(userId: Int){
+    private val _updateCountry = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
+    val updateCountry: StateFlow<ResultState<Boolean>> = _updateCountry.asStateFlow()
+
+    fun updateCountry(userId: Int, countryName: String) {
+        viewModelScope.launch {
+            _updateCountry.value = ResultState.Loading
+            try {
+                val response = repository.updateCountry(userId,countryName)
+                _updateCountry.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _updateCountry.value = ResultState.Error(e)
+            }
+        }
+    }
+
+    fun getMyOrders(userId: Int) {
         viewModelScope.launch {
             _myOrders.value = ResultState.Loading
             try {
@@ -80,8 +94,10 @@ class MainViewModel(
             } catch (e: Exception) {
                 _myOrders.value = ResultState.Error(e)
             }
-        }    }
-    fun deleteCart(id: Int){
+        }
+    }
+
+    fun deleteCart(id: Int) {
         viewModelScope.launch {
             _deleteCart.value = ResultState.Loading
             try {
@@ -92,6 +108,7 @@ class MainViewModel(
             }
         }
     }
+
     fun placeOrderNow(
         userId: Int,
         productIds: Int,
@@ -104,7 +121,7 @@ class MainViewModel(
             _placeOrder.value = ResultState.Loading
             try {
                 val response = repository.placeOrder(
-                   userId = userId,
+                    userId = userId,
                     productIds = productIds,
                     totalQuantity = totalQuantity,
                     totalPrice = totalPrice,

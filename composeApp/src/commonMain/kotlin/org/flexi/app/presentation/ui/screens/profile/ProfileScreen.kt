@@ -62,7 +62,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.avatar
 import io.kamel.core.Resource
-import io.kamel.core.isSuccess
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
@@ -128,7 +127,8 @@ class ProfileScreen : Screen {
         }
         val userName = userData?.username.toString() ?: "@am_pablo"
         val fullName = userData?.fullName.toString() ?: "Pablo Valdes"
-        val profileImage :Resource<Painter> = asyncPainterResource(BASE_URL+userData?.profileImage.toString())
+        val profileImage: Resource<Painter> =
+            asyncPainterResource(BASE_URL + userData?.profileImage.toString())
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -169,7 +169,7 @@ class ProfileScreen : Screen {
                         .padding(top = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (profileImage!= null){
+                    if (profileImage != null) {
                         KamelImage(
                             resource = profileImage,
                             contentDescription = null,
@@ -182,7 +182,7 @@ class ProfileScreen : Screen {
                                 easing = FastOutLinearInEasing
                             )
                         )
-                    }else{
+                    } else {
                         Image(
                             painter = painterResource(Res.drawable.avatar),
                             contentDescription = null,

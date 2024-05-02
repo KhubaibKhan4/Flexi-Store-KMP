@@ -11,7 +11,6 @@ import org.flexi.app.domain.model.user.User
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.koin.core.annotation.Single
 
-@Single
 class Repository : FlexiApi {
     override suspend fun loginUser(email: String, password: String): String {
         return FlexiApiClient.loginUser(email, password)
@@ -87,6 +86,10 @@ class Repository : FlexiApi {
 
     override suspend fun getMyOrders(userId: Int): List<Order> {
         return FlexiApiClient.getMyOrders(userId)
+    }
+
+    override suspend fun updateCountry(usersId: Int, countryName: String): Boolean {
+        return FlexiApiClient.updateCountry(usersId, countryName)
     }
 
 

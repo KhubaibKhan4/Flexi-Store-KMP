@@ -41,4 +41,8 @@ interface FlexiApi {
 
     suspend fun deleteUserCart(id: Int): String
     suspend fun getMyOrders(userId: Int): List<Order>
+    suspend fun updateCountry(
+        usersId: Int,
+        countryName: String,
+    ): Boolean
 }

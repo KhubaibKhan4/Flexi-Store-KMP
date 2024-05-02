@@ -37,6 +37,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,14 +53,41 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.flexi.app.domain.model.user.User
+import org.flexi.app.domain.usecase.ResultState
+import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
+import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.koin.compose.koinInject
 
-class SettingScreen : Screen {
+class SettingScreen(
+) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+        val viewMode: MainViewModel = koinInject()
+        var userData by remember{ mutableStateOf<User?>(null) }
+        LaunchedEffect(Unit){
+            viewMode.getUserData(1)
+        }
+        val userState by viewMode.userData.collectAsState()
+        when(userState){
+            is ResultState.Error -> {
+                val error = (userState as ResultState.Error).error
+                ErrorBox(error)
+            }
+            ResultState.Loading -> {
+                //LoadingBox()
+            }
+            is ResultState.Success -> {
+                val data = (userState as ResultState.Success).response
+                userData = data
+            }
+        }
+        val userCountry = userData?.country?: "United States"
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -129,7 +162,7 @@ class SettingScreen : Screen {
                     Spacer(modifier = Modifier.height(12.dp))
                     SettingItem(
                         "Country",
-                        "United States",
+                        userCountry,
                         Icons.Outlined.LocationOn,
                         onClick = { navigator?.push(CountryScreen()) })
                     Spacer(modifier = Modifier.height(12.dp))
