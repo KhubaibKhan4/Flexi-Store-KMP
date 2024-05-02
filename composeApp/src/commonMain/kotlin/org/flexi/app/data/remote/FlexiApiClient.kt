@@ -184,10 +184,23 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
-    suspend fun deleteUserCart(id: Int):String{
-        return client.delete(BASE_URL+"v1/cart/$id").body()
+    suspend fun deleteUserCart(id: Int): String {
+        return client.delete(BASE_URL + "v1/cart/$id").body()
     }
-    suspend fun getMyOrders(userId: Int):List<Order> {
-        return client.get(BASE_URL+"v1/order/userId/$userId").body()
+    suspend fun getMyOrders(userId: Int): List<Order> {
+        return client.get(BASE_URL + "v1/order/userId/$userId").body()
+    }
+    @OptIn(InternalAPI::class)
+    suspend fun updateCountry(
+        usersId: Int,
+        countryName: String,
+    ): Boolean {
+        val url = BASE_URL + "v1/users/country/$usersId"
+        val formData = Parameters.build {
+            append("countryName", countryName)
+        }
+        return client.put(url) {
+            body = FormDataContent(formData)
+        }.body()
     }
 }
