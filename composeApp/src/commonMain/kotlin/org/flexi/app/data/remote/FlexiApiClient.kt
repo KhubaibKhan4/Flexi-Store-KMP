@@ -34,7 +34,7 @@ import org.flexi.app.utils.Constant.TIME_OUT
 import org.koin.core.annotation.Single
 
 object FlexiApiClient {
-  private  val supaBaseClient = createSupabaseClient(
+    val supaBaseClient = createSupabaseClient(
         supabaseUrl = "https://flrflqyxquvzhlvfcbit.supabase.co",
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
     ){

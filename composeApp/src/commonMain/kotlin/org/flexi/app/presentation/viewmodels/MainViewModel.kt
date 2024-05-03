@@ -1,10 +1,13 @@
 package org.flexi.app.presentation.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
@@ -75,6 +78,26 @@ class MainViewModel(
 
     private val _updateUsersDetails = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val updateUsersDetails: StateFlow<ResultState<Boolean>> = _updateUsersDetails.asStateFlow()
+
+    private val _signupUser = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val signupUser: StateFlow<ResultState<String>> = _signupUser.asStateFlow()
+    fun signUp(
+        userEmail: String,
+        userPassword: String
+    ){
+        viewModelScope.launch {
+            _signupUser.value = ResultState.Loading
+            try {
+                FlexiApiClient.supaBaseClient.auth.signUpWith(Email){
+                    email = userEmail
+                    password = userPassword
+                }
+                _signupUser.value = ResultState.Success("Registered Successfully...")
+            }catch (e: Exception){
+                _signupUser.value = ResultState.Error(e)
+            }
+        }
+    }
 
     fun updateUsersDetails(
         usersId: Int,
