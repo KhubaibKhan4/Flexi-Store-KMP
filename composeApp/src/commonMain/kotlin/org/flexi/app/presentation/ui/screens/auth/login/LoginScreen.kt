@@ -46,6 +46,7 @@ import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
+import org.flexi.app.presentation.ui.screens.home.HomeScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
@@ -79,6 +80,26 @@ class LoginScreen : Screen {
 
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
+                loginResponse = response
+                isLoading = false
+            }
+        }
+
+        val loginState by viewModel.loginUser.collectAsState()
+
+        when (loginState) {
+            is ResultState.Error -> {
+                val error = (loginState as ResultState.Error).error
+                ErrorBox(error)
+                isLoading = false
+            }
+
+            is ResultState.Loading -> {
+
+            }
+
+            is ResultState.Success -> {
+                val response = (loginState as ResultState.Success).response
                 loginResponse = response
                 isLoading = false
             }
@@ -131,7 +152,8 @@ class LoginScreen : Screen {
                     onClick = {
                         if (emailError == null && passwordError == null) {
                             isLoading = true
-                            viewModel.loginUser(email, password)
+                            viewModel.login(userEmail = email, userPassword = password)
+                            //viewModel.loginUser(email, password)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -206,6 +228,7 @@ class LoginScreen : Screen {
                             password = ""
                             loginResponse = ""
                             isLoading = false
+                            navigator?.push(HomeScreen())
                         }
                     }
                 } else {
