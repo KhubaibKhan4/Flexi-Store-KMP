@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.usecase.ResultState
@@ -47,6 +49,8 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.utils.Constant.SUPABASE_KEY
+import org.flexi.app.utils.Constant.SUPABASE_URL
 import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.seconds
@@ -65,6 +69,13 @@ class LoginScreen : Screen {
         var loginResponse by remember { mutableStateOf("") }
         var isLoading by remember { mutableStateOf(false) }
         val state by viewModel.login.collectAsState()
+
+        val supabase = createSupabaseClient(
+            supabaseUrl = SUPABASE_URL,
+            supabaseKey = SUPABASE_KEY
+        ) {
+            install(Auth)
+        }
         when (state) {
             is ResultState.Error -> {
                 val error = (state as ResultState.Error).error

@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.sqldelight.db.SqlDriver
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -59,6 +60,7 @@ import org.flexi.app.presentation.ui.navigation.tabs.favourite.FavouriteTab
 import org.flexi.app.presentation.ui.navigation.tabs.home.HomeTab
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.navigation.tabs.profile.ProfileTab
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
 import org.flexi.app.theme.LocalThemeIsDark
@@ -77,7 +79,7 @@ internal fun App() = AppTheme {
     if (showSplashScreen && platform != Platform.Android) {
         SplashScreen()
     } else {
-        //Navigator(OnBoardingScreen())
+       // Navigator(LoginScreen())
         AppContent()
     }
 }

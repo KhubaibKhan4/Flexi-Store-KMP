@@ -38,6 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.usecase.ResultState
@@ -47,6 +51,7 @@ import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.utils.Constant
 import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.seconds
@@ -58,8 +63,8 @@ class SignupScreen : Screen {
         val navigator = LocalNavigator.current
         val scope = rememberCoroutineScope()
         var username by remember { mutableStateOf("") }
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
+        var emails by remember { mutableStateOf("") }
+        var passwords by remember { mutableStateOf("") }
         var cpassword by remember { mutableStateOf("") }
         var serverBack by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
@@ -69,6 +74,12 @@ class SignupScreen : Screen {
         var emailError by remember { mutableStateOf<String?>(null) }
         var passwordError by remember { mutableStateOf<String?>(null) }
         var cpasswordError by remember { mutableStateOf<String?>(null) }
+        val supabase = createSupabaseClient(
+            supabaseUrl = "https://flrflqyxquvzhlvfcbit.supabase.co",
+            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn"
+        ) {
+            install(Auth)
+        }
 
         val state by viewModel.signup.collectAsState()
         when (state) {
@@ -111,9 +122,9 @@ class SignupScreen : Screen {
             )
             Spacer(modifier = Modifier.height(6.dp))
             CustomTextField(
-                input = email,
+                input = emails,
                 label = "Email",
-                onValueChange = { email = it },
+                onValueChange = { emails = it },
                 isError = emailError != null,
                 errorText = emailError,
                 leadingIcon = Icons.Outlined.Email,
@@ -121,9 +132,9 @@ class SignupScreen : Screen {
             )
             Spacer(modifier = Modifier.height(6.dp))
             CustomTextField(
-                input = password,
+                input = passwords,
                 label = "Password",
-                onValueChange = { password = it },
+                onValueChange = { passwords = it },
                 isError = passwordError != null,
                 errorText = passwordError,
                 leadingIcon = Icons.Outlined.Lock,
@@ -151,10 +162,10 @@ class SignupScreen : Screen {
                 TextButton(
                     onClick = {
                         usernameError = SignupValidation.validateUsername(username)
-                        emailError = SignupValidation.validateEmail(email)
-                        passwordError = SignupValidation.validatePassword(password)
+                        emailError = SignupValidation.validateEmail(emails)
+                        passwordError = SignupValidation.validatePassword(passwords)
                         cpasswordError =
-                            SignupValidation.validateConfirmPassword(password, cpassword)
+                            SignupValidation.validateConfirmPassword(passwords, cpassword)
 
                         val errors = listOfNotNull(
                             usernameError?.let { "username" to it },
@@ -164,7 +175,15 @@ class SignupScreen : Screen {
                         )
 
                         if (errors.isEmpty()) {
-                            viewModel.signupUser(username, email, password)
+                            scope.launch {
+                                val user = supabase.auth.signUpWith(Email){
+                                    emails = emails
+                                    passwords = passwords
+                                }
+                                println("Supabase: $user")
+                            }
+
+                            //viewModel.signupUser(username, emails, passwords)
                         } else {
                             errors.forEach { (field, errorMessage) ->
                                 when (field) {
@@ -241,8 +260,8 @@ class SignupScreen : Screen {
                             }
                         )
                         username = ""
-                        email = ""
-                        password = ""
+                        emails = ""
+                        passwords = ""
                         cpassword = ""
                         scope.launch {
                             delay(5.seconds)
