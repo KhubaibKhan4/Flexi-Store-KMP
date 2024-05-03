@@ -24,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,18 +41,17 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.gotrue.SessionSource
+import io.github.jan.supabase.gotrue.SessionStatus
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
-import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.HeadlineText
-import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
-import org.flexi.app.utils.Constant
 import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.seconds
@@ -74,9 +74,11 @@ class SignupScreen : Screen {
         var emailError by remember { mutableStateOf<String?>(null) }
         var passwordError by remember { mutableStateOf<String?>(null) }
         var cpasswordError by remember { mutableStateOf<String?>(null) }
+
+
         val supabase = createSupabaseClient(
             supabaseUrl = "https://flrflqyxquvzhlvfcbit.supabase.co",
-            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn"
+            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
         ) {
             install(Auth)
         }
@@ -85,11 +87,11 @@ class SignupScreen : Screen {
         when (state) {
             is ResultState.Error -> {
                 val error = (state as ResultState.Error).error
-                ErrorBox(error)
+                // ErrorBox(error)
             }
 
             is ResultState.Loading -> {
-                LoadingBox()
+                //LoadingBox()
             }
 
             is ResultState.Success -> {
@@ -176,14 +178,15 @@ class SignupScreen : Screen {
 
                         if (errors.isEmpty()) {
                             scope.launch {
-                                val user = supabase.auth.signUpWith(Email){
-                                    emails = emails
-                                    passwords = passwords
+                                val result = supabase.auth.signUpWith(Email) {
+                                    email = emails
+                                    password = passwords
                                 }
-                                println("Supabase: $user")
+                                viewModel.signupUser(username, emails, passwords)
+                                delay(300)
+                                navigator?.pop()
                             }
 
-                            //viewModel.signupUser(username, emails, passwords)
                         } else {
                             errors.forEach { (field, errorMessage) ->
                                 when (field) {
@@ -250,7 +253,7 @@ class SignupScreen : Screen {
                         delay(3.seconds)
                         serverBack = "Thank you for creating account..."
                     }
-                    if (serverBack.contains("Uploaded to Server Successfully ")){
+                    if (serverBack.contains("Uploaded to Server Successfully ")) {
                         Text(
                             text = "Account created Successfully.",
                             fontSize = 10.sp,
@@ -267,7 +270,7 @@ class SignupScreen : Screen {
                             delay(5.seconds)
                         }
                         navigator?.push(LoginScreen())
-                    }else{
+                    } else {
                         Text(
                             text = "Error While Creating Account.",
                             fontSize = 10.sp,
