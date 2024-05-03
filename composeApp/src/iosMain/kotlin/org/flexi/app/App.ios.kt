@@ -1,6 +1,8 @@
 package org.flexi.app
 
 import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import org.flexi.app.db.MyDatabase
 import org.flexi.app.domain.model.version.Platform
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
@@ -16,6 +18,6 @@ actual fun getPlatform(): Platform {
 
 actual class DriverFactory actual constructor() {
     actual fun createDriver(): SqlDriver {
-        TODO("Not yet implemented")
+        return NativeSqliteDriver(MyDatabase.Schema,"YouTubeDatabase.db")
     }
 }
