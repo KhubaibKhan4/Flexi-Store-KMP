@@ -181,6 +181,7 @@ class SignupScreen : Screen {
                                 val result = supabase.auth.signUpWith(Email) {
                                     email = emails
                                     password = passwords
+
                                 }
                                 viewModel.signupUser(username, emails, passwords)
                                 delay(300)
