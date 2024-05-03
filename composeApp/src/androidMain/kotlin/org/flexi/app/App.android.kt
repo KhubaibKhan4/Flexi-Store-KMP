@@ -1,12 +1,16 @@
 package org.flexi.app
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import org.flexi.app.db.MyDatabase
 import org.flexi.app.di.appModule
 import org.flexi.app.domain.model.version.Platform
 import org.koin.android.ext.koin.androidContext
@@ -49,4 +53,11 @@ internal actual fun openUrl(url: String?) {
 
 actual fun getPlatform(): Platform {
     return Platform.Android
+}
+
+actual class DriverFactory actual constructor() {
+    private var context: Context = AndroidApp.INSTANCE.applicationContext
+    actual fun createDriver(): SqlDriver {
+        return AndroidSqliteDriver(MyDatabase.Schema,context,"MyDatabase.db")
+    }
 }

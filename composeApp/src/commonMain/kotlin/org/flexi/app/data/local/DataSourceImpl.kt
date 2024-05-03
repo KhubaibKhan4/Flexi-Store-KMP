@@ -4,9 +4,8 @@ import org.flexi.app.db.MyDatabase
 import org.flexi.app.db.ProductEntity
 
 class DataSourceImpl(
-    db: MyDatabase
+    private val db: MyDatabase
 ): DataSource {
-
     override suspend fun getProductById(id: Int): ProductEntity? {
         TODO("Not yet implemented")
     }
