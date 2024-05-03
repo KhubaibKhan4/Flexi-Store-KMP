@@ -1,0 +1,38 @@
+CREATE TABLE productEntity (
+    id INTEGER NOT NULL PRIMARY KEY,
+    averageRating REAL NOT NULL,
+    brand TEXT NOT NULL,
+    categoryId INTEGER NOT NULL,
+    categoryTitle TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    description TEXT NOT NULL,
+    dimensions TEXT NOT NULL,
+    discountPrice INTEGER NOT NULL,
+    imageUrl TEXT NOT NULL,
+    isAvailable INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    price INTEGER NOT NULL,
+    promotionDescription TEXT NOT NULL,
+    total_stack INTEGER NOT NULL,
+    updated_at TEXT NOT NULL,
+    weight REAL NOT NULL,
+    isFeatured INTEGER NOT NULL,
+    manufacturer TEXT NOT NULL,
+    colors TEXT NOT NULL
+);
+
+INSERT INTO productEntity (
+    id, averageRating, brand, categoryId, categoryTitle, created_at, description,
+    dimensions, discountPrice, imageUrl, isAvailable, name, price, promotionDescription,
+    total_stack, updated_at, weight, isFeatured, manufacturer, colors
+) VALUES (
+    :id, :averageRating, :brand, :categoryId, :categoryTitle, :createdAt, :description,
+    :dimensions, :discountPrice, :imageUrl, :isAvailable, :name, :price, :promotionDescription,
+    :totalStack, :updatedAt, :weight, :isFeatured, :manufacturer, :colors
+);
+
+SELECT * FROM productEntity;
+
+SELECT * FROM productEntity WHERE id = :productId;
+
+DELETE FROM productEntity WHERE id = :productId;
