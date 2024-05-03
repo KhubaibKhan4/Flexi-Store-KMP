@@ -68,6 +68,7 @@ import org.flexi.app.presentation.ui.components.ProductItem
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.PromotionCardWithPager
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.cart.CartList
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.theme.LocalThemeIsDark
@@ -193,7 +194,10 @@ class HomeScreen : Screen {
                             }
                         },
                         profileImageUrl = null,
-                        itemCount = it
+                        itemCount = it,
+                        onProfileClick = {
+                            navigator?.push(LoginScreen())
+                        }
                     )
                 }
             }

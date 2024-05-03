@@ -33,13 +33,13 @@ import androidx.compose.ui.unit.dp
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import org.flexi.app.theme.LocalThemeIsDark
 
 @Composable
 fun TopAppBarWithProfile(
     name: String,
     itemCount: Int,
     onCartClicked: () -> Unit,
+    onProfileClick: () -> Unit,
     profileImageUrl: String? = null,
 ) {
     Row(
@@ -60,9 +60,12 @@ fun TopAppBarWithProfile(
                 modifier = Modifier.size(25.dp)
                     .clip(CircleShape)
                     .padding(8.dp)
+                    .clickable {
+                        onProfileClick()
+                    }
             )
         } else {
-            LocalAvatar()
+            LocalAvatar { onProfileClick() }
         }
         Column(
             modifier = Modifier.padding(start = 4.dp),
