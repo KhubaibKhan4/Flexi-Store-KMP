@@ -85,6 +85,20 @@ class MainViewModel(
     private val _loginUser = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val loginUser: StateFlow<ResultState<String>> = _loginUser.asStateFlow()
 
+    private val _logOut = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val logOut: StateFlow<ResultState<String>> = _logOut.asStateFlow()
+
+    fun logout(){
+        viewModelScope.launch {
+            _logOut.value = ResultState.Loading
+            try {
+                FlexiApiClient.supaBaseClient.auth.signOut()
+                _logOut.value = ResultState.Success("Login Successfully...")
+            }catch (e: Exception){
+                _logOut.value = ResultState.Error(e)
+            }
+        }
+    }
     fun login(
         userEmail: String,
         userPassword: String
