@@ -81,6 +81,27 @@ class MainViewModel(
 
     private val _signupUser = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val signupUser: StateFlow<ResultState<String>> = _signupUser.asStateFlow()
+
+    private val _loginUser = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val loginUser: StateFlow<ResultState<String>> = _loginUser.asStateFlow()
+
+    fun login(
+        userEmail: String,
+        userPassword: String
+    ){
+        viewModelScope.launch {
+            _loginUser.value = ResultState.Loading
+            try {
+                FlexiApiClient.supaBaseClient.auth.signInWith(Email){
+                    email = userEmail
+                    password = userPassword
+                }
+                _loginUser.value = ResultState.Success("Login Successfully...")
+            }catch (e: Exception){
+                _loginUser.value = ResultState.Error(e)
+            }
+        }
+    }
     fun signUp(
         userEmail: String,
         userPassword: String
