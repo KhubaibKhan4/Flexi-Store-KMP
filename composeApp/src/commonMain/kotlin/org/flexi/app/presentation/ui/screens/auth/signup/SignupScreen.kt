@@ -24,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,10 +40,6 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
-import io.github.jan.supabase.gotrue.SessionSource
-import io.github.jan.supabase.gotrue.SessionStatus
-import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.usecase.ResultState
@@ -96,6 +91,22 @@ class SignupScreen : Screen {
 
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
+                serverBack = response
+            }
+        }
+        val signUpState by viewModel.signupUser.collectAsState()
+        when (signUpState) {
+            is ResultState.Error -> {
+                val error = (signUpState as ResultState.Error).error
+                // ErrorBox(error)
+            }
+
+            is ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val response = (signUpState as ResultState.Success).response
                 serverBack = response
             }
         }
@@ -178,14 +189,10 @@ class SignupScreen : Screen {
 
                         if (errors.isEmpty()) {
                             scope.launch {
-                                val result = supabase.auth.signUpWith(Email) {
-                                    email = emails
-                                    password = passwords
-
-                                }
-                                viewModel.signupUser(username, emails, passwords)
-                                delay(300)
-                                navigator?.pop()
+                                viewModel.signUp(userEmail = emails, userPassword = passwords)
+                                // viewModel.signupUser(username, emails, passwords)
+                                /*delay(300)
+                                navigator?.pop()*/
                             }
 
                         } else {
@@ -220,7 +227,7 @@ class SignupScreen : Screen {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     IconButton(
-                        onClick = { /* Handle Google signup */ },
+                        onClick = { },
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -230,7 +237,7 @@ class SignupScreen : Screen {
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     IconButton(
-                        onClick = { /* Handle Facebook signup */ },
+                        onClick = {  },
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -249,16 +256,11 @@ class SignupScreen : Screen {
                     }
                 )
                 if (serverBack.isNotBlank()) {
-
-                    scope.launch {
-                        delay(3.seconds)
-                        serverBack = "Thank you for creating account..."
-                    }
-                    if (serverBack.contains("Uploaded to Server Successfully ")) {
+                    if (serverBack.contains("Registered Successfully...") || serverBack.contains("Uploaded to Server Successfully ")) {
                         Text(
                             text = "Account created Successfully.",
                             fontSize = 10.sp,
-                            color = Color.Red,
+                            color = Color.Green,
                             modifier = Modifier.clickable {
                                 navigator?.push(LoginScreen())
                             }
@@ -268,12 +270,12 @@ class SignupScreen : Screen {
                         passwords = ""
                         cpassword = ""
                         scope.launch {
-                            delay(5.seconds)
+                            delay(3.seconds)
+                            navigator?.push(LoginScreen())
                         }
-                        navigator?.push(LoginScreen())
                     } else {
                         Text(
-                            text = "Error While Creating Account.",
+                            text = "Error While Creating Account: $serverBack",
                             fontSize = 10.sp,
                             color = Color.Red,
                             modifier = Modifier.clickable {
@@ -281,7 +283,6 @@ class SignupScreen : Screen {
                             }
                         )
                     }
-
                 }
             }
         }
