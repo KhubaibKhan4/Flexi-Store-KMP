@@ -23,12 +23,16 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.DeliveryDining
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.MapsHomeWork
 import androidx.compose.material.icons.outlined.ShoppingBag
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,6 +55,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,6 +80,7 @@ import flexi_store.composeapp.generated.resources.no_item_found
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import kotlinx.coroutines.launch
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.screens.payment.model.Order
@@ -85,6 +91,7 @@ import org.koin.compose.koinInject
 
 
 class MyOrdersContent : Screen {
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
         val viewModel: MainViewModel = koinInject()
@@ -99,6 +106,19 @@ class MyOrdersContent : Screen {
         LaunchedEffect(productIdsList) {
             productIdsList?.let { viewModel.getProductById(it) }
         }
+        val refreshScope = rememberCoroutineScope()
+        var refreshing by remember { mutableStateOf(false) }
+
+        fun refresh() {
+            refreshScope.launch {
+                viewModel.getMyOrders(1)
+                productIdsList?.let { viewModel.getProductById(it) }
+                refreshing = false
+            }
+        }
+
+        val refreshState = rememberPullRefreshState(refreshing, ::refresh)
+
         val myOrderState by viewModel.myOrders.collectAsState()
         when (myOrderState) {
             is ResultState.Error -> {
@@ -107,7 +127,7 @@ class MyOrdersContent : Screen {
             }
 
             ResultState.Loading -> {
-               // LoadingBox()
+                // LoadingBox()
             }
 
             is ResultState.Success -> {
@@ -155,82 +175,128 @@ class MyOrdersContent : Screen {
                 }
             }
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(
-                        top = it.calculateTopPadding(),
-                        bottom = 34.dp,
-                        start = 6.dp,
-                        end = 6.dp
-                    ),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            Box(
+                Modifier
+                    .padding(top = 40.dp)
+                    .pullRefresh(refreshState),
             ) {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    TabRow(
-                        selectedTabIndex = selectedTabIndex,
-                        contentColor = Color.Black,
-                        indicator = { tabPositions ->
-                            TabRowDefaults.Indicator(
-                                color = Color.Black,
-                                height = 2.dp,
-                                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
-                            )
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(
+                            top = it.calculateTopPadding(),
+                            bottom = 34.dp,
+                            start = 6.dp,
+                            end = 6.dp
+                        ),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        TabRow(
+                            selectedTabIndex = selectedTabIndex,
+                            contentColor = Color.Black,
+                            indicator = { tabPositions ->
+                                TabRowDefaults.Indicator(
+                                    color = Color.Black,
+                                    height = 2.dp,
+                                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
+                                )
+                            }
+                        ) {
+                            tabs.forEachIndexed { index, title ->
+                                Tab(
+                                    selected = selectedTabIndex == index,
+                                    onClick = { selectedTabIndex = index },
+                                    text = {
+                                        Text(
+                                            text = title,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                )
+                            }
                         }
-                    ) {
-                        tabs.forEachIndexed { index, title ->
-                            Tab(
-                                selected = selectedTabIndex == index,
-                                onClick = { selectedTabIndex = index },
-                                text = {
-                                    Text(
-                                        text = title,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp
-                                    )
-                                }
-                            )
-                        }
-                    }
-                    when (selectedTabIndex) {
-                        0 -> {
-                            val activeOrders =
-                                myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" }
-                            if (activeOrders?.isEmpty() == true) {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth()
-                                        .padding(top = it.calculateTopPadding(), bottom = 34.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
+                        when (selectedTabIndex) {
+                            0 -> {
+                                val activeOrders =
+                                    myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" }
+                                if (activeOrders?.isEmpty() == true) {
                                     Column(
-                                        modifier = Modifier.fillMaxSize(),
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(
+                                                top = it.calculateTopPadding(),
+                                                bottom = 34.dp
+                                            ),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.fillMaxSize(),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Image(
+                                                painter = painterResource(Res.drawable.no_item_found),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(250.dp)
+                                            )
+                                            Text(
+                                                text = "No Active Order available",
+                                                modifier = Modifier.padding(12.dp),
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.Red
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    LazyVerticalGrid(
+                                        columns = GridCells.Adaptive(300.dp),
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalArrangement = Arrangement.Center,
+                                        contentPadding = PaddingValues(6.dp)
+                                    ) {
+                                        activeOrders?.let { orders ->
+                                            items(orders) { order ->
+                                                val product =
+                                                    productList?.find { it.id == order.productIds }
+                                                product?.let { MyOrderItems(it, order) }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            1 -> {
+                                val completedOrders =
+                                    myOrderData?.filter { it.orderProgress == "Completed" }
+                                if (completedOrders.isNullOrEmpty()) {
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.Center
                                     ) {
                                         Image(
-                                            painter = painterResource(Res.drawable.no_item_found),
+                                            painterResource(Res.drawable.no_item_found),
                                             contentDescription = null,
                                             modifier = Modifier.size(250.dp)
                                         )
                                         Text(
-                                            text = "No Active Order available",
-                                            modifier = Modifier.padding(12.dp),
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.Red
+                                            text = "No Previous Order Found",
+                                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                            fontWeight = FontWeight.Bold
                                         )
                                     }
-                                }
-                            } else {
-                                LazyVerticalGrid(
-                                    columns = GridCells.Adaptive(300.dp),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalArrangement = Arrangement.Center,
-                                    contentPadding = PaddingValues(6.dp)
-                                ) {
-                                    activeOrders?.let { orders ->
-                                        items(orders) { order ->
+                                } else {
+                                    LazyVerticalGrid(
+                                        columns = GridCells.Adaptive(300.dp),
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalArrangement = Arrangement.Center,
+                                        contentPadding = PaddingValues(6.dp)
+                                    ) {
+                                        items(completedOrders) { order ->
                                             val product =
                                                 productList?.find { it.id == order.productIds }
                                             product?.let { MyOrderItems(it, order) }
@@ -239,46 +305,15 @@ class MyOrdersContent : Screen {
                                 }
                             }
                         }
-
-                        1 -> {
-                            val completedOrders =
-                                myOrderData?.filter { it.orderProgress == "Completed" }
-                            if (completedOrders.isNullOrEmpty()) {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Image(
-                                        painterResource(Res.drawable.no_item_found),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(250.dp)
-                                    )
-                                    Text(
-                                        text = "No Previous Order Found",
-                                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            } else {
-                                LazyVerticalGrid(
-                                    columns = GridCells.Adaptive(300.dp),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalArrangement = Arrangement.Center,
-                                    contentPadding = PaddingValues(6.dp)
-                                ) {
-                                    items(completedOrders) { order ->
-                                        val product =
-                                            productList?.find { it.id == order.productIds }
-                                        product?.let { MyOrderItems(it, order) }
-                                    }
-                                }
-                            }
-                        }
                     }
-                }
 
+                }
+                PullRefreshIndicator(
+                    refreshing = refreshing,
+                    state = refreshState,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                )
             }
         }
     }
@@ -460,7 +495,7 @@ fun MyOrderItems(
             ) {
                 FilledIconButton(
                     onClick = {
-                       navigator?.push(OrderDetail(products,order))
+                        navigator?.push(OrderDetail(products, order))
                     },
                     modifier = Modifier
                         .weight(1f)
