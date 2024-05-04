@@ -84,6 +84,8 @@ kotlin {
             implementation("io.insert-koin:koin-compose")
             implementation("io.insert-koin:koin-annotations:1.3.1")
             implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1")
+            implementation("io.github.jan-tennert.supabase:compose-auth:2.3.1")
+            implementation("io.github.jan-tennert.supabase:compose-auth-ui:2.3.1")
         }
 
         commonTest.dependencies {
