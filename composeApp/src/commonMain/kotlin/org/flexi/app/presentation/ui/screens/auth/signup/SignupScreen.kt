@@ -3,24 +3,19 @@ package org.flexi.app.presentation.ui.screens.auth.signup
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Facebook
-import androidx.compose.material.icons.filled.Synagogue
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -38,13 +33,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.annotations.SupabaseExperimental
+import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
+import io.github.jan.supabase.gotrue.providers.Apple
+import io.github.jan.supabase.gotrue.providers.Google
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
-import org.flexi.app.presentation.ui.components.HeadlineText
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.SignupValidation
@@ -52,6 +48,7 @@ import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.seconds
 
 class SignupScreen : Screen {
+    @OptIn(SupabaseExperimental::class)
     @Composable
     override fun Content() {
         val viewModel: MainViewModel = koinInject<MainViewModel>()
@@ -69,14 +66,6 @@ class SignupScreen : Screen {
         var emailError by remember { mutableStateOf<String?>(null) }
         var passwordError by remember { mutableStateOf<String?>(null) }
         var cpasswordError by remember { mutableStateOf<String?>(null) }
-
-
-        val supabase = createSupabaseClient(
-            supabaseUrl = "https://flrflqyxquvzhlvfcbit.supabase.co",
-            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
-        ) {
-            install(Auth)
-        }
 
         val state by viewModel.signup.collectAsState()
         when (state) {
@@ -118,11 +107,17 @@ class SignupScreen : Screen {
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            HeadlineText(text = "Sign up")
             Text(
-                text = "Create an account to get started",
-                modifier = Modifier.fillMaxWidth()
+                text = "Create an Account",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
+            Text(
+                text = "Sign up to get started and access all features",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
             Spacer(modifier = Modifier.height(14.dp))
             CustomTextField(
                 input = username,
@@ -222,29 +217,13 @@ class SignupScreen : Screen {
                     fontSize = 10.sp,
                     color = Color.Gray
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    IconButton(
-                        onClick = { },
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(
-                            Icons.Default.Synagogue,
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    IconButton(
-                        onClick = {  },
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(
-                            Icons.Default.Facebook,
-                            contentDescription = null
-                        )
-                    }
+                Spacer(modifier = Modifier.height(6.dp))
+                OutlinedButton(onClick = {}) {
+                    ProviderButtonContent(Google)
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                OutlinedButton(onClick = {}) {
+                    ProviderButtonContent(Apple)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
