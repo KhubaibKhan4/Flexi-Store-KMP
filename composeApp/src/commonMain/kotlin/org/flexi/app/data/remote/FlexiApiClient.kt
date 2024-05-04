@@ -1,5 +1,6 @@
 package org.flexi.app.data.remote
 
+import io.github.jan.supabase.compose.auth.ComposeAuth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.gotrue.auth
@@ -39,6 +40,7 @@ object FlexiApiClient {
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
     ){
         install(Auth)
+        install(ComposeAuth)
     }
     private val client = HttpClient {
         install(ContentNegotiation) {

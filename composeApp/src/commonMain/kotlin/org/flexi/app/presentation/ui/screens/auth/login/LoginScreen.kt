@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Facebook
 import androidx.compose.material.icons.filled.Synagogue
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -39,8 +40,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import io.github.jan.supabase.annotations.SupabaseExperimental
+import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
+import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
+import io.github.jan.supabase.compose.auth.composeAuth
+import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
+import io.github.jan.supabase.compose.auth.ui.ProviderIcon
+import io.github.jan.supabase.compose.auth.ui.ProviderIcons
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.providers.Apple
+import io.github.jan.supabase.gotrue.providers.Google
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
@@ -53,6 +65,7 @@ import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.seconds
 
 class LoginScreen : Screen {
+    @OptIn(SupabaseExperimental::class)
     @Composable
     override fun Content() {
         val viewModel: MainViewModel = koinInject<MainViewModel>()
@@ -67,6 +80,19 @@ class LoginScreen : Screen {
         var isLoading by remember { mutableStateOf(false) }
         val state by viewModel.login.collectAsState()
 
+        val action = FlexiApiClient.supaBaseClient.composeAuth.rememberSignInWithGoogle(
+            onResult = {result->
+                when(result){
+                    NativeSignInResult.ClosedByUser -> {}
+                    is NativeSignInResult.Error -> {}
+                    is NativeSignInResult.NetworkError -> {}
+                    NativeSignInResult.Success -> {}
+                }
+            },
+            fallback = {
+
+            }
+        )
         when (state) {
             is ResultState.Error -> {
                 val error = (state as ResultState.Error).error
@@ -179,29 +205,13 @@ class LoginScreen : Screen {
                     fontSize = 10.sp,
                     color = Color.Gray
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    IconButton(
-                        onClick = { /* Handle Google signup */ },
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(
-                            Icons.Default.Synagogue,
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    IconButton(
-                        onClick = { /* Handle Facebook signup */ },
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(
-                            Icons.Default.Facebook,
-                            contentDescription = null
-                        )
-                    }
+                Spacer(modifier = Modifier.height(6.dp))
+                Button(onClick = {action.startFlow()}){
+                    ProviderButtonContent(Google)
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                Button(onClick = {action.startFlow()}){
+                    ProviderButtonContent(Apple)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
