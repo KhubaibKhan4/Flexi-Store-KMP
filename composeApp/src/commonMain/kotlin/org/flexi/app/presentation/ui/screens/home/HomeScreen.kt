@@ -196,7 +196,6 @@ class HomeScreen : Screen {
                         profileImageUrl = null,
                         itemCount = it,
                         onProfileClick = {
-                            navigator?.push(LoginScreen())
                         }
                     )
                 }
