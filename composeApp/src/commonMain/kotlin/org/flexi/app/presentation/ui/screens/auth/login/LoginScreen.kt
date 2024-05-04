@@ -42,8 +42,10 @@ import io.github.jan.supabase.compose.auth.composable.rememberSignInWithApple
 import io.github.jan.supabase.compose.auth.composeAuth
 import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
 import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.createDefaultSessionManager
 import io.github.jan.supabase.gotrue.providers.Apple
 import io.github.jan.supabase.gotrue.providers.Google
+import io.github.jan.supabase.gotrue.user.UserSession
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.data.remote.FlexiApiClient
@@ -227,12 +229,10 @@ class LoginScreen : Screen {
                             password = ""
                             loginResponse = ""
                             isLoading = false
-                            val user =
-                                FlexiApiClient.supaBaseClient.auth.retrieveUserForCurrentSession(
-                                    updateSession = true
-                                )
-                            val userEmail = user.email
-                            navigator?.push(MainScreen(userEmail))
+                           /* val user =
+                                FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+                            val userEmail = user?.user?.email*/
+                              navigator?.push(MainScreen(userEmail = null))
                         }
                     }
                 } else {

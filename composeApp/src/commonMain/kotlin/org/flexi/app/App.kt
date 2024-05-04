@@ -78,14 +78,14 @@ internal fun App() = AppTheme {
         showSplashScreen = false
     }
     val session = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-
+    var userEmail: String? = null
     LaunchedEffect(session) {
         try {
             val user =
                 FlexiApiClient.supaBaseClient.auth.retrieveUserForCurrentSession(
                     updateSession = true
                 )
-            val userEmail = user.email
+             userEmail = user.email
         } catch (e: Exception) {
            println("Error retrieving user email: ${e.message}")
         }
@@ -95,7 +95,7 @@ internal fun App() = AppTheme {
         SplashScreen()
     } else {
         if (session != null) {
-            AppContent()
+            Navigator(MainScreen(userEmail = userEmail))
         } else {
             Navigator(LoginScreen())
         }

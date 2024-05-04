@@ -42,6 +42,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,16 +54,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import io.github.jan.supabase.gotrue.auth
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.NotificationsAlertDialog
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.setting.account.AccountScreen
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 import org.flexi.app.presentation.ui.screens.setting.privacy.PrivacyScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
+import kotlin.time.Duration.Companion.seconds
 
 class SettingScreen(
 ) : Screen {
@@ -73,9 +81,12 @@ class SettingScreen(
         val viewMode: MainViewModel = koinInject()
         val notificationsDialogVisible = remember { mutableStateOf(false) }
         var userData by remember { mutableStateOf<User?>(null) }
+        val scope = rememberCoroutineScope()
         LaunchedEffect(Unit) {
             viewMode.getUserData(1)
         }
+        val session = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+
         val userState by viewMode.userData.collectAsState()
         when (userState) {
             is ResultState.Error -> {
@@ -158,7 +169,7 @@ class SettingScreen(
                         "",
                         icon = Icons.Outlined.PersonOutline,
                         onClick = {
-                            userData?.let {user->
+                            userData?.let { user ->
                                 navigator?.push(AccountScreen(user))
                             }
                         })
@@ -215,7 +226,14 @@ class SettingScreen(
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
-                    onClick = { },
+                    onClick = {
+                        scope.launch {
+                            viewMode.logout()
+                            FlexiApiClient.supaBaseClient.auth.clearSession()
+                        }
+                        navigator?.popUntilRoot()
+                        navigator?.push(LoginScreen())
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
