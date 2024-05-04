@@ -44,6 +44,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.annotations.SupabaseExperimental
 import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
+import io.github.jan.supabase.compose.auth.composable.rememberSignInWithApple
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
@@ -82,18 +83,9 @@ class LoginScreen : Screen {
         var isLoading by remember { mutableStateOf(false) }
         val state by viewModel.login.collectAsState()
 
-        val action = FlexiApiClient.supaBaseClient.composeAuth.rememberSignInWithGoogle(
-            onResult = {result->
-                when(result){
-                    NativeSignInResult.ClosedByUser -> {}
-                    is NativeSignInResult.Error -> {}
-                    is NativeSignInResult.NetworkError -> {}
-                    NativeSignInResult.Success -> {}
-                }
-            },
-            fallback = {
-
-            }
+        val action = FlexiApiClient.supaBaseClient.composeAuth.rememberSignInWithApple(
+            onResult = { result -> viewModel.loginGoogle(result) },
+            fallback = {}
         )
         when (state) {
             is ResultState.Error -> {

@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -88,6 +89,32 @@ class MainViewModel(
     private val _logOut = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val logOut: StateFlow<ResultState<String>> = _logOut.asStateFlow()
 
+    private val _loginWithGoogle = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+    val loginWithGoogle: StateFlow<ResultState<String>> = _loginWithGoogle.asStateFlow()
+
+    fun loginGoogle(result: NativeSignInResult){
+        viewModelScope.launch {
+            _loginWithGoogle.value = ResultState.Loading
+            try {
+                when (result) {
+                    is NativeSignInResult.Success -> {
+                        _loginWithGoogle.value = ResultState.Success("Logged in via Google")
+                    }
+                    is NativeSignInResult.ClosedByUser -> {}
+                    is NativeSignInResult.Error -> {
+                        val message = result.message
+                      //  _loginWithGoogle.value = ResultState.Error(message.toString())
+                    }
+                    is NativeSignInResult.NetworkError -> {
+                        val message = result.message.toString()
+                        //_loginWithGoogle.value = ResultState.Error(message)
+                    }
+                }
+            }catch (e: Exception){
+                _logOut.value = ResultState.Error(e)
+            }
+        }
+    }
     fun logout(){
         viewModelScope.launch {
             _logOut.value = ResultState.Loading

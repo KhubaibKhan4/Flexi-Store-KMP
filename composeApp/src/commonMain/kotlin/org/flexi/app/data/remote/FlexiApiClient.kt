@@ -41,7 +41,9 @@ object FlexiApiClient {
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
     ){
         install(Auth)
-        install(ComposeAuth)
+        install(ComposeAuth){
+            googleNativeLogin(serverClientId = "336413989020-si8up4sj1hjupteneur11la2p8vkai94.apps.googleusercontent.com")
+        }
     }
     private val client = HttpClient {
         install(ContentNegotiation) {
