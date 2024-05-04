@@ -9,14 +9,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
     input: String,
@@ -58,10 +60,10 @@ fun CustomTextField(
                 }
             },
             modifier = modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
                 .border(
-                    width = 2.dp,
+                    width = 1.dp,
                     color = if (isError) Color.Red else Color.LightGray,
+                    shape = RoundedCornerShape(8.dp)
                 ),
             singleLine = true,
             isError = isError,
@@ -80,6 +82,19 @@ fun CustomTextField(
                     }
                 }
             },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Gray,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                cursorColor = Color.Black,
+                errorCursorColor = Color.Red,
+                errorIndicatorColor = Color.Transparent,
+                errorLabelColor = Color.Red,
+                errorTrailingIconColor = Color.Red
+            )
         )
         if (isError && errorText != null) {
             Spacer(modifier = Modifier.width(8.dp))

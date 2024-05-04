@@ -23,6 +23,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -206,11 +207,11 @@ class LoginScreen : Screen {
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                Button(onClick = {action.startFlow()}){
+                OutlinedButton(onClick = {action.startFlow()}){
                     ProviderButtonContent(Google)
                 }
                 Spacer(modifier = Modifier.height(2.dp))
-                Button(onClick = {action.startFlow()}){
+                OutlinedButton(onClick = {action.startFlow()}){
                     ProviderButtonContent(Apple)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
