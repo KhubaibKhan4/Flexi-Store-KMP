@@ -52,12 +52,15 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.delay
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
 import org.flexi.app.presentation.ui.navigation.rails.navbar.NavigationSideBar
 import org.flexi.app.presentation.ui.navigation.tabs.favourite.FavouriteTab
 import org.flexi.app.presentation.ui.navigation.tabs.home.HomeTab
+import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.navigation.tabs.profile.ProfileTab
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
@@ -74,13 +77,28 @@ internal fun App() = AppTheme {
         delay(3000)
         showSplashScreen = false
     }
+    val session = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
 
+    LaunchedEffect(session) {
+        try {
+            val user =
+                FlexiApiClient.supaBaseClient.auth.retrieveUserForCurrentSession(
+                    updateSession = true
+                )
+            val userEmail = user.email
+        } catch (e: Exception) {
+           println("Error retrieving user email: ${e.message}")
+        }
+    }
 
     if (showSplashScreen && platform != Platform.Android) {
         SplashScreen()
     } else {
-        Navigator(LoginScreen())
-        //AppContent()
+        if (session != null) {
+            AppContent()
+        } else {
+            Navigator(LoginScreen())
+        }
     }
 }
 
@@ -248,6 +266,6 @@ fun RowScope.TabItem(tab: Tab) {
 
 internal expect fun openUrl(url: String?)
 expect fun getPlatform(): Platform
-expect class DriverFactory(){
+expect class DriverFactory() {
     fun createDriver(): SqlDriver
 }

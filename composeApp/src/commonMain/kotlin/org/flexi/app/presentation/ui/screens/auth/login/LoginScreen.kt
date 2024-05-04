@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,20 +13,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Facebook
-import androidx.compose.material.icons.filled.Synagogue
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,14 +38,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.annotations.SupabaseExperimental
-import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithApple
-import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
-import io.github.jan.supabase.compose.auth.ui.ProviderIcon
-import io.github.jan.supabase.compose.auth.ui.ProviderIcons
-import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.Apple
 import io.github.jan.supabase.gotrue.providers.Google
 import kotlinx.coroutines.delay
@@ -59,13 +50,12 @@ import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
-import org.flexi.app.presentation.ui.components.HeadlineText
+import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
-import org.flexi.app.presentation.ui.screens.home.HomeScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.SignupValidation
 import org.koin.compose.koinInject
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
 class LoginScreen : Screen {
     @OptIn(SupabaseExperimental::class)
@@ -205,11 +195,11 @@ class LoginScreen : Screen {
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                OutlinedButton(onClick = {action.startFlow()}){
+                OutlinedButton(onClick = { action.startFlow() }) {
                     ProviderButtonContent(Google)
                 }
                 Spacer(modifier = Modifier.height(2.dp))
-                OutlinedButton(onClick = {action.startFlow()}){
+                OutlinedButton(onClick = { action.startFlow() }) {
                     ProviderButtonContent(Apple)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -228,7 +218,7 @@ class LoginScreen : Screen {
                         color = Color.Red,
                     )
                     scope.launch {
-                        delay(2.seconds)
+                        delay(500.milliseconds)
                         if (loginResponse.contains("Invalid Email or Password")) {
                             isLoading = false
                             return@launch
@@ -237,7 +227,12 @@ class LoginScreen : Screen {
                             password = ""
                             loginResponse = ""
                             isLoading = false
-                            navigator?.push(HomeScreen())
+                            val user =
+                                FlexiApiClient.supaBaseClient.auth.retrieveUserForCurrentSession(
+                                    updateSession = true
+                                )
+                            val userEmail = user.email
+                            navigator?.push(MainScreen(userEmail))
                         }
                     }
                 } else {
