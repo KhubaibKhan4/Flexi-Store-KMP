@@ -79,8 +79,8 @@ internal fun App() = AppTheme {
     if (showSplashScreen && platform != Platform.Android) {
         SplashScreen()
     } else {
-       // Navigator(LoginScreen())
-        AppContent()
+        Navigator(LoginScreen())
+        //AppContent()
     }
 }
 
