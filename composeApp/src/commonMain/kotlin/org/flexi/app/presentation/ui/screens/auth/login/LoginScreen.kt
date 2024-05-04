@@ -178,7 +178,7 @@ class LoginScreen : Screen {
                         if (emailError == null && passwordError == null) {
                             isLoading = true
                             viewModel.login(userEmail = email, userPassword = password)
-                            //viewModel.loginUser(email, password)
+                            viewModel.loginUser(email, password)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(

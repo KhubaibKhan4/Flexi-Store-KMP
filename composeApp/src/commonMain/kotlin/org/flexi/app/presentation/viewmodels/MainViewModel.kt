@@ -120,7 +120,7 @@ class MainViewModel(
             _logOut.value = ResultState.Loading
             try {
                 FlexiApiClient.supaBaseClient.auth.signOut()
-                _logOut.value = ResultState.Success("Login Successfully...")
+                _logOut.value = ResultState.Success("Logout Successfully...")
             }catch (e: Exception){
                 _logOut.value = ResultState.Error(e)
             }

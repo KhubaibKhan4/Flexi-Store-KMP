@@ -41,9 +41,7 @@ object FlexiApiClient {
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
     ){
         install(Auth)
-        install(ComposeAuth){
-            googleNativeLogin(serverClientId = "336413989020-si8up4sj1hjupteneur11la2p8vkai94.apps.googleusercontent.com")
-        }
+        install(ComposeAuth)
     }
     private val client = HttpClient {
         install(ContentNegotiation) {
@@ -84,18 +82,20 @@ object FlexiApiClient {
     @OptIn(InternalAPI::class)
     suspend fun signupUser(username: String, email: String, password: String): String {
         val formData = Parameters.build {
-            append("username", username)
+            append("userName", username)
             append("email", email)
             append("password", password)
             append("fullName", "null")
             append("address", "null")
+            append("postalCode", "12341")
             append("city", "null")
             append("country", "null")
             append("phoneNumber", "null")
+            append("imageUrl", "/upload/products/users/avatar-1.webp")
             append("userRole", "Customer")
         }
 
-        val url = BASE_URL + "v1/users"
+        val url = BASE_URL + "v1/signup"
         return client.post(url) {
             body = FormDataContent(formData)
         }.body()

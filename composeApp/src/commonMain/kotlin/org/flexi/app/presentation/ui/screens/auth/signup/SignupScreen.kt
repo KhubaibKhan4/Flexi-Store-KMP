@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,9 +39,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.annotations.SupabaseExperimental
-import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
 import io.github.jan.supabase.compose.auth.composable.rememberSignInWithApple
-import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.github.jan.supabase.compose.auth.composeAuth
 import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
 import io.github.jan.supabase.gotrue.providers.Apple
@@ -80,6 +79,11 @@ class SignupScreen : Screen {
             onResult = { result -> viewModel.loginGoogle(result) },
             fallback = {}
         )
+        LaunchedEffect(serverBack){
+            if (serverBack.contains("Registered Successfully...")){
+                viewModel.signupUser(username, emails, passwords)
+            }
+        }
         val state by viewModel.signup.collectAsState()
         when (state) {
             is ResultState.Error -> {
@@ -212,9 +216,6 @@ class SignupScreen : Screen {
                             if (errors.isEmpty()) {
                                 scope.launch {
                                     viewModel.signUp(userEmail = emails, userPassword = passwords)
-                                    // viewModel.signupUser(username, emails, passwords)
-                                    /*delay(300)
-                                    navigator?.pop()*/
                                 }
 
                             } else {
@@ -270,16 +271,13 @@ class SignupScreen : Screen {
                                 text = "Account created Successfully.",
                                 fontSize = 10.sp,
                                 color = Color.Green,
-                                modifier = Modifier.clickable {
-                                    navigator?.push(LoginScreen())
-                                }
                             )
-                            username = ""
-                            emails = ""
-                            passwords = ""
-                            cpassword = ""
                             scope.launch {
-                                delay(3.seconds)
+                                delay(2.seconds)
+                                username = ""
+                                emails = ""
+                                passwords = ""
+                                cpassword = ""
                                 navigator?.push(LoginScreen())
                             }
                         } else {
