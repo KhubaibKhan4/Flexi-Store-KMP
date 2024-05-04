@@ -85,8 +85,6 @@ class SettingScreen(
         LaunchedEffect(Unit) {
             viewMode.getUserData(1)
         }
-        val session = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-
         val userState by viewMode.userData.collectAsState()
         when (userState) {
             is ResultState.Error -> {
@@ -229,10 +227,7 @@ class SettingScreen(
                     onClick = {
                         scope.launch {
                             viewMode.logout()
-                            FlexiApiClient.supaBaseClient.auth.clearSession()
                         }
-                        navigator?.popUntilRoot()
-                        navigator?.push(LoginScreen())
                     },
                     modifier = Modifier
                         .fillMaxWidth()
