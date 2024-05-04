@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,11 +38,15 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.annotations.SupabaseExperimental
+import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
+import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
+import io.github.jan.supabase.compose.auth.composeAuth
 import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
 import io.github.jan.supabase.gotrue.providers.Apple
 import io.github.jan.supabase.gotrue.providers.Google
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
@@ -72,6 +75,28 @@ class SignupScreen : Screen {
         var passwordError by remember { mutableStateOf<String?>(null) }
         var cpasswordError by remember { mutableStateOf<String?>(null) }
 
+        val action = FlexiApiClient.supaBaseClient.composeAuth.rememberSignInWithGoogle(
+            onResult = { result ->
+                when (result) {
+                    NativeSignInResult.ClosedByUser -> {
+
+                    }
+
+                    is NativeSignInResult.Error -> {
+                        val error = (result as NativeSignInResult.Error).message
+                    }
+
+                    is NativeSignInResult.NetworkError -> {
+                        val networkError = (result as NativeSignInResult.NetworkError).message
+                    }
+
+                    NativeSignInResult.Success -> {
+                        val success = (result as NativeSignInResult.Success)
+                    }
+                }
+            },
+            fallback = {}
+        )
         val state by viewModel.signup.collectAsState()
         when (state) {
             is ResultState.Error -> {
@@ -237,7 +262,7 @@ class SignupScreen : Screen {
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(6.dp))
-                    OutlinedButton(onClick = {}) {
+                    OutlinedButton(onClick = { action.startFlow() }) {
                         ProviderButtonContent(Google)
                     }
                     Spacer(modifier = Modifier.height(2.dp))
