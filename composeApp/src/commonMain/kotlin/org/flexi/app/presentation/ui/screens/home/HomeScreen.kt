@@ -91,7 +91,7 @@ class HomeScreen : Screen {
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
-        var CartsList by remember { mutableStateOf<List<CartItem>?>(null) }
+        var cartItemList by remember { mutableStateOf<List<CartItem>?>(null) }
         val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
         val navigator = LocalNavigator.current
@@ -181,7 +181,7 @@ class HomeScreen : Screen {
 
             is ResultState.Success -> {
                 val response = (cartState as ResultState.Success).response
-                CartsList = response
+                cartItemList = response
             }
         }
         var isDark by LocalThemeIsDark.current
@@ -211,11 +211,11 @@ class HomeScreen : Screen {
         Scaffold(
             modifier = Modifier.fillMaxWidth(),
             topBar = {
-                CartsList?.size?.let {
+                cartItemList?.size?.let {
                     TopAppBarWithProfile(
                         name = "Jonathan",
                         onCartClicked = {
-                            CartsList?.let { carts ->
+                            cartItemList?.let { carts ->
                                 val mutableCartsList = carts.toMutableList()
                                 navigator?.push(CartList(mutableCartsList))
                             }
