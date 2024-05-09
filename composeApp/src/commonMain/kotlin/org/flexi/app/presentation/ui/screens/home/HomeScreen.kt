@@ -65,6 +65,7 @@ import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
+import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.BooksList
 import org.flexi.app.presentation.ui.components.ElectronicsList
@@ -81,6 +82,7 @@ import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.cart.CartList
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.theme.LocalThemeIsDark
+import org.flexi.app.utils.Constant.BASE_URL
 import org.koin.compose.koinInject
 
 class HomeScreen : Screen {
@@ -95,6 +97,7 @@ class HomeScreen : Screen {
         var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
         var cartItemList by remember { mutableStateOf<List<CartItem>?>(null) }
+        var userData by remember { mutableStateOf<User?>(null) }
         val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
         val navigator = LocalNavigator.current
@@ -106,6 +109,7 @@ class HomeScreen : Screen {
             viewModel.getCategoriesList()
             viewModel.getBooksList()
             viewModel.getCartsList(1)
+            viewModel.getUserData(1)
         }
         val state by viewModel.products.collectAsState()
         when (state) {
@@ -187,6 +191,22 @@ class HomeScreen : Screen {
                 cartItemList = response
             }
         }
+        val userState by viewModel.userData.collectAsState()
+        when (userState) {
+            is ResultState.Error -> {
+                val error = (userState as ResultState.Error).error
+                ErrorBox(error)
+            }
+
+            ResultState.Loading -> {
+                //LoadingBox()
+            }
+
+            is ResultState.Success -> {
+                val products = (userState as ResultState.Success).response
+                userData = products
+            }
+        }
         var isDark by LocalThemeIsDark.current
         val isSearching = query.isNotBlank()
 
@@ -208,10 +228,10 @@ class HomeScreen : Screen {
                 refreshing = false
             }
         }
-
+        val username = userData?.fullName.toString()
+        val userProfile =BASE_URL+ userData?.profileImage.toString()
         val user =
             FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-
         val refreshState = rememberPullRefreshState(refreshing, ::refresh)
 
         Scaffold(
@@ -219,14 +239,14 @@ class HomeScreen : Screen {
             topBar = {
                 cartItemList?.size?.let {
                     TopAppBarWithProfile(
-                        name = "Jonathan",
+                        name = username ?: "Pablo Valdes",
                         onCartClicked = {
                             cartItemList?.let { carts ->
                                 val mutableCartsList = carts.toMutableList()
                                 navigator?.push(CartList(mutableCartsList))
                             }
                         },
-                        profileImageUrl = null,
+                        profileImageUrl = userProfile,
                         itemCount = it,
                         onProfileClick = {
                             if (user?.user?.email?.isEmpty() == true) {

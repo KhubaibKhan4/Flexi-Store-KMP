@@ -47,7 +47,7 @@ fun TopAppBarWithProfile(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        Spacer(modifier = Modifier.width(3.dp))
+        Spacer(modifier = Modifier.width(4.dp))
         if (profileImageUrl?.isNotEmpty() == true) {
             var profile by remember { mutableStateOf("") }
             profileImageUrl.let {
@@ -57,9 +57,8 @@ fun TopAppBarWithProfile(
             KamelImage(
                 resource = image,
                 contentDescription = "Profile",
-                modifier = Modifier.size(25.dp)
+                modifier = Modifier.size(55.dp)
                     .clip(CircleShape)
-                    .padding(8.dp)
                     .clickable {
                         onProfileClick()
                     }
