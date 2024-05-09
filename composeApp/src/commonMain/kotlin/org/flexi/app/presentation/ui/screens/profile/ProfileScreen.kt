@@ -360,7 +360,7 @@ class ProfileScreen : Screen {
 
             }
         }
-        if (userEmail == null) {
+        if (user?.user?.email?.isEmpty()==true) {
             androidx.compose.material.AlertDialog(
                 onDismissRequest = {},
                 title = {

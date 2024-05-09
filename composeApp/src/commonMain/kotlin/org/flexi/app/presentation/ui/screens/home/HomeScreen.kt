@@ -211,7 +211,6 @@ class HomeScreen : Screen {
 
         val user =
             FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-        val userEmail = user?.user?.email
 
         val refreshState = rememberPullRefreshState(refreshing, ::refresh)
 
@@ -230,7 +229,7 @@ class HomeScreen : Screen {
                         profileImageUrl = null,
                         itemCount = it,
                         onProfileClick = {
-                            if (userEmail == null) {
+                            if (user?.user?.email?.isEmpty() == true) {
                                 navigator?.push(LoginScreen())
                             }
                         }

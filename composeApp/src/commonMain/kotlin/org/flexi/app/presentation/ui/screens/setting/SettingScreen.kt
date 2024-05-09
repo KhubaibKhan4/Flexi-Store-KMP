@@ -54,29 +54,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
 import io.github.jan.supabase.gotrue.auth
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.NotificationsAlertDialog
-import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.setting.account.AccountScreen
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 import org.flexi.app.presentation.ui.screens.setting.privacy.PrivacyScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
-import kotlin.time.Duration.Companion.seconds
 
 class SettingScreen(
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val user =
+            FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+        val userEmail = user?.user?.email
         val navigator = LocalNavigator.current
         val viewMode: MainViewModel = koinInject()
         val notificationsDialogVisible = remember { mutableStateOf(false) }
@@ -238,8 +237,13 @@ class SettingScreen(
                     ),
                     shape = RoundedCornerShape(6.dp)
                 ) {
+                    val loginText = if (user?.user?.email?.isEmpty() == true) {
+                        "Login"
+                    } else {
+                        "Logout"
+                    }
                     Text(
-                        "Logout",
+                        loginText,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
