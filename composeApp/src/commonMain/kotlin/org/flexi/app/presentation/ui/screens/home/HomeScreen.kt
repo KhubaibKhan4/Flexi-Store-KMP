@@ -122,7 +122,7 @@ class HomeScreen : Screen {
             viewModel.getCategoriesList()
             viewModel.getBooksList()
             viewModel.getCartsList(1)
-            viewModel.getUserData(1)
+            viewModel.getUserData(141)
         }
         val state by viewModel.products.collectAsState()
         when (state) {
@@ -237,7 +237,7 @@ class HomeScreen : Screen {
                 viewModel.getPromotionsItems()
                 viewModel.getCategoriesList()
                 viewModel.getBooksList()
-                viewModel.getCartsList(1)
+                viewModel.getCartsList(141)
                 refreshing = false
             }
         }

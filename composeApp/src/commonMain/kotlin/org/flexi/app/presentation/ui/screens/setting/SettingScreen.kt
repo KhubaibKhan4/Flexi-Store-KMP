@@ -85,7 +85,7 @@ class SettingScreen(
         val scope = rememberCoroutineScope()
         LaunchedEffect(user) {
             user = FlexiApiClient.supaBaseClient.auth.currentUserOrNull()
-            viewMode.getUserData(1)
+            viewMode.getUserData(141)
         }
         val userState by viewMode.userData.collectAsState()
         when (userState) {

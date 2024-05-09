@@ -97,7 +97,7 @@ class ProfileScreen : Screen {
         LaunchedEffect(user) {
             user = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
             viewModel.getProducts()
-            viewModel.getUserData(1)
+            viewModel.getUserData(141)
         }
         val productState by viewModel.products.collectAsState()
         when (productState) {
