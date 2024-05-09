@@ -1,7 +1,9 @@
 package org.flexi.app.presentation.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,17 +25,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -48,6 +58,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,6 +68,9 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.gotrue.auth
+import io.kamel.core.Resource
+import io.kamel.image.KamelImage
+import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.data.remote.FlexiApiClient
@@ -98,6 +112,7 @@ class HomeScreen : Screen {
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
         var cartItemList by remember { mutableStateOf<List<CartItem>?>(null) }
         var userData by remember { mutableStateOf<User?>(null) }
+        var isProfile by remember { mutableStateOf(false) }
         val viewModel: MainViewModel = koinInject()
         val scrollState = rememberScrollState()
         val navigator = LocalNavigator.current
@@ -228,8 +243,9 @@ class HomeScreen : Screen {
                 refreshing = false
             }
         }
+
         val username = userData?.fullName.toString()
-        val userProfile =BASE_URL+ userData?.profileImage.toString()
+        val userProfile = BASE_URL + userData?.profileImage.toString()
         val user =
             FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
         val refreshState = rememberPullRefreshState(refreshing, ::refresh)
@@ -246,11 +262,13 @@ class HomeScreen : Screen {
                                 navigator?.push(CartList(mutableCartsList))
                             }
                         },
-                        profileImageUrl = userProfile,
+                        profileImageUrl = if (user?.user?.email?.isNotEmpty()==true) userProfile else null,
                         itemCount = it,
                         onProfileClick = {
                             if (user?.user?.email?.isEmpty() == true) {
                                 navigator?.push(LoginScreen())
+                            } else {
+                                isProfile = !isProfile
                             }
                         }
                     )
@@ -420,6 +438,86 @@ class HomeScreen : Screen {
                         .align(Alignment.TopCenter)
                 )
             }
+        }
+        if (isProfile) {
+            AlertDialog(
+                onDismissRequest = { isProfile = false },
+                title = {
+                    Text(
+                        text = userData?.fullName.toString(),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                },
+                icon = {
+                    val profile: Resource<Painter> =
+                        asyncPainterResource(BASE_URL + userData?.profileImage.toString())
+                    KamelImage(
+                        resource = profile,
+                        contentDescription = null,
+                        modifier = Modifier.size(200.dp)
+                            .clip(RoundedCornerShape(24.dp))
+                            .border(
+                                width = 1.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(24.dp)
+                            )
+                    )
+                },
+                text = {
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.VerifiedUser, contentDescription = null)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "@" + userData?.username.toString(),
+                                fontSize = 16.sp
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.LocationOn, contentDescription = null)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = userData?.country ?: "",
+                                fontSize = 14.sp
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Home, contentDescription = null)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = userData?.address ?: "",
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+                },
+                confirmButton = {
+
+                        Icon(
+                            modifier = Modifier.clickable {
+                                isProfile = !isProfile
+                            },
+                            imageVector = Icons.Outlined.Close,
+                            contentDescription = null
+                        )
+
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { isProfile = false },
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Text(text = "")
+                    }
+                },
+                modifier = Modifier.padding(16.dp),
+                shape = RoundedCornerShape(12.dp),
+                containerColor = MaterialTheme.colorScheme.surface,
+                textContentColor = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 }
