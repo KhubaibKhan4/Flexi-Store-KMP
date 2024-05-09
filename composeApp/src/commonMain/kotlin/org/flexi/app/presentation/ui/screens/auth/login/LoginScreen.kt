@@ -22,7 +22,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,10 +41,8 @@ import io.github.jan.supabase.compose.auth.composable.rememberSignInWithApple
 import io.github.jan.supabase.compose.auth.composeAuth
 import io.github.jan.supabase.compose.auth.ui.ProviderButtonContent
 import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.createDefaultSessionManager
 import io.github.jan.supabase.gotrue.providers.Apple
 import io.github.jan.supabase.gotrue.providers.Google
-import io.github.jan.supabase.gotrue.user.UserSession
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.flexi.app.data.remote.FlexiApiClient
@@ -229,10 +226,10 @@ class LoginScreen : Screen {
                             password = ""
                             loginResponse = ""
                             isLoading = false
-                           /* val user =
+                            val user =
                                 FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-                            val userEmail = user?.user?.email*/
-                              navigator?.push(MainScreen(userEmail = null))
+                            val userEmail = user?.user?.email
+                            navigator?.push(MainScreen(userEmail = userEmail))
                         }
                     }
                 } else {
