@@ -159,11 +159,11 @@ class ProfileScreen : Screen {
                 )
             },
             modifier = Modifier.fillMaxWidth().nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) { it ->
+        ) { padding ->
             Column(
                 modifier = Modifier.fillMaxWidth()
                     .padding(
-                        top = it.calculateTopPadding(),
+                        top = padding.calculateTopPadding(),
                         start = 4.dp,
                         end = 4.dp
                     )
