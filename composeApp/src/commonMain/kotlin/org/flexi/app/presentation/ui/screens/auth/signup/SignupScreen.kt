@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.auth.signup
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
@@ -14,6 +17,7 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +73,7 @@ class SignupScreen : Screen {
         var serverBack by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         var cpasswordVisible by remember { mutableStateOf(false) }
-
+        var isLoading by remember { mutableStateOf(false) }
         var usernameError by remember { mutableStateOf<String?>(null) }
         var emailError by remember { mutableStateOf<String?>(null) }
         var passwordError by remember { mutableStateOf<String?>(null) }
@@ -89,6 +93,7 @@ class SignupScreen : Screen {
             is ResultState.Error -> {
                 val error = (state as ResultState.Error).error
                 // ErrorBox(error)
+                isLoading = false
             }
 
             is ResultState.Loading -> {
@@ -98,6 +103,7 @@ class SignupScreen : Screen {
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
                 serverBack = response
+                isLoading = false
             }
         }
         val signUpState by viewModel.signupUser.collectAsState()
@@ -215,6 +221,7 @@ class SignupScreen : Screen {
 
                             if (errors.isEmpty()) {
                                 scope.launch {
+                                    isLoading = true
                                     viewModel.signUp(userEmail = emails, userPassword = passwords)
                                 }
 
@@ -238,6 +245,13 @@ class SignupScreen : Screen {
                             .padding(start = 8.dp, end = 8.dp, top = 8.dp)
                     ) {
                         Text("Create Account")
+                        Spacer(modifier = Modifier.width(4.dp))
+                        AnimatedVisibility(isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(25.dp),
+                                color = Color.White
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -273,6 +287,7 @@ class SignupScreen : Screen {
                                 color = Color.Green,
                             )
                             scope.launch {
+                                isLoading = false
                                 delay(2.seconds)
                                 username = ""
                                 emails = ""
