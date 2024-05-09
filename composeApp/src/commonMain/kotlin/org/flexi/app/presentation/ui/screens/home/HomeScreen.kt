@@ -3,7 +3,6 @@ package org.flexi.app.presentation.ui.screens.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +34,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -262,7 +260,7 @@ class HomeScreen : Screen {
                                 navigator?.push(CartList(mutableCartsList))
                             }
                         },
-                        profileImageUrl = if (user?.user?.email?.isNotEmpty()==true) userProfile else null,
+                        profileImageUrl = if (user?.user?.email?.isEmpty() == true) null else userProfile,
                         itemCount = it,
                         onProfileClick = {
                             if (user?.user?.email?.isEmpty() == true) {
@@ -496,13 +494,13 @@ class HomeScreen : Screen {
                 },
                 confirmButton = {
 
-                        Icon(
-                            modifier = Modifier.clickable {
-                                isProfile = !isProfile
-                            },
-                            imageVector = Icons.Outlined.Close,
-                            contentDescription = null
-                        )
+                    Icon(
+                        modifier = Modifier.clickable {
+                            isProfile = !isProfile
+                        },
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = null
+                    )
 
                 },
                 dismissButton = {
