@@ -63,6 +63,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.avatar
 import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.user.UserSession
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -85,9 +86,7 @@ class ProfileScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val user =
-            FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-        val userEmail = user?.user?.email
+        var user: UserSession? = null
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
         val navigator = LocalNavigator.current
@@ -95,7 +94,8 @@ class ProfileScreen : Screen {
             TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
         var productList by remember { mutableStateOf<List<Products>?>(null) }
         var userData by remember { mutableStateOf<User?>(null) }
-        LaunchedEffect(Unit) {
+        LaunchedEffect(user) {
+            user = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
             viewModel.getProducts()
             viewModel.getUserData(1)
         }
@@ -360,7 +360,7 @@ class ProfileScreen : Screen {
 
             }
         }
-        if (user?.user?.email?.isEmpty()==true) {
+        if (user?.user?.email?.isEmpty() == true) {
             androidx.compose.material.AlertDialog(
                 onDismissRequest = {},
                 title = {
@@ -380,7 +380,7 @@ class ProfileScreen : Screen {
                 buttons = {
                     TextButton(
                         onClick = {}
-                    ){
+                    ) {
                         Text("Login")
                     }
                 }

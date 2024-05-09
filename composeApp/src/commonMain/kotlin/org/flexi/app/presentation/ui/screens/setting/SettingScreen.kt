@@ -55,12 +55,14 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.user.UserSession
 import kotlinx.coroutines.launch
 import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.NotificationsAlertDialog
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.setting.account.AccountScreen
 import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
@@ -73,15 +75,15 @@ class SettingScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val user =
-            FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-        val userEmail = user?.user?.email
+        var user: UserSession? = null
+        val userLogout = FlexiApiClient.supaBaseClient.auth
         val navigator = LocalNavigator.current
         val viewMode: MainViewModel = koinInject()
         val notificationsDialogVisible = remember { mutableStateOf(false) }
         var userData by remember { mutableStateOf<User?>(null) }
         val scope = rememberCoroutineScope()
-        LaunchedEffect(Unit) {
+        LaunchedEffect(user) {
+            user = FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
             viewMode.getUserData(1)
         }
         val userState by viewMode.userData.collectAsState()
@@ -222,10 +224,21 @@ class SettingScreen(
                     })
                 }
                 Spacer(modifier = Modifier.height(24.dp))
+                val loginText = if (user?.user?.email?.isEmpty() == true) {
+                    "Login"
+                } else {
+                    "Logout"
+                }
                 Button(
                     onClick = {
                         scope.launch {
-                            viewMode.logout()
+                            if (loginText == "Logout") {
+                                viewMode.logout()
+                                userLogout.clearSession()
+                                userLogout.signOut()
+                            } else {
+                                navigator?.push(LoginScreen())
+                            }
                         }
                     },
                     modifier = Modifier
@@ -237,11 +250,6 @@ class SettingScreen(
                     ),
                     shape = RoundedCornerShape(6.dp)
                 ) {
-                    val loginText = if (user?.user?.email?.isEmpty() == true) {
-                        "Login"
-                    } else {
-                        "Logout"
-                    }
                     Text(
                         loginText,
                         fontSize = 18.sp,
