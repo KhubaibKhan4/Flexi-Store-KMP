@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.Cancel
@@ -61,9 +62,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import flexi_store.composeapp.generated.resources.Res
 import flexi_store.composeapp.generated.resources.avatar
+import io.github.jan.supabase.gotrue.auth
 import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
@@ -82,6 +85,9 @@ class ProfileScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val user =
+            FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+        val userEmail = user?.user?.email
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
         val navigator = LocalNavigator.current
@@ -353,6 +359,32 @@ class ProfileScreen : Screen {
                 }
 
             }
+        }
+        if (userEmail == null) {
+            androidx.compose.material.AlertDialog(
+                onDismissRequest = {},
+                title = {
+                    Text(
+                        text = "Login Required",
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                text = {
+                    Text(
+                        text = "Please login to continue",
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                buttons = {
+                    TextButton(
+                        onClick = {}
+                    ){
+                        Text("Login")
+                    }
+                }
+            )
         }
     }
 
