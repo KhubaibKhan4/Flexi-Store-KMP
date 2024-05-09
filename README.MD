@@ -113,7 +113,7 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 | ![Screenshot 64](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/64.png) | ![Screenshot 65](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/65.png) | ![Screenshot 66](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/66.png) |
 | ![Screenshot 67](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/67.png) | ![Screenshot 68](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/68.png) | ![Screenshot 69](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/69.png) |
 | ![Screenshot 70](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/70.png) | ![Screenshot 71](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/71.png) | ![Screenshot 72](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/72.png) |
-| ![Screenshot 73](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/73.png) |
+| ![Screenshot 73](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/73.png) | ![Screenshot 74](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/89.png) | ![Screenshot 74](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/90.png) |
 
 
 
