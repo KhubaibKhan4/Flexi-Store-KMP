@@ -56,8 +56,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.cart.CartItem
 import org.flexi.app.domain.model.category.Categories
@@ -207,6 +209,10 @@ class HomeScreen : Screen {
             }
         }
 
+        val user =
+            FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+        val userEmail = user?.user?.email
+
         val refreshState = rememberPullRefreshState(refreshing, ::refresh)
 
         Scaffold(
@@ -224,7 +230,9 @@ class HomeScreen : Screen {
                         profileImageUrl = null,
                         itemCount = it,
                         onProfileClick = {
-                            navigator?.push(LoginScreen())
+                            if (userEmail == null) {
+                                navigator?.push(LoginScreen())
+                            }
                         }
                     )
                 }

@@ -47,16 +47,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.sqldelight.db.SqlDriver
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.delay
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
 import org.flexi.app.presentation.ui.navigation.rails.navbar.NavigationSideBar
 import org.flexi.app.presentation.ui.navigation.tabs.favourite.FavouriteTab
 import org.flexi.app.presentation.ui.navigation.tabs.home.HomeTab
+import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.navigation.tabs.profile.ProfileTab
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
@@ -67,7 +71,9 @@ import org.flexi.app.theme.LocalThemeIsDark
 internal fun App() = AppTheme {
     val platform = getPlatform()
     var showSplashScreen by remember { mutableStateOf(true) }
-
+    val user =
+        FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+    val userEmail = user?.user?.email
     LaunchedEffect(Unit) {
         delay(3000)
         showSplashScreen = false
@@ -76,7 +82,11 @@ internal fun App() = AppTheme {
     if (showSplashScreen && platform != Platform.Android) {
         SplashScreen()
     } else {
-        AppContent()
+        if (user?.user?.email != null) {
+            Navigator(MainScreen(userEmail))
+        } else {
+            AppContent()
+        }
     }
 }
 
