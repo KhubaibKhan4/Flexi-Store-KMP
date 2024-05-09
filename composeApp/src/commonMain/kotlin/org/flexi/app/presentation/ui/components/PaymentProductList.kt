@@ -42,7 +42,7 @@ fun PaymentProductList(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(900.dp)
+            .height(400.dp)
             .padding(vertical = 8.dp)
     ) {
         Row(

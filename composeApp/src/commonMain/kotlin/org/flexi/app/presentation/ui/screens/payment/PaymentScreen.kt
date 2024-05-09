@@ -71,6 +71,8 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
 import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
+import org.flexi.app.presentation.ui.screens.order.MyPaymentOrderScreen
+import org.flexi.app.presentation.ui.screens.order.MyProfileOrders
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel
@@ -579,7 +581,7 @@ class PaymentScreen(
                         )
                         FilledIconButton(
                             onClick = {
-                               navigator?.push(MyOrders)
+                                navigator?.push(MyPaymentOrderScreen(orderType = "Orders"))
                             },
                             modifier = Modifier
                                 .fillMaxWidth(.5f)
