@@ -60,7 +60,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **moko-mvvm**: MVVM architecture library for Jetpack Compose.
 
 ### Networking
-* **ktor-core**: Core module of the Ktor HTTP client.
+* **ktor-core**: Core module of the Ktor HTTP client. 
 * **ktor-client-darwin**: Ktor client for iOS.
 * **ktor-client-okhttp**: Ktor client using OkHttp.
 * **ktor-client-js**: Ktor client for JavaScript.
