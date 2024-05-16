@@ -83,8 +83,8 @@ class SignupScreen : Screen {
             onResult = { result -> viewModel.loginGoogle(result) },
             fallback = {}
         )
-        LaunchedEffect(serverBack){
-            if (serverBack.contains("Registered Successfully...")){
+        LaunchedEffect(serverBack) {
+            if (serverBack.contains("Registered Successfully...")) {
                 viewModel.signupUser(username, emails, passwords)
             }
         }
@@ -310,9 +310,4 @@ class SignupScreen : Screen {
             }
         }
     }
-}
-@Composable
-@Preview
-fun Preview() {
-    Text("Welcome")
 }
