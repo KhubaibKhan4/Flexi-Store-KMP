@@ -277,10 +277,8 @@ class SignupScreen : Screen {
                         }
                     )
                     if (serverBack.isNotBlank()) {
-                        if (serverBack.contains("Registered Successfully...") || serverBack.contains(
-                                "Uploaded to Server Successfully "
-                            )
-                        ) {
+                        if (serverBack.contains("Registered Successfully...") || serverBack.contains("Uploaded to Server Successfully ")
+                            ) {
                             Text(
                                 text = "Account created Successfully.",
                                 fontSize = 10.sp,
