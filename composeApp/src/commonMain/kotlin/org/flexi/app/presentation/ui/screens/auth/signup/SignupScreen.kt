@@ -311,3 +311,8 @@ class SignupScreen : Screen {
         }
     }
 }
+@Composable
+@Preview
+fun Preview() {
+    Text("Welcome")
+}
