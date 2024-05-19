@@ -4,7 +4,7 @@
     <application
         android:name=".AndroidApp"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@android:drawable/ic_menu_compass"
+        android:icon="@mipmap/ic_launcher"
         android:label="Flexi-Store"
         android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
