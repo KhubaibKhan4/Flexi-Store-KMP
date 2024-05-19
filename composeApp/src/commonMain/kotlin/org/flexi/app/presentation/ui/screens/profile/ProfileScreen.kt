@@ -218,7 +218,7 @@ class ProfileScreen : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top
                 ) {
-                    fullName?.let {
+                    fullName.let {
                         Text(
                             text = it,
                             fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -226,7 +226,7 @@ class ProfileScreen : Screen {
                         )
                     }
 
-                    userName?.let {
+                    userName.let {
                         Text(
                             text = "@$it",
                             fontSize = MaterialTheme.typography.titleSmall.fontSize,
