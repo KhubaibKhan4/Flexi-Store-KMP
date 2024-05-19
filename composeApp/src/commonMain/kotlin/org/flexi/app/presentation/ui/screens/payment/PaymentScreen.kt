@@ -71,6 +71,7 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
 import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
+import org.flexi.app.presentation.ui.screens.home.HomeScreen
 import org.flexi.app.presentation.ui.screens.order.MyPaymentOrderScreen
 import org.flexi.app.presentation.ui.screens.order.MyProfileOrders
 import org.flexi.app.presentation.ui.screens.payment.model.Order
@@ -548,6 +549,8 @@ class PaymentScreen(
                 ModalBottomSheet(
                     onDismissRequest = {
                         orderPlacement == null
+                        navigator?.push(HomeScreen())
+                        navigator?.popUntilRoot()
                     },
                     sheetState = sheetState,
                 ) {
