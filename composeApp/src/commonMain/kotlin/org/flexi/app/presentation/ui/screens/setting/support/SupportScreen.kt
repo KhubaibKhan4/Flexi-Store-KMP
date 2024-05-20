@@ -142,7 +142,7 @@ fun SupportOption(text: String, onClick: () -> Unit) {
             .padding(vertical = 8.dp)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -151,13 +151,13 @@ fun SupportOption(text: String, onClick: () -> Unit) {
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                color =Color.Black
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = Color.Black,
                 modifier = Modifier.size(20.dp)
             )
         }
