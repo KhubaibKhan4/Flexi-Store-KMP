@@ -31,6 +31,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,18 +52,18 @@ import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant
-import org.jetbrains.compose.resources.Font
 
 @Composable
 fun ElectronicsList(products: List<Products>) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.categoryId == 22 }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .background(color = Color.White)
             .padding(horizontal = 0.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
@@ -76,7 +77,7 @@ fun ElectronicsList(products: List<Products>) {
                 text = "Electronics Accessories",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color =if (isDark) Color.White else Color.Black,
                 modifier = Modifier.padding(start = 4.dp)
             )
             Text(
