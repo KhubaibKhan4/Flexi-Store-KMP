@@ -397,7 +397,7 @@ class HomeScreen : Screen {
                                             text = "All",
                                             fontWeight = if (selectedCategoryIndex == 0) FontWeight.Bold else FontWeight.Normal,
                                             textDecoration = if (selectedCategoryIndex == 0) TextDecoration.Underline else TextDecoration.None,
-                                            color = if (selectedCategoryIndex == 0) Color.Black else Color.Gray,
+                                            color = if (selectedCategoryIndex == 0) if (isDark) Color.White else Color.Black else Color.Gray,
                                             modifier = Modifier.clickable {
                                                 selectedCategoryIndex = 0
                                             }
