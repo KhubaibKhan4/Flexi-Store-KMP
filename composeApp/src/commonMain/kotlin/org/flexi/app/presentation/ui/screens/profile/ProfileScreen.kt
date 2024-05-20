@@ -78,6 +78,7 @@ import org.flexi.app.presentation.ui.screens.order.MyProfileWishList
 import org.flexi.app.presentation.ui.screens.setting.SettingScreen
 import org.flexi.app.presentation.ui.screens.setting.support.SupportScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -86,6 +87,7 @@ class ProfileScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val isDark by LocalThemeIsDark.current
         var user: UserSession? = null
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
@@ -152,7 +154,8 @@ class ProfileScreen : Screen {
                             contentDescription = null,
                             modifier = Modifier.clickable {
                                 navigator?.push(SettingScreen())
-                            }
+                            },
+                            tint = if (isDark) Color.White else Color.Black
                         )
                     },
                     scrollBehavior = scrollBehavior
@@ -162,6 +165,7 @@ class ProfileScreen : Screen {
         ) { padding ->
             Column(
                 modifier = Modifier.fillMaxWidth()
+                    .background(color = if (isDark) MaterialTheme.colorScheme.background else Color.White)
                     .padding(
                         top = padding.calculateTopPadding(),
                         start = 4.dp,
@@ -258,7 +262,7 @@ class ProfileScreen : Screen {
                                 text = "My Orders",
                                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                color =if (isDark) Color.White else Color.Black
                             )
                             Text(
                                 text = "View All",
