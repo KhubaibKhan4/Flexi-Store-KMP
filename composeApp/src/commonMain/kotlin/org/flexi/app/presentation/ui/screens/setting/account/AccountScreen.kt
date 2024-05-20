@@ -260,7 +260,7 @@ fun UserDetailsCard(
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
