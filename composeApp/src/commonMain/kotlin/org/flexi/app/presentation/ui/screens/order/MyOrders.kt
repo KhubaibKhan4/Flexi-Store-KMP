@@ -85,6 +85,7 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -94,6 +95,7 @@ class MyOrdersContent : Screen {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
+        val isDark by LocalThemeIsDark.current
         val viewModel: MainViewModel = koinInject()
         var myOrderData by remember { mutableStateOf<List<Order>?>(null) }
         var productIdsList by remember { mutableStateOf<List<Long>?>(null) }
@@ -166,7 +168,7 @@ class MyOrdersContent : Screen {
                         text = "My Order",
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = if (isDark) Color.White else Color.Black
                     )
                     Icon(
                         imageVector = Icons.Outlined.ShoppingBag,
@@ -197,7 +199,7 @@ class MyOrdersContent : Screen {
                             contentColor = Color.Black,
                             indicator = { tabPositions ->
                                 TabRowDefaults.Indicator(
-                                    color = Color.Black,
+                                    color = if (isDark) Color.White else Color.Black,
                                     height = 2.dp,
                                     modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
                                 )
@@ -211,7 +213,8 @@ class MyOrdersContent : Screen {
                                         Text(
                                             text = title,
                                             fontWeight = FontWeight.Bold,
-                                            fontSize = 16.sp
+                                            fontSize = 16.sp,
+                                            color = if (isDark) Color.White else Color.Black,
                                         )
                                     }
                                 )
