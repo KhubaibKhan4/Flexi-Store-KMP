@@ -40,6 +40,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.components.FeaturedItems
 import org.flexi.app.presentation.ui.screens.payment.model.Order
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.formatOrderDateTime
 
 class OrderDetail(
@@ -67,7 +68,7 @@ class OrderDetail(
                         text = "Need Help?",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color =  Color(0xFF5821c4)
+                        color = Color(0xFF5821c4)
                     )
                 }
             }
@@ -202,12 +203,12 @@ fun FullFilledSection(
                 Spacer(modifier = Modifier.height(4.dp))
                 if (isProductVisible) {
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            repeat(orderQty.toInt()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        repeat(orderQty.toInt()) {
                             FeaturedItems(products)
                         }
                     }
@@ -231,7 +232,7 @@ fun OrderDetailItem(label: String, value: String) {
         )
         Text(
             text = value,
-            color =  Color(0xFF5821c4),
+            color = Color(0xFF5821c4),
             fontSize = 14.sp
         )
     }
@@ -256,7 +257,7 @@ fun OrderQtyItem(label: String, value: String, onArrowClick: () -> Unit) {
         ) {
             Text(
                 text = value,
-                color =  Color(0xFF5821c4),
+                color = Color(0xFF5821c4),
                 fontSize = 14.sp
             )
             Spacer(modifier = Modifier.width(3.dp))
@@ -294,7 +295,7 @@ fun TrackingUrlItem(label: String, value: String) {
         )
         Text(
             text = value,
-            color =  Color(0xFF5821c4),
+            color = Color(0xFF5821c4),
             fontSize = 14.sp,
             textDecoration = TextDecoration.Underline
         )
@@ -303,10 +304,11 @@ fun TrackingUrlItem(label: String, value: String) {
 
 @Composable
 fun SectionTitle(text: String) {
+    val isDark by LocalThemeIsDark.current
     Text(
         text = text,
         modifier = Modifier.padding(horizontal = 16.dp),
-        color = Color.Black,
+        color = if (isDark) Color.White else Color.Black,
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold
     )
