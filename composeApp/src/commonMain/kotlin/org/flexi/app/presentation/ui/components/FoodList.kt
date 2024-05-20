@@ -24,11 +24,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,12 +50,14 @@ import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant
 import org.flexi.app.utils.generateRandomColor
 import org.jetbrains.compose.resources.Font
 
 @Composable
 fun FoodList(products: List<Products>) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.categoryId == 15 }
     Column(
@@ -72,7 +74,7 @@ fun FoodList(products: List<Products>) {
                 text = "Food & Groceries",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = if (isDark) Color.White else Color.Black,
                 modifier = Modifier.padding(start = 10.dp)
             )
             Text(
@@ -82,7 +84,13 @@ fun FoodList(products: List<Products>) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable {
-                        navigator?.push(SeeAllProducts(filteredList, books = null, "Food & Groceries"))
+                        navigator?.push(
+                            SeeAllProducts(
+                                filteredList,
+                                books = null,
+                                "Food & Groceries"
+                            )
+                        )
                     }
                     .padding(end = 16.dp)
             )
@@ -187,7 +195,8 @@ fun FoodItems(
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = FontFamily(Font(Res.font.Roboto_Bold)),
-                    color = Color.White)
+                    color = Color.White
+                )
             }
         }
     }
