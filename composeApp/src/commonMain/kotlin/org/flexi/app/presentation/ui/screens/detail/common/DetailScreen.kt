@@ -74,6 +74,7 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant.BASE_URL
 import org.koin.compose.koinInject
 
@@ -82,6 +83,7 @@ class DetailScreen(
 ) : Screen {
     @Composable
     override fun Content() {
+        val isDark by LocalThemeIsDark.current
         val viewModel: MainViewModel = koinInject()
         val navigator = LocalNavigator.current
         var productItems by remember { mutableStateOf(1) }
@@ -213,7 +215,7 @@ class DetailScreen(
                                 RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                             ),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.White
+                            containerColor =if (isDark) Color.Black else Color.White
                         )
                     ) {
                         Column(
@@ -489,7 +491,7 @@ class DetailScreen(
                                     }
                                     withStyle(
                                         style = SpanStyle(
-                                            color = Color.Black,
+                                            color =if (isDark) Color.White else Color.Black,
                                             fontSize = 24.sp,
                                             fontWeight = FontWeight.Bold
                                         )
