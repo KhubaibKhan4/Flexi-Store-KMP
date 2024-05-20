@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -42,6 +41,7 @@ import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.books.BooksDetail
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant
 import org.flexi.app.utils.generateRandomColor
 import org.jetbrains.compose.resources.Font
@@ -80,7 +80,11 @@ fun BooksList(products: List<BooksItem>) {
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.fillMaxWidth()) // Add divider line
+        Divider(
+            color = Color.LightGray,
+            thickness = 1.dp,
+            modifier = Modifier.fillMaxWidth()
+        ) // Add divider line
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
@@ -99,6 +103,7 @@ fun BooksList(products: List<BooksItem>) {
 fun BooksItems(
     booksItem: BooksItem,
 ) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     val isFav by remember { mutableStateOf(false) }
     val image: Resource<Painter> = asyncPainterResource(Constant.BASE_URL + booksItem.imageUrl)
@@ -112,7 +117,7 @@ fun BooksItems(
         Box(
             modifier = Modifier.fillMaxWidth()
                 .clickable {
-                  navigator?.push(BooksDetail(booksItem))
+                    navigator?.push(BooksDetail(booksItem))
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -142,7 +147,7 @@ fun BooksItems(
             text = booksItem.title,
             fontSize = MaterialTheme.typography.titleMedium.fontSize,
             fontWeight = FontWeight.Bold,
-            color = Color.Black
+            color = if (isDark) Color.White else Color.Black
         )
         Text(
             text = booksItem.author,
