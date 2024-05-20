@@ -1,5 +1,6 @@
 package org.flexi.app.presentation.ui.screens.order
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,12 +53,14 @@ import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.FavouriteList
 import org.flexi.app.presentation.ui.screens.favourite.OptionText
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.koin.compose.koinInject
 
 class MyProfileWishList : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val isDark by LocalThemeIsDark.current
         val viewModel: MainViewModel = koinInject()
         val navigator = LocalNavigator.current
         var productList by remember { mutableStateOf<List<Products>>(emptyList()) }
@@ -118,7 +121,8 @@ class MyProfileWishList : Screen {
                     actions = {
                         Icon(
                             imageVector = Icons.Outlined.Notifications,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = if (isDark) Color.White else Color.Black
                         )
                     },
                     navigationIcon = {
@@ -128,7 +132,8 @@ class MyProfileWishList : Screen {
                             modifier = Modifier.size(25.dp)
                                 .clickable {
                                     navigator?.pop()
-                                }
+                                },
+                            tint = if (isDark) Color.White else Color.Black
                         )
                     },
                     scrollBehavior = scrollBehavior
@@ -138,6 +143,7 @@ class MyProfileWishList : Screen {
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
+                    .background(color = if (isDark) MaterialTheme.colorScheme.background else Color.White)
                     .padding(
                         top = it.calculateTopPadding(),
                         start = 4.dp,

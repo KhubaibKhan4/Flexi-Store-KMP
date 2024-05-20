@@ -42,15 +42,17 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class MyProfileOrders(
-  private val orderType: String
+    private val orderType: String,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val isDark by LocalThemeIsDark.current
         val viewModel: MainViewModel = koinInject()
         val navigator = LocalNavigator.current
         var myOrderData by remember { mutableStateOf<List<Order>?>(null) }
@@ -97,16 +99,15 @@ class MyProfileOrders(
             }
         }
 
-
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            text =if (orderType=="Orders") "My All Orders" else if (orderType=="Processing") "My Processing Orders" else if(orderType=="Cancelled") "My Cancelled Orders" else "My Completed Orders",
+                            text = if (orderType == "Orders") "My All Orders" else if (orderType == "Processing") "My Processing Orders" else if (orderType == "Cancelled") "My Cancelled Orders" else "My Completed Orders",
                             fontSize = MaterialTheme.typography.titleMedium.fontSize,
                             fontWeight = FontWeight.Bold,
-                            color = Color.Black
+                            color = if (isDark) Color.White else Color.Black
                         )
                     },
                     navigationIcon = {
@@ -161,159 +162,159 @@ class MyProfileOrders(
                             }
                         }
                     } else {
-                       if (orderType=="Orders"){
-                           val activeOrders =
-                               myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" || it.orderProgress == "Completed" }
-                           LazyVerticalGrid(
-                               columns = GridCells.Adaptive(300.dp),
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.Center,
-                               verticalArrangement = Arrangement.Center,
-                               contentPadding = PaddingValues(6.dp)
-                           ) {
-                               activeOrders?.let { orders ->
-                                   items(orders) { order ->
-                                       val product =
-                                           productList?.find { it.id == order.productIds }
-                                       product?.let { MyOrderItems(it, order) }
-                                   }
-                               }
-                           }
-                       }else if(orderType=="Processing"){
-                           val activeOrders =
-                               myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way"}
-                           if (activeOrders?.isEmpty()==true){
-                               Column(
-                                   modifier = Modifier.fillMaxWidth()
-                                       .padding(top = it.calculateTopPadding(), bottom = 34.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally,
-                                   verticalArrangement = Arrangement.Center
-                               ) {
-                                   Column(
-                                       modifier = Modifier.fillMaxSize(),
-                                       horizontalAlignment = Alignment.CenterHorizontally,
-                                       verticalArrangement = Arrangement.Center
-                                   ) {
-                                       Image(
-                                           painter = painterResource(Res.drawable.no_item_found),
-                                           contentDescription = null,
-                                           modifier = Modifier.size(250.dp)
-                                       )
-                                       Text(
-                                           text = "No Active Order available",
-                                           modifier = Modifier.padding(12.dp),
-                                           fontWeight = FontWeight.Bold,
-                                           color = Color.Red
-                                       )
-                                   }
-                               }
-                           }
-                           LazyVerticalGrid(
-                               columns = GridCells.Adaptive(300.dp),
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.Center,
-                               verticalArrangement = Arrangement.Center,
-                               contentPadding = PaddingValues(6.dp)
-                           ) {
-                               activeOrders?.let { orders ->
-                                   items(orders) { order ->
-                                       val product =
-                                           productList?.find { it.id == order.productIds }
-                                       product?.let { MyOrderItems(it, order) }
-                                   }
-                               }
-                           }
-                       }else if (orderType == "Completed"){
-                           val activeOrders =
-                               myOrderData?.filter { it.orderProgress == "Completed"}
-                           if (activeOrders?.isEmpty()==true){
-                               Column(
-                                   modifier = Modifier.fillMaxWidth()
-                                       .padding(top = it.calculateTopPadding(), bottom = 34.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally,
-                                   verticalArrangement = Arrangement.Center
-                               ) {
-                                   Column(
-                                       modifier = Modifier.fillMaxSize(),
-                                       horizontalAlignment = Alignment.CenterHorizontally,
-                                       verticalArrangement = Arrangement.Center
-                                   ) {
-                                       Image(
-                                           painter = painterResource(Res.drawable.no_item_found),
-                                           contentDescription = null,
-                                           modifier = Modifier.size(250.dp)
-                                       )
-                                       Text(
-                                           text = "No Active Order available",
-                                           modifier = Modifier.padding(12.dp),
-                                           fontWeight = FontWeight.Bold,
-                                           color = Color.Red
-                                       )
-                                   }
-                               }
-                           }
-                           LazyVerticalGrid(
-                               columns = GridCells.Adaptive(300.dp),
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.Center,
-                               verticalArrangement = Arrangement.Center,
-                               contentPadding = PaddingValues(6.dp)
-                           ) {
-                               activeOrders?.let { orders ->
-                                   items(orders) { order ->
-                                       val product =
-                                           productList?.find { it.id == order.productIds }
-                                       product?.let { MyOrderItems(it, order) }
-                                   }
-                               }
-                           }
-                       }else if (orderType=="Cancelled"){
-                           val activeOrders =
-                               myOrderData?.filter { it.orderProgress == "Cancelled"}
-                           if (activeOrders?.isEmpty()==true){
-                               Column(
-                                   modifier = Modifier.fillMaxWidth()
-                                       .padding(top = it.calculateTopPadding(), bottom = 34.dp),
-                                   horizontalAlignment = Alignment.CenterHorizontally,
-                                   verticalArrangement = Arrangement.Center
-                               ) {
-                                   Column(
-                                       modifier = Modifier.fillMaxSize(),
-                                       horizontalAlignment = Alignment.CenterHorizontally,
-                                       verticalArrangement = Arrangement.Center
-                                   ) {
-                                       Image(
-                                           painter = painterResource(Res.drawable.no_item_found),
-                                           contentDescription = null,
-                                           modifier = Modifier.size(250.dp)
-                                       )
-                                       Text(
-                                           text = "No Cancelled Order available",
-                                           modifier = Modifier.padding(12.dp),
-                                           fontWeight = FontWeight.Bold,
-                                           color = Color.Red
-                                       )
-                                   }
-                               }
-                           }
-                           LazyVerticalGrid(
-                               columns = GridCells.Adaptive(300.dp),
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.Center,
-                               verticalArrangement = Arrangement.Center,
-                               contentPadding = PaddingValues(6.dp)
-                           ) {
-                               activeOrders?.let { orders ->
-                                   items(orders) { order ->
-                                       val product =
-                                           productList?.find { it.id == order.productIds }
-                                       product?.let { MyOrderItems(it, order) }
-                                   }
-                               }
-                           }
-                       }else{
-                           EmptyOrder()
-                       }
+                        if (orderType == "Orders") {
+                            val activeOrders =
+                                myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" || it.orderProgress == "Completed" }
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(300.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalArrangement = Arrangement.Center,
+                                contentPadding = PaddingValues(6.dp)
+                            ) {
+                                activeOrders?.let { orders ->
+                                    items(orders) { order ->
+                                        val product =
+                                            productList?.find { it.id == order.productIds }
+                                        product?.let { MyOrderItems(it, order) }
+                                    }
+                                }
+                            }
+                        } else if (orderType == "Processing") {
+                            val activeOrders =
+                                myOrderData?.filter { it.orderProgress == "On Progress" || it.orderProgress == "On The Way" }
+                            if (activeOrders?.isEmpty() == true) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = it.calculateTopPadding(), bottom = 34.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Image(
+                                            painter = painterResource(Res.drawable.no_item_found),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(250.dp)
+                                        )
+                                        Text(
+                                            text = "No Active Order available",
+                                            modifier = Modifier.padding(12.dp),
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Red
+                                        )
+                                    }
+                                }
+                            }
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(300.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalArrangement = Arrangement.Center,
+                                contentPadding = PaddingValues(6.dp)
+                            ) {
+                                activeOrders?.let { orders ->
+                                    items(orders) { order ->
+                                        val product =
+                                            productList?.find { it.id == order.productIds }
+                                        product?.let { MyOrderItems(it, order) }
+                                    }
+                                }
+                            }
+                        } else if (orderType == "Completed") {
+                            val activeOrders =
+                                myOrderData?.filter { it.orderProgress == "Completed" }
+                            if (activeOrders?.isEmpty() == true) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = it.calculateTopPadding(), bottom = 34.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Image(
+                                            painter = painterResource(Res.drawable.no_item_found),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(250.dp)
+                                        )
+                                        Text(
+                                            text = "No Active Order available",
+                                            modifier = Modifier.padding(12.dp),
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Red
+                                        )
+                                    }
+                                }
+                            }
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(300.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalArrangement = Arrangement.Center,
+                                contentPadding = PaddingValues(6.dp)
+                            ) {
+                                activeOrders?.let { orders ->
+                                    items(orders) { order ->
+                                        val product =
+                                            productList?.find { it.id == order.productIds }
+                                        product?.let { MyOrderItems(it, order) }
+                                    }
+                                }
+                            }
+                        } else if (orderType == "Cancelled") {
+                            val activeOrders =
+                                myOrderData?.filter { it.orderProgress == "Cancelled" }
+                            if (activeOrders?.isEmpty() == true) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = it.calculateTopPadding(), bottom = 34.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Image(
+                                            painter = painterResource(Res.drawable.no_item_found),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(250.dp)
+                                        )
+                                        Text(
+                                            text = "No Cancelled Order available",
+                                            modifier = Modifier.padding(12.dp),
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Red
+                                        )
+                                    }
+                                }
+                            }
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(300.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalArrangement = Arrangement.Center,
+                                contentPadding = PaddingValues(6.dp)
+                            ) {
+                                activeOrders?.let { orders ->
+                                    items(orders) { order ->
+                                        val product =
+                                            productList?.find { it.id == order.productIds }
+                                        product?.let { MyOrderItems(it, order) }
+                                    }
+                                }
+                            }
+                        } else {
+                            EmptyOrder()
+                        }
                     }
 
 
