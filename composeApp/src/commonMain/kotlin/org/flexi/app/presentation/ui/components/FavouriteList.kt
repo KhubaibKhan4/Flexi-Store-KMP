@@ -32,6 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,6 +51,7 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant
 
 @Composable
@@ -75,6 +77,7 @@ fun FavouriteList(
 fun FavouriteItem(
     products: Products,
 ) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     val image: Resource<Painter> =
         asyncPainterResource(data = Constant.BASE_URL + products.imageUrl)
@@ -190,7 +193,7 @@ fun FavouriteItem(
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
-                color = Color.Black,
+                color =if (isDark) Color.White else Color.Black,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth()
