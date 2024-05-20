@@ -275,7 +275,6 @@ class HomeScreen : Screen {
         ) {
             Box(
                 Modifier
-                    .padding(top = 40.dp)
                     .pullRefresh(refreshState),
             ) {
                 Column(
