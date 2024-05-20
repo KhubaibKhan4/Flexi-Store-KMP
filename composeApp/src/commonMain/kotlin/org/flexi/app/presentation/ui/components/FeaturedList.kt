@@ -62,11 +62,13 @@ import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant.BASE_URL
 import org.jetbrains.compose.resources.Font
 
 @Composable
 fun FeaturedList(products: List<Products>) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.isFeatured }
     Column(
@@ -83,7 +85,7 @@ fun FeaturedList(products: List<Products>) {
                 text = "Featured",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color =if (isDark) Color.White else Color.Black,
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
             Text(
