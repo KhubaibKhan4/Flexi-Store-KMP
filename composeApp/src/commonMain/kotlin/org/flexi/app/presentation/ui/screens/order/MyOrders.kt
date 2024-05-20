@@ -329,6 +329,7 @@ fun MyOrderItems(
     products: Products,
     order: Order,
 ) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     var trackOrder by remember { mutableStateOf(false) }
     Card(
@@ -569,7 +570,7 @@ fun MyOrderItems(
                         fontWeight = FontWeight.Bold,
                         fontSize = MaterialTheme.typography.titleLarge.fontSize,
                         modifier = Modifier.padding(vertical = 8.dp),
-                        color = if (order.orderProgress == "Completed") Color(0xFF5821c4) else Color.Black
+                        color = if (order.orderProgress == "Completed") Color(0xFF5821c4) else if (isDark) Color.White else Color.Black
                     )
                     Icon(
                         modifier = Modifier.clickable {
@@ -620,6 +621,7 @@ fun OrderStatusItem(
     time: String,
     orderProgress: String,
 ) {
+    val isDark by LocalThemeIsDark.current
     val progressStatus = when (orderProgress) {
         "On Progress" -> ProgressStatus.ON_PROGRESS
         "On The Way" -> ProgressStatus.ON_THE_WAY
@@ -634,7 +636,7 @@ fun OrderStatusItem(
     }
 
     val textColor =
-        if (progressStatus == ProgressStatus.COMPLETED) Color(0xFF5821c4) else Color.Black
+        if (progressStatus == ProgressStatus.COMPLETED) Color(0xFF5821c4) else if (isDark) Color.White else Color.Black
 
     Row(
         modifier = Modifier.fillMaxWidth(),
