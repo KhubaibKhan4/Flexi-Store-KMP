@@ -93,7 +93,7 @@ fun PromotionCardWithPager(promotions: List<PromotionsProductsItem>) {
                         .fillMaxSize()
                         .padding(8.dp),
                     elevation = 8.dp,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) {
                     if (activePromotions.isNotEmpty() && page in activePromotions.indices) {
                         val image: Resource<Painter> =
