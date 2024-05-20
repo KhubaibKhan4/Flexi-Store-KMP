@@ -70,6 +70,7 @@ import org.flexi.app.presentation.ui.screens.setting.address.AddressScreen
 import org.flexi.app.presentation.ui.screens.setting.country.CountryScreen
 import org.flexi.app.presentation.ui.screens.setting.privacy.PrivacyScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.koin.compose.koinInject
 
 class SettingScreen(
@@ -269,6 +270,7 @@ class SettingScreen(
         icon: ImageVector,
         onClick: () -> Unit,
     ) {
+        val isDark by LocalThemeIsDark.current
         Card(
             modifier = Modifier.fillMaxWidth()
                 .clickable {
@@ -278,7 +280,7 @@ class SettingScreen(
             shape = RoundedCornerShape(6.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White,
-                contentColor = MaterialTheme.colorScheme.onSurface
+                contentColor =if (isDark) Color.Black else Color.Black
             ),
 
             ) {
@@ -305,7 +307,7 @@ class SettingScreen(
                         Text(
                             text = text,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = Color.Black
                         )
                     }
                     Row(
@@ -313,12 +315,12 @@ class SettingScreen(
                     ) {
                         Text(
                             text = forwardText,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = Color.Black
                         )
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface,
+                            tint = Color.Black,
                             modifier = Modifier.size(20.dp)
                         )
                     }
