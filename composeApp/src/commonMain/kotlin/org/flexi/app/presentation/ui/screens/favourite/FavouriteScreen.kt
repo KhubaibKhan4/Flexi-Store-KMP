@@ -1,6 +1,7 @@
 package org.flexi.app.presentation.ui.screens.favourite
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,6 +53,7 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.FavouriteList
 import org.flexi.app.presentation.viewmodels.MainViewModel
+import org.flexi.app.theme.LocalThemeIsDark
 import org.koin.compose.koinInject
 
 
@@ -59,6 +61,7 @@ class FavouriteScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val isDark by LocalThemeIsDark.current
         val viewModel: MainViewModel = koinInject()
         var productList by remember { mutableStateOf<List<Products>>(emptyList()) }
         var filteredProductList by remember { mutableStateOf<List<Products>>(emptyList()) }
@@ -118,7 +121,8 @@ class FavouriteScreen : Screen {
                     actions = {
                         Icon(
                             imageVector = Icons.Outlined.Notifications,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = if (isDark) Color.White else Color.Black
                         )
                     },
                     scrollBehavior = scrollBehavior
@@ -128,6 +132,7 @@ class FavouriteScreen : Screen {
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
+                    .background(color = if (isDark) MaterialTheme.colorScheme.background else Color.White)
                     .padding(
                         top = it.calculateTopPadding(),
                         start = 4.dp,
@@ -230,9 +235,10 @@ fun OptionText(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
+    val isDark by LocalThemeIsDark.current
     val backgroundColor = if (isSelected) Color(0xFF5821c4) else Color.Transparent
     val borderColor = if (isSelected) Color.Transparent else Color.LightGray
-    val textColor = if (isSelected) Color.White else Color.Black
+    val textColor = if (isSelected) Color.White else if (isDark) Color.White else Color.Black
 
     FilledTonalButton(
         onClick = { onClick() },
