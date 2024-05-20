@@ -54,18 +54,19 @@ import io.kamel.image.asyncPainterResource
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.presentation.ui.screens.detail.all.SeeAllProducts
 import org.flexi.app.presentation.ui.screens.detail.common.DetailScreen
+import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.Constant
 import org.jetbrains.compose.resources.Font
 
 @Composable
 fun FurnituresList(products: List<Products>) {
+    val isDark by LocalThemeIsDark.current
     val navigator = LocalNavigator.current
     val filteredList = products.filter { it.categoryId == 13 }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp)
-            .background(color = Color.White)
             .padding(horizontal = 0.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
@@ -79,7 +80,7 @@ fun FurnituresList(products: List<Products>) {
                 text = "Furniture & Decor",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color =if (isDark) Color.White else Color.Black,
                 modifier = Modifier.padding(start = 4.dp)
             )
             Text(
