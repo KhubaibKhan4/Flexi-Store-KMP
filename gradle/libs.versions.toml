@@ -18,7 +18,7 @@ kotlinx-datetime = "0.5.0"
 koin = "3.5.4"
 size = "0.3.1"
 kamel = "0.9.4"
-sqlDelight = "2.0.1"
+sqlDelight = "2.0.2"
 
 [libraries]
 
