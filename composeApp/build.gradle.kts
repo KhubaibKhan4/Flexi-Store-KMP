@@ -195,8 +195,8 @@ buildConfig {
 sqldelight {
     databases {
         create("MyDatabase") {
-            // Database configuration here.
-            // https://cashapp.github.io/sqldelight
+            //Database configuration here.
+            //https://cashapp.github.io/sqldelight
             packageName.set("org.flexi.app.db")
             srcDirs.setFrom("src/commonMain/sqldelight")
         }
