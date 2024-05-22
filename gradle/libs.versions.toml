@@ -1,7 +1,7 @@
 [versions]
 
 composeAuth = "2.3.1"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 compose = "1.6.10"
 agp = "8.3.2"
 androidx-activityCompose = "1.9.0"
@@ -64,3 +64,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
