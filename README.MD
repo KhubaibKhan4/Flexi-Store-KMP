@@ -57,7 +57,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **kotlinx-coroutines-test**: Testing utilities for Kotlin coroutines.
 
 ### MVVM Architecture
-* **moko-mvvm**: MVVM architecture library for Jetpack Compose.
+* **Official LifeCycle**: MVVM architecture library for Jetpack Compose.
 
 ### Networking
 * **ktor-core**: Core module of the Ktor HTTP client. 
