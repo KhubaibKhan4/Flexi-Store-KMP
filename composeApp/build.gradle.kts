@@ -182,9 +182,6 @@ compose.desktop {
         }
     }
 }
-compose {
-    kotlinCompilerPlugin = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable:2.0.0-RC2"
-}
 compose.experimental {
     web.application {}
 }
