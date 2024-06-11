@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -119,7 +120,7 @@ fun FurnitureItems(
     val navigator = LocalNavigator.current
     val isFav by remember { mutableStateOf(false) }
     val image: Resource<Painter> = asyncPainterResource(Constant.BASE_URL + products.imageUrl)
-
+    val density = LocalDensity.current
     Box(
         modifier = Modifier
             .width(150.dp)
@@ -131,11 +132,10 @@ fun FurnitureItems(
                 .align(Alignment.TopStart)
         ) {
             BoxWithConstraints {
-                val cardHeight = constraints.maxHeight - 60
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(cardHeight.dp)
+                        .height(300.dp)
                         .clickable {
                             navigator?.push(DetailScreen(products))
                         },
