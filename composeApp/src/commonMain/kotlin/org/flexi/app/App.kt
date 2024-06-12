@@ -64,6 +64,7 @@ import org.flexi.app.presentation.ui.navigation.tabs.home.HomeTab
 import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.navigation.tabs.profile.ProfileTab
+import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
 import org.flexi.app.theme.LocalThemeIsDark
@@ -257,3 +258,5 @@ expect fun getPlatform(): Platform
 expect class DriverFactory() {
     fun createDriver(): SqlDriver
 }
+expect fun generateInvoicePdf(order: Order): ByteArray
+expect fun saveInvoiceToFile(data: ByteArray, fileName: String)

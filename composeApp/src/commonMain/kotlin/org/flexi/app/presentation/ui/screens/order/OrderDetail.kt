@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -38,8 +39,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.flexi.app.domain.model.products.Products
+import org.flexi.app.generateInvoicePdf
 import org.flexi.app.presentation.ui.components.FeaturedItems
 import org.flexi.app.presentation.ui.screens.payment.model.Order
+import org.flexi.app.saveInvoiceToFile
 import org.flexi.app.theme.LocalThemeIsDark
 import org.flexi.app.utils.formatOrderDateTime
 
@@ -87,6 +90,12 @@ class OrderDetail(
                 OrderDetailsSection(order)
                 OrderStatusSection(order)
                 FullFilledSection(products, order)
+                Button(onClick = {
+                    val invoiceData = generateInvoicePdf(order)
+                    saveInvoiceToFile(invoiceData, "invoice_${order.id}.pdf")
+                }) {
+                    Text("Download Invoice")
+                }
             }
         }
     }
