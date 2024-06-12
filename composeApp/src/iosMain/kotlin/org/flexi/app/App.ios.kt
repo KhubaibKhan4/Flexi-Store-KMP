@@ -14,7 +14,39 @@ internal actual fun openUrl(url: String?) {
     val nsUrl = url?.let { NSURL.URLWithString(it) } ?: return
     UIApplication.sharedApplication.openURL(nsUrl)
 }
+@objc class PDFGenerator: NSObject {
+    @objc static func generateInvoice(orderId: Int, userId: Int, orderDate: String, deliveryDate: String, productIds: [Int], totalQuantity: Int, totalPrice: Double) -> Data {
+        let pdfData = NSMutableData()
+        UIGraphicsBeginPDFContextToData(pdfData, CGRect.zero, nil)
+        UIGraphicsBeginPDFPage()
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(UIColor.black.cgColor)
 
+        let text = """
+        Invoice
+        Order #\(orderId)
+        Customer ID: #\(userId)
+        Order Date: \(orderDate)
+        Delivery Date: \(deliveryDate)
+        Product: \(productIds)
+        Quantity: \(totalQuantity)
+        Price: \(totalPrice)
+        Total: \(totalPrice)
+        """
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+                let attributes = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12),
+        NSAttributedString.Key.paragraphStyle: paragraphStyle
+        ]
+
+        text.draw(in: CGRect(x: 100, y: 50, width: 400, height: 700), withAttributes: attributes)
+
+        UIGraphicsEndPDFContext()
+        return pdfData as Data
+    }
+}
 actual fun getPlatform(): Platform {
     return Platform.IOS
 }
@@ -25,22 +57,27 @@ actual class DriverFactory actual constructor() {
     }
 }
 actual fun generateInvoicePdf(order: Order): ByteArray {
-    // Implement PDF generation using Swift
-    // Call the Swift function from Kotlin
+    val data = PDFGenerator.generateInvoice(
+        orderId = order.id,
+        userId = order.userId,
+        orderDate = order.orderDate,
+        deliveryDate = order.deliveryDate,
+        productIds = order.productIds.toIntArray(),
+        totalQuantity = order.totalQuantity,
+        totalPrice = order.totalPrice
+    )
+    return data.toByteArray()
 }
 
 actual fun saveInvoiceToFile(data: ByteArray, fileName: String) {
-    val file = createFileInDocumentsDirectory(fileName)
-    file.writeBytes(data)
-    val documentInteractionController = UIDocumentInteractionController.interactionControllerWithURL(NSURL.fileURLWithPath(file.absolutePath))
-    documentInteractionController.delegate = object : NSObject(), UIDocumentInteractionControllerDelegateProtocol {}
-    documentInteractionController.presentOptionsMenuFromRect(CGRectZero, UIWindow.keyWindow, true)
-}
-
-// Swift function to create a file in the Documents directory
-fun createFileInDocumentsDirectory(fileName: String): File {
     val fileManager = NSFileManager.defaultManager
     val documentsURL = fileManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask).lastObject as NSURL
     val fileURL = documentsURL.URLByAppendingPathComponent(fileName)
-    return File(fileURL.path)
+    data.usePinned {
+        NSData.dataWithBytes(it.addressOf(0), data.size.toULong()).writeToURL(fileURL, true)
+    }
+
+    val documentInteractionController = UIDocumentInteractionController.interactionControllerWithURL(fileURL)
+    documentInteractionController.delegate = object : NSObject(), UIDocumentInteractionControllerDelegateProtocol {}
+    documentInteractionController.presentOptionsMenuFromRect(CGRectZero, UIWindow.keyWindow, true)
 }
