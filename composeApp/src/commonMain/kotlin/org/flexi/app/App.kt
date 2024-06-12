@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
@@ -129,11 +130,11 @@ fun AppContent() {
         Scaffold(modifier = Modifier.fillMaxWidth(),
             bottomBar = {
                 if (!showNavigationRail) {
-                    BottomNavigation(
+                    NavigationBar(
                         modifier = Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.ime),
-                        backgroundColor = MaterialTheme.colorScheme.background,
+                        containerColor = MaterialTheme.colorScheme.background,
                         contentColor = contentColorFor(Color.Red),
-                        elevation = 8.dp
+                        tonalElevation = 8.dp
                     ) {
                         TabItem(HomeTab)
                         TabItem(MyOrders)
@@ -213,7 +214,6 @@ fun RowScope.TabItem(tab: Tab) {
     val tabNavigator = LocalTabNavigator.current
     NavigationBarItem(
         modifier = Modifier.fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
             .height(58.dp).clip(RoundedCornerShape(16.dp)),
         selected = tabNavigator.current == tab,
         onClick = {
