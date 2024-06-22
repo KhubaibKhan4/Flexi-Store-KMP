@@ -44,8 +44,6 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 ### Voyager Navigator
 * **voyager-navigator**: A navigation library for Jetpack Compose.
 
-### Compose Image Loader
-* **composeImageLoader**: A library for loading images in Jetpack Compose applications.
 
 ### Logging
 * **napier**: A logging library for Kotlin Multiplatform projects.
