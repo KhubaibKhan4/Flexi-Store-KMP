@@ -19,8 +19,10 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.Parameters
 import io.ktor.http.isSuccess
+import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
@@ -59,6 +61,8 @@ object FlexiApiClient {
                     println(message)
                 }
             }
+            filter { filter -> filter.url.host.contains("192.168.10") }
+            sanitizeHeader { header -> header==HttpHeaders.Authorization }
         }
         install(HttpTimeout) {
             socketTimeoutMillis = TIME_OUT
