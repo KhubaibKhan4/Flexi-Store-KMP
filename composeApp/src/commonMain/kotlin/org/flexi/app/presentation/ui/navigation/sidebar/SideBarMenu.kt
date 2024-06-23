@@ -31,11 +31,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
+import org.flexi.app.theme.LocalThemeIsDark
 
 @Composable
 fun SidebarMenu(
@@ -44,6 +49,7 @@ fun SidebarMenu(
     onMenuItemClick: (Int) -> Unit,
     initialExpandedState: Boolean = true,
 ) {
+    val isDark by LocalThemeIsDark.current
     var isExpanded by remember { mutableStateOf(initialExpandedState) }
     val expandIcon = if (isExpanded) Icons.Default.ArrowBack else Icons.Default.ArrowForward
     val sidebarWidth by animateDpAsState(targetValue = if (isExpanded) 200.dp else 75.dp)
@@ -52,13 +58,15 @@ fun SidebarMenu(
         modifier = Modifier
             .width(sidebarWidth)
             .fillMaxHeight()
-            .background(Color(0xFFf1f4f9))
+            .background(if (isDark) MaterialTheme.colorScheme.surface else Color(0xFFf1f4f9))
             .padding(16.dp)
     ) {
         if (isExpanded) {
             Text(
                 text = "Flexi-Store",
-                style = MaterialTheme.typography.headlineSmall,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF007BFF),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
@@ -101,8 +109,9 @@ fun MenuItem(
     onMenuItemClick: () -> Unit,
     expanded: Boolean
 ) {
-    val backgroundColor = if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else Color.Transparent
-    val contentColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+    val isDark by LocalThemeIsDark.current
+    val backgroundColor = if (selected) Color(0xFF007BFF) else Color.Transparent
+    val contentColor = if (selected) Color.White else if (isDark) White else Black
 
     Row(
         modifier = Modifier
