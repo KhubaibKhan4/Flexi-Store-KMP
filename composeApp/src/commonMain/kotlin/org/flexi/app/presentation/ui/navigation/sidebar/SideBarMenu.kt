@@ -14,11 +14,17 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MenuOpen
+import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -51,7 +57,7 @@ fun SidebarMenu(
 ) {
     val isDark by LocalThemeIsDark.current
     var isExpanded by remember { mutableStateOf(initialExpandedState) }
-    val expandIcon = if (isExpanded) Icons.Default.ArrowBack else Icons.Default.ArrowForward
+    val expandIcon = if (isExpanded) Icons.Default.MenuOpen else Icons.Default.Menu
     val sidebarWidth by animateDpAsState(targetValue = if (isExpanded) 200.dp else 75.dp)
 
     Column(
@@ -61,14 +67,25 @@ fun SidebarMenu(
             .background(if (isDark) MaterialTheme.colorScheme.surface else Color(0xFFf1f4f9))
             .padding(16.dp)
     ) {
-        if (isExpanded) {
-            Text(
-                text = "Flexi-Store",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF007BFF),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.ShoppingBag,
+                contentDescription = null,
+                modifier = Modifier.size(30.dp),
+                tint = Color(0xFF007BFF)
             )
+            if (isExpanded) {
+                Text(
+                    text = "Flexi-Store",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF007BFF),
+                )
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         IconButton(
@@ -107,7 +124,7 @@ fun MenuItem(
     icon: ImageVector,
     selected: Boolean,
     onMenuItemClick: () -> Unit,
-    expanded: Boolean
+    expanded: Boolean,
 ) {
     val isDark by LocalThemeIsDark.current
     val backgroundColor = if (selected) Color(0xFF007BFF) else Color.Transparent
@@ -118,7 +135,10 @@ fun MenuItem(
             .fillMaxWidth()
             .clickable(onClick = onMenuItemClick)
             .background(backgroundColor, shape = RoundedCornerShape(8.dp))
-            .padding(horizontal = if (expanded) 16.dp else 4.dp, vertical =if (expanded) 8.dp else 4.dp)
+            .padding(
+                horizontal = if (expanded) 16.dp else 4.dp,
+                vertical = if (expanded) 8.dp else 4.dp
+            )
             .height(48.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
