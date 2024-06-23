@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -59,12 +60,17 @@ import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
 import org.flexi.app.presentation.ui.navigation.rails.navbar.NavigationSideBar
+import org.flexi.app.presentation.ui.navigation.sidebar.SidebarMenu
 import org.flexi.app.presentation.ui.navigation.tabs.favourite.FavouriteTab
 import org.flexi.app.presentation.ui.navigation.tabs.home.HomeTab
 import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
 import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
 import org.flexi.app.presentation.ui.navigation.tabs.profile.ProfileTab
+import org.flexi.app.presentation.ui.screens.favourite.FavouriteScreen
+import org.flexi.app.presentation.ui.screens.home.HomeScreen
+import org.flexi.app.presentation.ui.screens.order.MyOrdersContent
 import org.flexi.app.presentation.ui.screens.payment.model.Order
+import org.flexi.app.presentation.ui.screens.profile.ProfileScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
 import org.flexi.app.theme.LocalThemeIsDark
@@ -127,87 +133,67 @@ fun AppContent() {
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
-    TabNavigator(HomeTab) { tabNavigator ->
-        Scaffold(modifier = Modifier.fillMaxWidth(),
-            bottomBar = {
-                if (!showNavigationRail) {
-                    NavigationBar(
-                        modifier = Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.ime),
-                        containerColor = MaterialTheme.colorScheme.background,
-                        contentColor = contentColorFor(Color.Red),
-                        tonalElevation = 8.dp
-                    ) {
-                        TabItem(HomeTab)
-                        TabItem(MyOrders)
-                        TabItem(FavouriteTab)
-                        TabItem(ProfileTab)
+
+    Scaffold(
+        bottomBar = {
+            if (!showNavigationRail) {
+                NavigationBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.ime),
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = contentColorFor(Color.Red),
+                    tonalElevation = 8.dp
+                ) {
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            selected = selectedItemIndex == index,
+                            onClick = { selectedItemIndex = index },
+                            icon = {
+                                Icon(
+                                    imageVector = if (selectedItemIndex == index) item.selectedIcon else item.unselectedIcon,
+                                    contentDescription = item.title
+                                )
+                            },
+                            label = { Text(item.title) }
+                        )
                     }
                 }
-            }) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-                    .navigationBarsPadding()
-                    .padding(
-                        top = it.calculateTopPadding(),
-                        start = if (showNavigationRail) 80.dp else 0.dp
-                    )
-            ) {
-                CurrentTab()
             }
         }
-    }
-    if (showNavigationRail) {
-        NavigationSideBar(
-            items = items,
-            selectedItemIndex = selectedItemIndex,
-            onNavigate = {
-                selectedItemIndex = it
-            }
-        )
-
-        Box(
-            modifier = Modifier.fillMaxSize()
-                .padding(start = 80.dp)
+    ) { innerPadding ->
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = innerPadding.calculateTopPadding())
         ) {
-            when (selectedItemIndex) {
-                0 -> {
+            if (showNavigationRail) {
+                SidebarMenu(
+                    items = items,
+                    selectedItemIndex = selectedItemIndex,
+                    onMenuItemClick = { index ->
+                        selectedItemIndex = index
+                    },
+                    initialExpandedState = true
+                )
+            }
 
-                }
-
-                1 -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                    ) {
-                        TabNavigator(MyOrders)
-                    }
-                }
-
-                2 -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                    ) {
-                        TabNavigator(FavouriteTab)
-                    }
-                }
-
-                3 -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                    ) {
-                        TabNavigator(ProfileTab)
-                    }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = if (showNavigationRail) 0.dp else 0.dp)
+            ) {
+                when (selectedItemIndex) {
+                    0 -> Navigator(HomeScreen())
+                    1 -> Navigator(MyOrdersContent())
+                    2 -> Navigator(FavouriteScreen())
+                    3 -> Navigator(ProfileScreen())
                 }
             }
         }
-
     }
 }
+
 
 @Composable
 fun RowScope.TabItem(tab: Tab) {
