@@ -101,6 +101,7 @@ internal fun App() = AppTheme {
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun AppContent() {
+    val isDark by LocalThemeIsDark.current
     val items = listOf(
         NavigationItem(
             title = "Home",
@@ -141,7 +142,7 @@ fun AppContent() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .windowInsetsPadding(WindowInsets.ime),
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = if (isDark) Color.Black else Color.White,
                     contentColor = contentColorFor(Color.Red),
                     tonalElevation = 8.dp
                 ) {
