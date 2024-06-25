@@ -164,6 +164,10 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 
 Flexi-Store is developed using Ktor and is mandatory for the backend of the Flexi-Store-KMP. You can find the Flexi-Store server repository [here](https://github.com/KhubaibKhan4/Flexi-Store-Server).
 
+## Flexi-Store Admin
+
+Flexi-Store Admin is also developed using Compose Multiplatform. You can find the Flexi-Store Admin repository [here](https://github.com/KhubaibKhan4/Flexi-Store-Admin).
+
 ## Before running!
  - check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
  - install JDK 17 or higher on your machine
