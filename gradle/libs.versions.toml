@@ -17,7 +17,7 @@ kotlinx-serialization = "1.6.3"
 kotlinx-datetime = "0.6.0"
 koin = "3.5.4"
 size = "0.5.0"
-kamel = "0.9.4"
+kamel = "0.9.5"
 sqlDelight = "2.0.2"
 
 [libraries]
