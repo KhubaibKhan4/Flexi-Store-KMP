@@ -175,7 +175,7 @@ fun AppContent() {
                     onMenuItemClick = { index ->
                         selectedItemIndex = index
                     },
-                    initialExpandedState = true
+                    initialExpandedState = false
                 )
             }
 
