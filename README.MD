@@ -92,6 +92,9 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 
 These technologies are utilized to develop a robust and feature-rich Kotlin Multiplatform Ecommerce application that supports Android, iOS, Web, and Desktop platforms.
 
+  ## 💰 You can help me by Donating
+  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/khubaibkhan) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/18.bscs) [![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/MuhammadKhubaibImtiaz) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/muhammadkhubaibimtiaz) 
+
 ## Mobile Screen Shots
 
 | ![Screenshot 1](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/1.png) | ![Screenshot 2](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/2.png) | ![Screenshot 3](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/3.png) |
@@ -163,6 +166,10 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 ## Flexi-Store Backend
 
 Flexi-Store is developed using Ktor and is mandatory for the backend of the Flexi-Store-KMP. You can find the Flexi-Store server repository [here](https://github.com/KhubaibKhan4/Flexi-Store-Server).
+
+## Flexi-Store Admin
+
+Flexi-Store Admin is also developed using Compose Multiplatform. You can find the Flexi-Store Admin repository [here](https://github.com/KhubaibKhan4/Flexi-Store-Admin).
 
 ## Before running!
  - check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
