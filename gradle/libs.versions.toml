@@ -1,6 +1,5 @@
 [versions]
 
-composeAuth = "2.3.1"
 kotlin = "2.0.0"
 compose = "1.6.11"
 agp = "8.2.2"
