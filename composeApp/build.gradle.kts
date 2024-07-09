@@ -114,7 +114,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.sqlDelight.driver.sqlite)
-            implementation("org.apache.pdfbox:pdfbox:2.0.24")
+            implementation(libs.pdfbox)
         }
 
         jsMain.dependencies {

@@ -5,6 +5,7 @@ compose = "1.6.11"
 agp = "8.2.2"
 androidx-activityCompose = "1.9.0"
 androidx-uiTest = "1.6.8"
+pdfbox = "2.0.24"
 voyager = "1.1.0-beta02"
 composeImageLoader = "1.8.1"
 napier = "2.7.1"
@@ -24,6 +25,7 @@ sqlDelight = "2.0.2"
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
 androidx-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
+pdfbox = { module = "org.apache.pdfbox:pdfbox", version.ref = "pdfbox" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
