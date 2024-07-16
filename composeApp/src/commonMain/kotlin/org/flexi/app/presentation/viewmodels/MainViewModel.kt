@@ -18,9 +18,7 @@ import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.repository.Repository
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.screens.payment.model.Order
-import org.koin.android.annotation.KoinViewModel
 
-@KoinViewModel
 class MainViewModel(
     private val repository: Repository,
 ) : ViewModel() {

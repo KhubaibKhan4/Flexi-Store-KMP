@@ -1,9 +1,7 @@
 package org.flexi.app
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
@@ -11,11 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeliveryDining
 import androidx.compose.material.icons.filled.Favorite
@@ -26,7 +22,6 @@ import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
@@ -50,22 +45,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.sqldelight.db.SqlDriver
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
-import cafe.adriel.voyager.navigator.tab.TabNavigator
 import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.delay
 import org.flexi.app.data.remote.FlexiApiClient
+import org.flexi.app.di.appModule
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
-import org.flexi.app.presentation.ui.navigation.rails.navbar.NavigationSideBar
 import org.flexi.app.presentation.ui.navigation.sidebar.SidebarMenu
-import org.flexi.app.presentation.ui.navigation.tabs.favourite.FavouriteTab
-import org.flexi.app.presentation.ui.navigation.tabs.home.HomeTab
 import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
-import org.flexi.app.presentation.ui.navigation.tabs.orders.MyOrders
-import org.flexi.app.presentation.ui.navigation.tabs.profile.ProfileTab
 import org.flexi.app.presentation.ui.screens.favourite.FavouriteScreen
 import org.flexi.app.presentation.ui.screens.home.HomeScreen
 import org.flexi.app.presentation.ui.screens.order.MyOrdersContent
@@ -74,28 +63,35 @@ import org.flexi.app.presentation.ui.screens.profile.ProfileScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
 import org.flexi.app.theme.LocalThemeIsDark
+import org.koin.compose.KoinApplication
 
 @Composable
 internal fun App() = AppTheme {
-    val platform = getPlatform()
-    var showSplashScreen by remember { mutableStateOf(true) }
-    val user =
-        FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-    val userEmail = user?.user?.email
-    LaunchedEffect(Unit) {
-        delay(3000)
-        showSplashScreen = false
-    }
+   KoinApplication(
+       application = {
+           modules(appModule)
+       }
+   ){
+       val platform = getPlatform()
+       var showSplashScreen by remember { mutableStateOf(true) }
+       val user =
+           FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+       val userEmail = user?.user?.email
+       LaunchedEffect(Unit) {
+           delay(3000)
+           showSplashScreen = false
+       }
 
-    if (showSplashScreen && platform != Platform.Android) {
-        SplashScreen()
-    } else {
-        if (user?.user?.email != null) {
-            Navigator(MainScreen(userEmail))
-        } else {
-            AppContent()
-        }
-    }
+       if (showSplashScreen && platform != Platform.Android) {
+           SplashScreen()
+       } else {
+           if (user?.user?.email != null) {
+               Navigator(MainScreen(userEmail))
+           } else {
+               AppContent()
+           }
+       }
+   }
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -245,5 +241,6 @@ expect fun getPlatform(): Platform
 expect class DriverFactory() {
     fun createDriver(): SqlDriver
 }
+
 expect fun generateInvoicePdf(order: Order): ByteArray
 expect fun saveInvoiceToFile(data: ByteArray, fileName: String)

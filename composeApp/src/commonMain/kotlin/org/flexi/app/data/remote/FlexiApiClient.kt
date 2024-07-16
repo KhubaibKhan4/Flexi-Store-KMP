@@ -1,11 +1,8 @@
 package org.flexi.app.data.remote
 
 import io.github.jan.supabase.compose.auth.ComposeAuth
-import io.github.jan.supabase.compose.auth.googleNativeLogin
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
-import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
@@ -22,7 +19,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Parameters
 import io.ktor.http.isSuccess
-import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
@@ -35,13 +31,12 @@ import org.flexi.app.domain.model.user.User
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.TIME_OUT
-import org.koin.core.annotation.Single
 
 object FlexiApiClient {
     val supaBaseClient = createSupabaseClient(
         supabaseUrl = "https://flrflqyxquvzhlvfcbit.supabase.co",
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscmZscXl4cXV2emhsdmZjYml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MjA3MDgsImV4cCI6MjAzMDI5NjcwOH0.HjJVA5yZdXIKHmICMxucgOJqYSz-APT_pYyEKr9FvaE"
-    ){
+    ) {
         install(Auth)
         install(ComposeAuth)
     }
@@ -62,7 +57,7 @@ object FlexiApiClient {
                 }
             }
             filter { filter -> filter.url.host.contains("192.168.10") }
-            sanitizeHeader { header -> header==HttpHeaders.Authorization }
+            sanitizeHeader { header -> header == HttpHeaders.Authorization }
         }
         install(HttpTimeout) {
             socketTimeoutMillis = TIME_OUT
@@ -202,12 +197,15 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
+
     suspend fun deleteUserCart(id: Int): String {
         return client.delete(BASE_URL + "v1/cart/$id").body()
     }
+
     suspend fun getMyOrders(userId: Int): List<Order> {
         return client.get(BASE_URL + "v1/order/userId/$userId").body()
     }
+
     @OptIn(InternalAPI::class)
     suspend fun updateCountry(
         usersId: Int,
@@ -221,6 +219,7 @@ object FlexiApiClient {
             body = FormDataContent(formData)
         }.body()
     }
+
     @OptIn(InternalAPI::class)
     suspend fun updateUsersDetails(
         usersId: Int,

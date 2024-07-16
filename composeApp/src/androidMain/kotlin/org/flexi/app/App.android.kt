@@ -27,11 +27,6 @@ class AndroidApp : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        startKoin {
-            androidContext(this@AndroidApp)
-            androidLogger()
-            modules(appModule)
-        }
     }
 }
 

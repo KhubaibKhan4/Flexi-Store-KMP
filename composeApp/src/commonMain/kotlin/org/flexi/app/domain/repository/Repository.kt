@@ -9,7 +9,6 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.presentation.ui.screens.payment.model.Order
-import org.koin.core.annotation.Single
 
 class Repository : FlexiApi {
     override suspend fun loginUser(email: String, password: String): String {

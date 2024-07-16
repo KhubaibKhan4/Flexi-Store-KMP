@@ -7,9 +7,7 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.presentation.ui.screens.payment.model.Order
-import org.koin.core.annotation.Single
 
-@Single
 interface FlexiApi {
     suspend fun loginUser(email: String, password: String): String
     suspend fun signupUser(username: String, email: String, password: String): String
