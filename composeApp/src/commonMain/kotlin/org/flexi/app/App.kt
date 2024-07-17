@@ -82,7 +82,7 @@ internal fun App() = AppTheme {
            showSplashScreen = false
        }
 
-       if (showSplashScreen && platform != Platform.Android) {
+       if (showSplashScreen) {
            SplashScreen()
        } else {
            if (user?.user?.email != null) {
