@@ -149,12 +149,6 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 </p>
 
 <p align="center">
-<img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/13.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/14.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/15.jpg" width="30%" />
-</p>
-
-<p align="center">
   <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/16.jpg" width="30%" />
   <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/17.jpg" width="30%" />
   <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/18.jpg" width="30%" />
