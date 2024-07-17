@@ -20,9 +20,9 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Product Reviews and Ratings**: Leave reviews and ratings for products to help other users make informed decisions.
 * **Inventory Management**: Inventory tools for sellers to track stock levels and manage product listings.
 * **Analytics and Reporting**: Track key metrics such as sales performance and user engagement with analytics and reporting features.
+* **Seller Central**: Allow users to register as sellers and manage their own stores, including product listings, order management, and analytics.
 
 ## Future Planning Features
-* **Seller Central**: Allow users to register as sellers and manage their own stores, including product listings, order management, and analytics.
 * **Social Media Integration**: Enable sharing products, reviews, and purchases on social media platforms for increased visibility and engagement.
 * **AI-Powered Recommendations**: Implement machine learning algorithms to improve product recommendations and personalize the shopping experience further.
 * **Voice Search**: Integrate voice search functionality for hands-free navigation and product discovery.
