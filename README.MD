@@ -10,7 +10,6 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Product Recommendations**: Advanced recommendation engine suggests products based on user preferences and browsing history.
 * **Advanced Search**: Filter, sort, and search for products efficiently with advanced search options.
 * **Order Tracking**: Real-time order tracking provides updates on order processing, shipping, and delivery status.
-* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
 * **Responsive Design**: Responsive user interface optimized for various screen sizes and resolutions.
 * **Push Notifications**: Keep users informed with push notifications for order updates, new products, and promotions.
 * **Social Media Integration**: Share products, reviews, and store links on social media platforms.
@@ -23,6 +22,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Seller Central**: Allow users to register as sellers and manage their own stores, including product listings, order management, and analytics.
 
 ## Future Planning Features
+* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
 * **Social Media Integration**: Enable sharing products, reviews, and purchases on social media platforms for increased visibility and engagement.
 * **AI-Powered Recommendations**: Implement machine learning algorithms to improve product recommendations and personalize the shopping experience further.
 * **Voice Search**: Integrate voice search functionality for hands-free navigation and product discovery.
@@ -116,6 +116,73 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 | ![Screenshot 70](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/70.png) | ![Screenshot 71](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/71.png) | ![Screenshot 72](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/72.png) |
 | ![Screenshot 73](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/73.png) | ![Screenshot 74](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/89.png) | ![Screenshot 74](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/90.png) |
 
+## iOS Screen Shots
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/1.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/2.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/3.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/4.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/5.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/6.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/7.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/8.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/9.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/10.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/11.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/12.jpg" width="30%" />
+</p>
+
+<p align="center">
+ <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/13.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/14.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/15.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/16.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/17.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/18.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/19.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/20.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/21.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/22.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/23.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/24.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/25.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/26.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/27.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/28.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/29.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/30.jpg" width="30%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/36.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/37.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/38.jpg" width="30%" />
+</p>
 
 
 
