@@ -10,7 +10,6 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Product Recommendations**: Advanced recommendation engine suggests products based on user preferences and browsing history.
 * **Advanced Search**: Filter, sort, and search for products efficiently with advanced search options.
 * **Order Tracking**: Real-time order tracking provides updates on order processing, shipping, and delivery status.
-* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
 * **Responsive Design**: Responsive user interface optimized for various screen sizes and resolutions.
 * **Push Notifications**: Keep users informed with push notifications for order updates, new products, and promotions.
 * **Social Media Integration**: Share products, reviews, and store links on social media platforms.
@@ -23,6 +22,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Seller Central**: Allow users to register as sellers and manage their own stores, including product listings, order management, and analytics.
 
 ## Future Planning Features
+* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
 * **Social Media Integration**: Enable sharing products, reviews, and purchases on social media platforms for increased visibility and engagement.
 * **AI-Powered Recommendations**: Implement machine learning algorithms to improve product recommendations and personalize the shopping experience further.
 * **Voice Search**: Integrate voice search functionality for hands-free navigation and product discovery.
