@@ -3,7 +3,6 @@ name: Test Lint
 on:
   workflow_call:
 
-
 jobs:
   lint_debug:
     runs-on: ubuntu-latest
@@ -20,7 +19,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Make Gradlew Executable
-        uses: chmod +x ./gradlew
+        run: chmod +x ./gradlew
 
       - name: Execute Gradle Command
-        uses: ./gradlew lintDebug
+        run: ./gradlew lintDebug

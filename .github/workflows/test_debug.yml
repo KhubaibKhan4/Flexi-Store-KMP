@@ -19,7 +19,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Make Gradlew Executable
-        uses: chmod +x ./gradlew
+        run: chmod +x ./gradlew
 
       - name: Run Command
-        uses: :composeApp:cleanJvmTest :composeApp:jvmTest --tests "org.flexi.app.ComposeTest"
+        run: :composeApp:cleanJvmTest :composeApp:jvmTest --tests "org.flexi.app.ComposeTest"
