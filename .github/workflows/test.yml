@@ -1,16 +1,16 @@
-name: Test CMP
+name: On Push or Pull Request Open
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
-  run_cmp:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  lint:
+    name: Lint Debug
+    uses: ./.github/workflows/test_lint_check.yml
 
-      - name: Checkout the System
-        run: echo Checkout System
-
-      - name: Run Command
-        run: echo Run Command
+  debug:
+    name: Test Debug
+    uses: ./.github/workflows/test_debug.yml
