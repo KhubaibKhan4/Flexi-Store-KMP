@@ -2,10 +2,10 @@ name: Test Debug
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
-    branches: [master]
-  workflow_run:
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   test_debug:
@@ -17,8 +17,8 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-            distribution: 'temurin'
-            java-version: '17'
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
