@@ -201,3 +201,8 @@ sqldelight {
     }
 }
 task("testClasses") {}
+tasks {
+    register("lintKotlinMultiplatform") {
+        dependsOn("lint")
+    }
+}
