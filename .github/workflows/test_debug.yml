@@ -1,4 +1,4 @@
-name: Test Debug
+name: Compose Test Debug
 
 on:
   push:
