@@ -1,4 +1,4 @@
-name: Test Lint
+name: Assemble Debug
 
 on:
   workflow_call:
@@ -22,4 +22,4 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute Gradle Command
-        run: ./gradlew lintKotlinMultiplatform lintDebug
+        run: ./gradlew assembleDebug
