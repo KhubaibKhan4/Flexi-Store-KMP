@@ -1,7 +1,11 @@
 name: Test Debug
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_run:
 
 jobs:
   test_debug:
@@ -23,4 +27,4 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute Gradle command - testDebugUnitTest
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew :composeApp:cleanJvmTest :composeApp:jvmTest --tests "org.flexi.app.ComposeTest"
