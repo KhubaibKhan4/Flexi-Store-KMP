@@ -40,7 +40,6 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **androidx-activityCompose**: For integrating Compose with Android activities.
 * **androidx-testManifest**: Provides testing support for Jetpack Compose.
 * **androidx-junit4**: Integration of JUnit 4 for Compose UI testing.
-
 ### Voyager Navigator
 * **voyager-navigator**: A navigation library for Jetpack Compose.
 
@@ -89,6 +88,9 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **sqlDelight-driver-android**: Android driver for SQLDelight.
 * **sqlDelight-driver-native**: Native driver for SQLDelight.
 * **sqlDelight-driver-js**: Web worker driver for SQLDelight.
+
+### Native Notifications 
+* **alert-kmp**: Native Notifications for Android, iOS, Web and Desktop.
 
 These technologies are utilized to develop a robust and feature-rich Kotlin Multiplatform Ecommerce application that supports Android, iOS, Web, and Desktop platforms.
 
