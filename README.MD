@@ -33,6 +33,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Expanded Payment Options**: Add support for additional payment methods, such as cryptocurrencies, digital wallets, and installment plans.
 * **Community Forums**: Create community forums or discussion boards for users to interact, share tips, and ask questions related to products and shopping.
 * **Gamification**: Incorporate gamification elements like loyalty programs, challenges, and rewards to enhance user engagement and retention.
+* **Ai Scrapping**
 
 ## Technologies Used
 
