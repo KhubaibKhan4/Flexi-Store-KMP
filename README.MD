@@ -35,6 +35,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Gamification**: Incorporate gamification elements like loyalty programs, challenges, and rewards to enhance user engagement and retention.
 * **Ai Scrapping**
 * **Deployment on Heroku or Google Cloud**
+* **Deployment on Appstore and Playstore.
 
 ## Technologies Used
 
