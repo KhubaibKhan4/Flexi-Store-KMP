@@ -271,3 +271,6 @@ Run iOS simulator UI tests: `./gradlew :composeApp:iosSimulatorArm64Test`
 Run the browser application: `./gradlew :composeApp:jsBrowserDevelopmentRun --continue`
 Run browser UI tests: `./gradlew :composeApp:jsBrowserTest`
 
+### Report Issues
+If you find any issue or wanted to have certain features, please report them in the issues tab or in the discussion tab.
+
