@@ -36,6 +36,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Ai Scrapping**
 * **Deployment on Heroku or Google Cloud**
 * **Deployment on Appstore and Playstore.**
+* **Server Driven UI implementation**
 
 ## Technologies Used
 
