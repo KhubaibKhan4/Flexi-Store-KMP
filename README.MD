@@ -1,5 +1,5 @@
 # Flexi-Store-KMP
-![Flexi-Store-KMP](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/banner.png)
+![Flexi-Store-KMP](https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/poster.png)
 
 Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Server as a Backend & Supports Android, iOS, Web & Desktop. Basically, It's an Amazon Clone & Will contains all the features in the future including the Seller Central too where users can register and sell their products to earn.
 
