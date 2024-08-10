@@ -21,17 +21,17 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **Seller Central**
 
 ## Future Planning Features
-* **Multi-language Support**: Support for multiple languages to cater to a diverse user base.
-* **Social Media Integration**: Enable sharing products, reviews, and purchases on social media platforms for increased visibility and engagement.
-* **AI-Powered Recommendations**: Implement machine learning algorithms to improve product recommendations and personalize the shopping experience further.
-* **Voice Search**: Integrate voice search functionality for hands-free navigation and product discovery.
-* **Augmented Reality**: Utilize AR technology to enable virtual product try-on and visualization before purchase.
-* **Blockchain Integration**: Explore blockchain technology for enhanced security, transparency, and traceability in transactions and supply chain management.
-* **Subscription Services**: Introduce subscription-based services for regular product deliveries, memberships, or premium content access.
-* **Offline Mode**: Develop offline functionality to allow users to browse products and make purchases without an internet connection.
-* **Expanded Payment Options**: Add support for additional payment methods, such as cryptocurrencies, digital wallets, and installment plans.
-* **Community Forums**: Create community forums or discussion boards for users to interact, share tips, and ask questions related to products and shopping.
-* **Gamification**: Incorporate gamification elements like loyalty programs, challenges, and rewards to enhance user engagement and retention.
+* **Multi-language Support**
+* **Social Media Integration**
+* **AI-Powered Recommendations**
+* **Voice Search**
+* **Augmented Reality**
+* **Blockchain Integration**
+* **Subscription Services**
+* **Offline Mode**
+* **Expanded Payment Options**
+* **Community Forums**
+* **Gamification**
 * **Ai Scrapping**
 * **Deployment on Heroku or Google Cloud**
 * **Deployment on Appstore and Playstore.**
