@@ -51,49 +51,49 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **napier**: A logging library for Kotlin Multiplatform projects.
 
 ### Kotlin Coroutines
-* **kotlinx-coroutines-core**: Core module for Kotlin coroutines.
-* **kotlinx-coroutines-android**: Coroutines support for Android.
-* **kotlinx-coroutines-swing**: Coroutines support for Swing.
-* **kotlinx-coroutines-test**: Testing utilities for Kotlin coroutines.
+* **kotlinx-coroutines-core**
+* **kotlinx-coroutines-android**
+* **kotlinx-coroutines-swing**
+* **kotlinx-coroutines-test**
 
 ### MVVM Architecture
-* **Official LifeCycle**: MVVM architecture library for Jetpack Compose.
+* **Official LifeCycle**
 
 ### Networking
-* **ktor-core**: Core module of the Ktor HTTP client. 
-* **ktor-client-darwin**: Ktor client for iOS.
-* **ktor-client-okhttp**: Ktor client using OkHttp.
-* **ktor-client-js**: Ktor client for JavaScript.
-* **ktor-content-negotiation**: Content negotiation support for Ktor clients.
-* **ktor-serialization-json**: JSON serialization support for Ktor.
-* **ktor-logging**: Logging support for Ktor clients.
-* **ktor-client-curl**: Ktor client for cURL.
-* **ktor-client-winhttp**: Ktor client for Windows HTTP stack.
+* **ktor-core**
+* **ktor-client-darwin**
+* **ktor-client-okhttp**
+* **ktor-client-js**
+* **ktor-content-negotiation**
+* **ktor-serialization-json**
+* **ktor-logging**
+* **ktor-client-curl**
+* **ktor-client-winhttp**
 
 ### Serialization
-* **kotlinx-serialization-json**: JSON serialization library for Kotlin.
+* **kotlinx-serialization-json**
 
 ### Date and Time
-* **kotlinx-datetime**: Date and time library for Kotlin Multiplatform.
+* **kotlinx-datetime**
 
 ### Dependency Injection
-* **koin-core**: Core module of the Koin dependency injection framework.
-* **koin-annotations**: Annotations for Koin dependency injection.
+* **koin-core**
+* **koin-annotations**
 
 ### Image Handling
-* **kamel-image**: Image library for Kotlin Multiplatform.
+* **kamel-image**
 
 ### Material Design
-* **screen-size**: Material Design library for handling window size class in Jetpack Compose.
+* **screen-size**
 
 ### Database
-* **sqlDelight-driver-sqlite**: SQLite driver for SQLDelight.
-* **sqlDelight-driver-android**: Android driver for SQLDelight.
-* **sqlDelight-driver-native**: Native driver for SQLDelight.
-* **sqlDelight-driver-js**: Web worker driver for SQLDelight.
+* **sqlDelight-driver-sqlite**
+* **sqlDelight-driver-android**
+* **sqlDelight-driver-native**
+* **sqlDelight-driver-js**
 
 ### Native Notifications 
-* **alert-kmp**: Native Notifications for Android, iOS, Web and Desktop.
+* **alert-kmp**
 
 These technologies are utilized to develop a robust and feature-rich Kotlin Multiplatform Ecommerce application that supports Android, iOS, Web, and Desktop platforms.
 
