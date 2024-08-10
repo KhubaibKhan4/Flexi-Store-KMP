@@ -40,15 +40,16 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 ## Technologies Used
 
 ### Jetpack Compose Dependencies
-* **androidx-activityCompose**: For integrating Compose with Android activities.
-* **androidx-testManifest**: Provides testing support for Jetpack Compose.
-* **androidx-junit4**: Integration of JUnit 4 for Compose UI testing.
-### Voyager Navigator
-* **voyager-navigator**: A navigation library for Jetpack Compose.
+* **androidx-activityCompose**
+* **androidx-testManifest**
+* **androidx-junit4**
+
+### Navigation
+* **voyager-navigator**
 
 
 ### Logging
-* **napier**: A logging library for Kotlin Multiplatform projects.
+* **napier**
 
 ### Kotlin Coroutines
 * **kotlinx-coroutines-core**
