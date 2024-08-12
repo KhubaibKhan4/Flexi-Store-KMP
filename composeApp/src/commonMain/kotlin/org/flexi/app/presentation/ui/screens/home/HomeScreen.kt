@@ -109,12 +109,12 @@ class HomeScreen : Screen {
     override fun Content() {
         var productsList by remember { mutableStateOf<List<Products>?>(null) }
         var promoList by remember { mutableStateOf<List<PromotionsProductsItem>?>(null) }
-        var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }
+        var categoriesList by remember { mutableStateOf<List<Categories>?>(null) }            
         var booksList by remember { mutableStateOf<List<BooksItem>?>(null) }
         var cartItemList by remember { mutableStateOf<List<CartItem>?>(null) }
         var userData by remember { mutableStateOf<User?>(null) }
         var isProfile by remember { mutableStateOf(false) }
-        val viewModel: MainViewModel = koinInject()
+        val viewModel: MainViewModel = koinInject()          
         val scrollState = rememberScrollState()
         val navigator = LocalNavigator.current
         var selectedCategoryIndex by remember { mutableStateOf(0) }
@@ -137,7 +137,6 @@ class HomeScreen : Screen {
             is ResultState.Loading -> {
                 LoadingBox()
             }
-
             is ResultState.Success -> {
                 val response = (state as ResultState.Success).response
                 productsList = response
