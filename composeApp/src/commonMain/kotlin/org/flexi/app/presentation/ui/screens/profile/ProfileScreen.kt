@@ -8,7 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Row 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -107,11 +107,12 @@ class ProfileScreen : Screen {
                 val error = (productState as ResultState.Error).error
                 ErrorBox(error)
             }
-
+ 
             ResultState.Loading -> {
                 //LoadingBox()
             }
 
+            
             is ResultState.Success -> {
                 val products = (productState as ResultState.Success).response
                 productList =
@@ -134,6 +135,7 @@ class ProfileScreen : Screen {
                 userData = products
             }
         }
+        
         val userName = userData?.username.toString() ?: "@am_pablo"
         val fullName = userData?.fullName.toString() ?: "Pablo Valdes"
         val profileImage: Resource<Painter> =
