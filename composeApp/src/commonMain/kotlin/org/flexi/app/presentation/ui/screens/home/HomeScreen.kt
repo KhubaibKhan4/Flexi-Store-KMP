@@ -127,6 +127,7 @@ class HomeScreen : Screen {
             viewModel.getCartsList(1)
             viewModel.getUserData(141)
         }
+        
         val state by viewModel.products.collectAsState()
         when (state) {
             is ResultState.Error -> {
@@ -158,6 +159,7 @@ class HomeScreen : Screen {
                 promoList = response
             }
         }
+        
         val categoriesState by viewModel.categories.collectAsState()
         when (categoriesState) {
             is ResultState.Error -> {
@@ -190,6 +192,7 @@ class HomeScreen : Screen {
                 booksList = response
             }
         }
+        
         val cartState by viewModel.carts.collectAsState()
         when (cartState) {
             is ResultState.Error -> {
@@ -222,6 +225,7 @@ class HomeScreen : Screen {
                 userData = products
             }
         }
+        
         var isDark by LocalThemeIsDark.current
         val isSearching = query.isNotBlank()
 
@@ -430,6 +434,7 @@ class HomeScreen : Screen {
                         }
                     }
                 }
+                
                 PullRefreshIndicator(
                     refreshing = refreshing,
                     state = refreshState,
@@ -438,6 +443,7 @@ class HomeScreen : Screen {
                 )
             }
         }
+        
         if (isProfile) {
             AlertDialog(
                 onDismissRequest = { isProfile = false },
