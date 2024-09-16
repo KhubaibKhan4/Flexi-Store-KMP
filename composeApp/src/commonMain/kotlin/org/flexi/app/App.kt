@@ -43,7 +43,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.cash.sqldelight.db.SqlDriver
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -238,9 +237,6 @@ fun RowScope.TabItem(tab: Tab) {
 
 internal expect fun openUrl(url: String?)
 expect fun getPlatform(): Platform
-expect class DriverFactory() {
-    fun createDriver(): SqlDriver
-}
 
 expect fun generateInvoicePdf(order: Order): ByteArray
 expect fun saveInvoiceToFile(data: ByteArray, fileName: String)

@@ -4,9 +4,6 @@ import ComposeApp
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-init(){
-Main_iosKt.doInitKoin()
-}
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?

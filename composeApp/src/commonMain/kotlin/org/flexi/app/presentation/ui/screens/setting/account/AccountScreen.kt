@@ -34,7 +34,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,11 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import createNotification
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
-import org.flexi.app.presentation.ui.components.ErrorBox
-import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.koin.compose.koinInject
 
@@ -76,7 +72,6 @@ class AccountScreen(
         var editedCountry by remember { mutableStateOf(user.country) }
         var editedPostalCode by remember { mutableStateOf(user.postalCode) }
         var editedPhoneNumber by remember { mutableStateOf(user.phoneNumber) }
-        val notification = createNotification(type = NotificationType.TOAST)
 
         val usersState by viewModel.updateUsersDetails.collectAsState()
         when(usersState){
@@ -90,7 +85,6 @@ class AccountScreen(
             is ResultState.Success -> {
                 val response = (usersState as ResultState.Success).response
                 isUpdated = response
-                notification.show(response.toString())
             }
         }
         Scaffold(

@@ -1,12 +1,9 @@
 package org.flexi.app
 
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.PDType1Font
-import org.flexi.app.db.MyDatabase
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import java.awt.Desktop
@@ -23,15 +20,6 @@ actual fun getPlatform(): Platform {
     return Platform.Desktop
 }
 
-actual class DriverFactory actual constructor() {
-    actual fun createDriver(): SqlDriver {
-        val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
-        if (!File("YouTubeDatabase.db").exists()) {
-            MyDatabase.Schema.create(driver)
-        }
-        return driver
-    }
-}
 actual fun generateInvoicePdf(order: Order): ByteArray {
     val document = PDDocument()
     val page = PDPage()

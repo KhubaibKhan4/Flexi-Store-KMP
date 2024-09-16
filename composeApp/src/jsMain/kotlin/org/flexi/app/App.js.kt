@@ -1,12 +1,8 @@
 package org.flexi.app
 
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import io.kamel.core.utils.URL
 import kotlinx.browser.document
 import kotlinx.browser.window
-import kotlinx.datetime.internal.JsNonModule
-import org.flexi.app.db.MyDatabase
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.w3c.dom.HTMLAnchorElement
@@ -21,13 +17,6 @@ actual fun getPlatform(): Platform {
     return Platform.Web
 }
 
-actual class DriverFactory actual constructor() {
-    actual fun createDriver(): SqlDriver {
-        val workerScriptUrl = js("import.meta.url.replace('kotlin', 'node_modules/@cashapp/sqldelight-sqljs-worker/sqljs.worker.js')")
-        val driver = WebWorkerDriver(workerScriptUrl).also { MyDatabase.Schema.create(it) }
-        return driver
-    }
-}
 external class jsPDF {
     fun text(text: String, x: Int, y: Int)
     fun save(filename: String)

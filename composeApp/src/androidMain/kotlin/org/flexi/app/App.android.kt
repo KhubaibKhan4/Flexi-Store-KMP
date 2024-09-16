@@ -10,7 +10,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import org.flexi.app.db.MyDatabase
 import org.flexi.app.di.appModule
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.screens.payment.model.Order
@@ -52,12 +51,6 @@ actual fun getPlatform(): Platform {
     return Platform.Android
 }
 
-actual class DriverFactory actual constructor() {
-    private var context: Context = AndroidApp.INSTANCE.applicationContext
-    actual fun createDriver(): SqlDriver {
-        return AndroidSqliteDriver(MyDatabase.Schema, context, "MyDatabase.db")
-    }
-}
 
 actual fun generateInvoicePdf(order: Order): ByteArray {
     val pdfDocument = android.graphics.pdf.PdfDocument()

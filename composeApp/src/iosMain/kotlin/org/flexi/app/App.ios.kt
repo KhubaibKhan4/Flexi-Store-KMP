@@ -1,83 +1,101 @@
 package org.flexi.app
 
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.native.NativeSqliteDriver
-import org.flexi.app.db.MyDatabase
+import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.readBytes
+import kotlinx.cinterop.reinterpret
+import kotlinx.cinterop.usePinned
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.screens.payment.model.Order
-import platform.Foundation.*
-import platform.UIKit.*
+import platform.CoreGraphics.CGRectMake
+import platform.Foundation.NSData
+import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSFileManager
+import platform.Foundation.NSMutableData
 import platform.Foundation.NSURL
+import platform.Foundation.NSUserDomainMask
+import platform.Foundation.create
+import platform.Foundation.writeToFile
+import platform.UIKit.NSFontAttributeName
+import platform.UIKit.NSMutableParagraphStyle
+import platform.UIKit.NSParagraphStyleAttributeName
+import platform.UIKit.NSTextAlignmentLeft
 import platform.UIKit.UIApplication
+import platform.UIKit.UIFont
+import platform.UIKit.UIGraphicsBeginPDFContextToData
+import platform.UIKit.UIGraphicsBeginPDFPageWithInfo
+import platform.UIKit.UIGraphicsEndPDFContext
+import platform.UIKit.UIGraphicsGetCurrentContext
+import platform.posix.memcpy
 
 internal actual fun openUrl(url: String?) {
     val nsUrl = url?.let { NSURL.URLWithString(it) } ?: return
     UIApplication.sharedApplication.openURL(nsUrl)
 }
-@objc class PDFGenerator: NSObject {
-    @objc static func generateInvoice(orderId: Int, userId: Int, orderDate: String, deliveryDate: String, productIds: [Int], totalQuantity: Int, totalPrice: Double) -> Data {
-        let pdfData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdfData, CGRect.zero, nil)
-        UIGraphicsBeginPDFPage()
-        let context = UIGraphicsGetCurrentContext()
-        context?.setFillColor(UIColor.black.cgColor)
 
-        let text = """
-        Invoice
-        Order #\(orderId)
-        Customer ID: #\(userId)
-        Order Date: \(orderDate)
-        Delivery Date: \(deliveryDate)
-        Product: \(productIds)
-        Quantity: \(totalQuantity)
-        Price: \(totalPrice)
-        Total: \(totalPrice)
-        """
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .left
-                let attributes = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12),
-        NSAttributedString.Key.paragraphStyle: paragraphStyle
-        ]
-
-        text.draw(in: CGRect(x: 100, y: 50, width: 400, height: 700), withAttributes: attributes)
-
-        UIGraphicsEndPDFContext()
-        return pdfData as Data
-    }
-}
 actual fun getPlatform(): Platform {
     return Platform.IOS
 }
+@OptIn(ExperimentalForeignApi::class)
+actual fun generateInvoicePdf(order: Order): ByteArray {
+    val pdfData = NSMutableData()
+    val pageSize = CGRectMake(0.0, 0.0, 612.0, 792.0)
 
-actual class DriverFactory actual constructor() {
-    actual fun createDriver(): SqlDriver {
-        return NativeSqliteDriver(MyDatabase.Schema,"YouTubeDatabase.db")
+    UIGraphicsBeginPDFContextToData(pdfData, pageSize, null)
+    UIGraphicsBeginPDFPageWithInfo(pageSize, null)
+
+    val context = UIGraphicsGetCurrentContext()
+
+    val text = """
+        Invoice
+        Order #${order.id}
+        Customer ID: #${order.userId}
+        Order Date: ${order.orderDate}
+        Delivery Date: ${order.deliveryDate}
+        Products: ${order.productIds}
+        Quantity: ${order.totalQuantity}
+        Total Price: ${order.totalPrice}
+    """.trimIndent()
+
+    val paragraphStyle = NSMutableParagraphStyle().apply { NSTextAlignmentLeft }
+    val attributes: Map<Any?, Any?> = mapOf(
+        NSFontAttributeName to UIFont.systemFontOfSize(12.0),
+        NSParagraphStyleAttributeName to paragraphStyle
+    )
+    UIGraphicsEndPDFContext()
+
+    return pdfData.bytes.let {
+        it?.reinterpret<ByteVar>()!!.readBytes(pdfData.length.toInt())
     }
 }
-actual fun generateInvoicePdf(order: Order): ByteArray {
-    val data = PDFGenerator.generateInvoice(
-        orderId = order.id,
-        userId = order.userId,
-        orderDate = order.orderDate,
-        deliveryDate = order.deliveryDate,
-        productIds = order.productIds.toIntArray(),
-        totalQuantity = order.totalQuantity,
-        totalPrice = order.totalPrice
-    )
-    return data.toByteArray()
-}
-
+@OptIn(ExperimentalForeignApi::class)
 actual fun saveInvoiceToFile(data: ByteArray, fileName: String) {
     val fileManager = NSFileManager.defaultManager
-    val documentsURL = fileManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask).lastObject as NSURL
-    val fileURL = documentsURL.URLByAppendingPathComponent(fileName)
-    data.usePinned {
-        NSData.dataWithBytes(it.addressOf(0), data.size.toULong()).writeToURL(fileURL, true)
+    val documentsDirectory = fileManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask).firstOrNull()
+
+    val documentPath = documentsDirectory
+
+    val nsData = data.usePinned { pinnedData ->
+        NSData.create(bytes = pinnedData.addressOf(0), length = data.size.toULong())
     }
 
-    val documentInteractionController = UIDocumentInteractionController.interactionControllerWithURL(fileURL)
-    documentInteractionController.delegate = object : NSObject(), UIDocumentInteractionControllerDelegateProtocol {}
-    documentInteractionController.presentOptionsMenuFromRect(CGRectZero, UIWindow.keyWindow, true)
+     try {
+        nsData.writeToFile(documentPath.toString(), true)
+        documentPath.toString()
+    } catch (e: Exception){
+        "Failed to save PDF: ${e.message}"
+    }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+fun NSData.toByteArray(): ByteArray {
+    return this.bytes?.let { bytesPointer ->
+        ByteArray(this.length.toInt()).apply {
+            usePinned { pinned ->
+                memcpy(pinned.addressOf(0), bytesPointer, this@toByteArray.length)
+            }
+        }
+    } ?: ByteArray(0)
 }
