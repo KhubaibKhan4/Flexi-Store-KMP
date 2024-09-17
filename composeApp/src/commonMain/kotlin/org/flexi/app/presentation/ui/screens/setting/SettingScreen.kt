@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -143,10 +144,11 @@ class SettingScreen(
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(),
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
                 )
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
+                .offset(y = (-70).dp)
         ) {
             Column(
                 modifier = Modifier

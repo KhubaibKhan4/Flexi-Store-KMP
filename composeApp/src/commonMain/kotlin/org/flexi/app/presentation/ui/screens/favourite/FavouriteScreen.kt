@@ -6,11 +6,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
@@ -67,9 +70,6 @@ class FavouriteScreen : Screen {
         var filteredProductList by remember { mutableStateOf<List<Products>>(emptyList()) }
         var searchQuery by remember { mutableStateOf("") }
         var selectedOption by remember { mutableStateOf("Latest") }
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-            rememberTopAppBarState()
-        )
 
         val state = rememberLazyGridState()
         val options = listOf(
@@ -125,10 +125,11 @@ class FavouriteScreen : Screen {
                             tint = if (isDark) Color.White else Color.Black
                         )
                     },
-                    scrollBehavior = scrollBehavior
+                    modifier = Modifier.fillMaxWidth(),
                 )
             },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            modifier = Modifier.fillMaxWidth()
+                .offset(y = (-70).dp),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()

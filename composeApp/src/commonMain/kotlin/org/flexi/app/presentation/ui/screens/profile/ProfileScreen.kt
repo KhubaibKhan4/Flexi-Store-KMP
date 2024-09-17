@@ -92,8 +92,6 @@ class ProfileScreen : Screen {
         val viewModel: MainViewModel = koinInject()
         val state = rememberLazyGridState()
         val navigator = LocalNavigator.current
-        val scrollBehavior =
-            TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
         var productList by remember { mutableStateOf<List<Products>?>(null) }
         var userData by remember { mutableStateOf<User?>(null) }
         LaunchedEffect(user) {
@@ -160,10 +158,10 @@ class ProfileScreen : Screen {
                             tint = if (isDark) Color.White else Color.Black
                         )
                     },
-                    scrollBehavior = scrollBehavior
                 )
             },
-            modifier = Modifier.fillMaxWidth().nestedScroll(scrollBehavior.nestedScrollConnection)
+            modifier =Modifier.fillMaxWidth()
+                .offset(y = (-70).dp)
         ) { padding ->
             Column(
                 modifier = Modifier.fillMaxWidth()
