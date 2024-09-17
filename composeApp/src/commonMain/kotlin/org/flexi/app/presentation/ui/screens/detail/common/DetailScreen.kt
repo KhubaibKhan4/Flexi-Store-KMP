@@ -10,12 +10,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -136,7 +140,7 @@ class DetailScreen(
         Box(
             modifier = Modifier.fillMaxWidth()
                 .verticalScroll(enabled = true, state = scrollState)
-                .padding(bottom = 34.dp),
+                .windowInsetsPadding(WindowInsets.navigationBars),
             contentAlignment = Alignment.TopCenter
         ) {
             Column(
@@ -545,6 +549,7 @@ class DetailScreen(
                             }
                             Spacer(modifier = Modifier.width(10.dp))
                         }
+                        Spacer(modifier = Modifier.height(70.dp))
                     }
                 }
             }
