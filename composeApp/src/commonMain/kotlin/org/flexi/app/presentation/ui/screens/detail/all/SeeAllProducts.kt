@@ -3,8 +3,11 @@ package org.flexi.app.presentation.ui.screens.detail.all
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -46,7 +49,7 @@ class SeeAllProducts(
             topBar = {
                 TopAppBar(
                     modifier = Modifier.fillMaxWidth()
-                        .offset(y = (-12).dp),
+                        .offset(y= (-45).dp),
                     title = { Text(text = category) },
                     navigationIcon = {
                         IconButton(onClick = {
@@ -60,13 +63,13 @@ class SeeAllProducts(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(
                         top = it.calculateTopPadding(),
-                        bottom = 34.dp,
+                        bottom = 120.dp,
                         start = 16.dp, end = 16.dp
                     ),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+               verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 println(books)
                 if (books?.isNotEmpty()==true){

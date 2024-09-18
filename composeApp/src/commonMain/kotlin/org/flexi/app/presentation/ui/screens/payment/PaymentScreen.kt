@@ -391,6 +391,7 @@ class PaymentScreen(
                             color = Color.White
                         )
                     }
+                    Spacer(modifier = Modifier.height(75.dp))
                 }
 
             }
