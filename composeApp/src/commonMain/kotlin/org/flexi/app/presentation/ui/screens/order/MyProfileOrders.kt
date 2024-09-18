@@ -4,11 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -20,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -58,7 +64,6 @@ class MyProfileOrders(
         var myOrderData by remember { mutableStateOf<List<Order>?>(null) }
         var productIdsList by remember { mutableStateOf<List<Long>?>(null) }
         var productList by remember { mutableStateOf<List<Products>?>(null) }
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         LaunchedEffect(Unit) {
             viewModel.getMyOrders(1)
         }
@@ -101,7 +106,7 @@ class MyProfileOrders(
 
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
+                TopAppBar(
                     title = {
                         Text(
                             text = if (orderType == "Orders") "My All Orders" else if (orderType == "Processing") "My Processing Orders" else if (orderType == "Cancelled") "My Cancelled Orders" else "My Completed Orders",
@@ -119,16 +124,17 @@ class MyProfileOrders(
                             }
                         )
                     },
-                    scrollBehavior = scrollBehavior
+                    modifier = Modifier.fillMaxWidth()
+                        .wrapContentHeight()
+                        .offset(y = (-40).dp)
                 )
-            },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            }
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
                     .padding(
                         top = it.calculateTopPadding(),
-                        bottom = 34.dp,
+                        bottom = 100.dp,
                         start = 6.dp,
                         end = 6.dp
                     ),
