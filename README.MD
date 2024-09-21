@@ -123,69 +123,50 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 ## iOS Screen Shots
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/1.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/2.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/3.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-17%20at%2011.35.37%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.50.03%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.50.44%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/4.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/5.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/6.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.51.30%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.52.08%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.52.57%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/7.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/8.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/9.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.53.31%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.54.05%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.54.45%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/10.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/11.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/12.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.55.21%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.56.08%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.56.40%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
- <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/13.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/14.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/15.jpg" width="30%" />
+ <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.57.13%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.57.46%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.58.28%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/16.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/17.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/18.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.59.00%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%207.59.43%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%208.00.22%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/19.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/20.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/21.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%208.01.11%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%208.01.48%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%208.02.23%E2%80%AFPM.png" width="30%" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/22.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/23.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/24.jpg" width="30%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/25.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/26.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/27.jpg" width="30%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/28.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/29.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/30.jpg" width="30%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/36.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/37.jpg" width="30%" />
-  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/iphone/38.jpg" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%208.02.50%E2%80%AFPM.png" width="30%" />
+  <img src="https://github.com/KhubaibKhan4/Flexi-Store-KMP/blob/master/assests/screenshots/Screenshot%202024-09-18%20at%208.03.19%E2%80%AFPM.png" width="30%" />
 </p>
 
 
