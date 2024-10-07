@@ -85,7 +85,7 @@ kotlin {
             implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1")
             implementation("io.github.jan-tennert.supabase:compose-auth:2.3.1")
             implementation("io.github.jan-tennert.supabase:compose-auth-ui:2.3.1")
-            //implementation(libs.alert.kmp)
+            implementation(libs.alert.kmp)
         }
 
         commonTest.dependencies {
