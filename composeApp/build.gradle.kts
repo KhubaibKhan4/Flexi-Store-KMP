@@ -81,10 +81,10 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             api(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
-            implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1")
-            implementation("io.github.jan-tennert.supabase:compose-auth:2.3.1")
-            implementation("io.github.jan-tennert.supabase:compose-auth-ui:2.3.1")
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.gotrue.kt)
+            implementation(libs.compose.auth)
+            implementation(libs.compose.auth.ui)
             implementation(libs.alert.kmp)
         }
 
@@ -103,8 +103,8 @@ kotlin {
             implementation(libs.sqlDelight.driver.android)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
-            implementation("io.insert-koin:koin-annotations:1.3.1")
-            implementation("androidx.core:core-splashscreen:1.0.1")
+            implementation(libs.koin.annotations)
+            implementation(libs.androidx.core.splashscreen)
         }
 
         jvmMain.dependencies {
