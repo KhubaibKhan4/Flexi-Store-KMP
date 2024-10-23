@@ -325,7 +325,7 @@ class HomeScreen : Screen {
                                     tint = Color.Gray
                                 )
                             },
-                            colors = TextFieldDefaults.textFieldColors(
+                            colors = TextFieldDefaults.colors(
                                 cursorColor = Color.Black,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent

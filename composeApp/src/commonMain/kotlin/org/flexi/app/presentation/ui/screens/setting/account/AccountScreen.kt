@@ -275,7 +275,7 @@ fun UserDetailsCard(
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
                         textStyle = MaterialTheme.typography.bodyLarge,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.Gray)
+                        colors = TextFieldDefaults.colors()
                     )
                 } else {
                     Text(text = value, style = MaterialTheme.typography.bodySmall)

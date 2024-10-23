@@ -2,6 +2,7 @@ package org.flexi.app.presentation.ui.screens.detail.common
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -287,7 +288,7 @@ class DetailScreen(
                                                 .size(25.dp)
                                                 .clickable(
                                                     interactionSource = MutableInteractionSource(),
-                                                    indication = rememberRipple(color = Color.Red),
+                                                    indication = LocalIndication.current,
                                                     onClick = {
                                                         isFavourite = !isFavourite
                                                     }
@@ -631,7 +632,7 @@ fun ExpandableDescription(description: String) {
             modifier = Modifier.padding(top = 6.dp, start = 12.dp)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
-                    indication = rememberRipple(color = Color.Transparent),
+                    indication = LocalIndication.current,
                     enabled = true,
                     role = Role.Button,
                     onClick = {
