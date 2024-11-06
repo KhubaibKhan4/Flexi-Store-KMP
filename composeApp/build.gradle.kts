@@ -71,6 +71,7 @@ kotlin {
             implementation(libs.screen.size)
             implementation(libs.composeImageLoader)
             implementation(libs.kamel.image)
+            //implementation(libs.kamel.image.default)
             implementation(libs.napier)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.core)
