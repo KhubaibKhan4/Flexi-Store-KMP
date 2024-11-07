@@ -58,18 +58,18 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **kotlinx-coroutines-test**
 
 ### MVVM Architecture
-* **Official LifeCycle**
+* **Official LifeCycle**: `2.8.3`
 
 ### Networking
-* **ktor-core**
-* **ktor-client-darwin**
-* **ktor-client-okhttp**
-* **ktor-client-js**
-* **ktor-content-negotiation**
-* **ktor-serialization-json**
-* **ktor-logging**
-* **ktor-client-curl**
-* **ktor-client-winhttp**
+* **ktor-core**:`3.0.1`
+* **ktor-client-darwin**:`3.0.1`
+* **ktor-client-okhttp**:`3.0.1`
+* **ktor-client-js**:`3.0.1`
+* **ktor-content-negotiation**:`3.0.1`
+* **ktor-serialization-json**:`3.0.1`
+* **ktor-logging**:`3.0.1`
+* **ktor-client-curl**:`3.0.1`
+* **ktor-client-winhttp**:`3.0.1`
 
 ### Serialization
 * **kotlinx-serialization-json**
