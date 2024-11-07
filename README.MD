@@ -94,7 +94,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **sqlDelight-driver-js**
 
 ### Native Notifications 
-* **alert-kmp**
+* **alert-kmp**: `1.0.5`
 
 These technologies are utilized to develop a robust and feature-rich Kotlin Multiplatform Ecommerce application that supports Android, iOS, Web, and Desktop platforms.
 
