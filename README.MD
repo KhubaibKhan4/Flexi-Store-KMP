@@ -72,10 +72,10 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **ktor-client-winhttp**:`3.0.1`
 
 ### Serialization
-* **kotlinx-serialization-json**
+* **kotlinx-serialization-json**:`1.7.3`
 
 ### Date and Time
-* **kotlinx-datetime**
+* **kotlinx-datetime**:`0.6.1`
 
 ### Dependency Injection
 * **koin-core**
@@ -85,7 +85,7 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **kamel-image**
 
 ### Material Design
-* **screen-size**
+* **screen-size**:`0.9.5`
 
 ### Database
 * **sqlDelight-driver-sqlite**
