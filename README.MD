@@ -40,22 +40,22 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 ## Technologies Used
 
 ### Jetpack Compose Dependencies
-* **androidx-activityCompose**
-* **androidx-testManifest**
-* **androidx-junit4**
+* **androidx-activityCompose**: `1.9.3`
+* **androidx-testManifest**:`1.7.5`
+* **androidx-junit4**:`1.7.5`
 
 ### Navigation
-* **voyager-navigator**
+* **voyager-navigator**:`1.1.0-beta03`
 
 
 ### Logging
-* **napier**
+* **napier**:`2.7.1`
 
 ### Kotlin Coroutines
-* **kotlinx-coroutines-core**
-* **kotlinx-coroutines-android**
-* **kotlinx-coroutines-swing**
-* **kotlinx-coroutines-test**
+* **kotlinx-coroutines-core**:`2.0.20`
+* **kotlinx-coroutines-android**:`2.0.20`
+* **kotlinx-coroutines-swing**:`2.0.20`
+* **kotlinx-coroutines-test**:`2.0.20`
 
 ### MVVM Architecture
 * **Official LifeCycle**: `2.8.3`
@@ -78,20 +78,20 @@ Flexi Store KMP is a Compose Multiplatform Project that uses the Custom Ktor Ser
 * **kotlinx-datetime**:`0.6.1`
 
 ### Dependency Injection
-* **koin-core**
-* **koin-annotations**
+* **koin-core**:`4.0.0`
+* **koin-annotations**:`2.0.0-Beta1`
 
 ### Image Handling
-* **kamel-image**
+* **kamel-image**:`0.9.5`
 
 ### Material Design
-* **screen-size**:`0.9.5`
+* **screen-size**:`0.5.0`
 
 ### Database
-* **sqlDelight-driver-sqlite**
-* **sqlDelight-driver-android**
-* **sqlDelight-driver-native**
-* **sqlDelight-driver-js**
+* **sqlDelight-driver-sqlite**:`2.0.2`
+* **sqlDelight-driver-android**:`2.0.2`
+* **sqlDelight-driver-native**:`2.0.2`
+* **sqlDelight-driver-js**:`2.0.2`
 
 ### Native Notifications 
 * **alert-kmp**: `1.0.5`
