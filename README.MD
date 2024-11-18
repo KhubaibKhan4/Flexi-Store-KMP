@@ -224,6 +224,14 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
  </picture>
 </a>
 
+**Stargazers**
+
+[![Stargazers repo roster for @KhubaibKhan4/Youtube-Clone-KMP](http://reporoster.com/stars/dark/KhubaibKhan4/Youtube-Clone-KMP)](https://github.com/KhubaibKhan4/Youtube-Clone-KMP/stargazers)
+
+**Forkers**
+
+[![Forkers repo roster for @KhubaibKhan4/Youtube-Clone-KMP](http://reporoster.com/forks/dark/KhubaibKhan4/Youtube-Clone-KMP)](https://github.com/KhubaibKhan4/Youtube-Clone-KMP/network/members)
+
 ## Flexi-Store Backend
 
 Flexi-Store is developed using Ktor and is mandatory for the backend of the Flexi-Store-KMP. You can find the Flexi-Store server repository [here](https://github.com/KhubaibKhan4/Flexi-Store-Server).
