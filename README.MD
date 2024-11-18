@@ -226,11 +226,11 @@ These technologies are utilized to develop a robust and feature-rich Kotlin Mult
 
 **Stargazers**
 
-[![Stargazers repo roster for @KhubaibKhan4/Youtube-Clone-KMP](http://reporoster.com/stars/dark/KhubaibKhan4/Youtube-Clone-KMP)](https://github.com/KhubaibKhan4/Youtube-Clone-KMP/stargazers)
+[![Stargazers repo roster for @KhubaibKhan4/Flexi-Store-KMP](http://reporoster.com/stars/dark/KhubaibKhan4/Flexi-Store-KMP)](https://github.com/KhubaibKhan4/Flexi-Store-KMP/stargazers)
 
 **Forkers**
 
-[![Forkers repo roster for @KhubaibKhan4/Youtube-Clone-KMP](http://reporoster.com/forks/dark/KhubaibKhan4/Youtube-Clone-KMP)](https://github.com/KhubaibKhan4/Youtube-Clone-KMP/network/members)
+[![Forkers repo roster for @KhubaibKhan4/Flexi-Store-KMP](http://reporoster.com/forks/dark/KhubaibKhan4/Flexi-Store-KMP)](https://github.com/KhubaibKhan4/Flexi-Store-KMP/network/members)
 
 ## Flexi-Store Backend
 
